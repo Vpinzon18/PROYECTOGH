@@ -1,10 +1,5 @@
 from django.shortcuts import render
 
-def holamundo(request):
+def inicio(request):
     context={}
     return render(request, 'index.html', context)
-
-
-def holamundo1(request):
-    context={}
-    return render(request, 'login.html', context)
