@@ -7,17 +7,43 @@
     <title>Login</title>
 </head>
 <body>
-    <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Ingrese Su Documento</label>
-          <input type="Document" class="form-control" id="exampleInputDocument1" >
+    <form method="post">
+      <center>
+        <div class = "container">
+          <h1>Login</h1>
+          {% csrf_token %}
+          <table cellpadding="5" cellspacing="2" border="1">
+            <thead>
+              <tr>
+                <th colspan="2" align="center">formulario login</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ingrese su correo Electronico</td>
+                <td><input type="text" placeholder="Ingrese su Correo" name="correo" required></td>
+              </tr>
+              
+              <tr>
+                <td>password</td>
+                <td><input type="password" placeholder="ingrese su password" name="password" required></td>
+              </tr>  
+              <tr>
+                <td colspan="2" align="center">
+                  <button type="submit">Login</button>
+                  &nbsp;&nbsp;
+                  <button type="reset">Limpiar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {%if messages%}
+              {%for msg in messages %}
+              <b>{{msg}}</b>
+              {%endfor %}
+              {% endif %}
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Ingrese Su Contraseña</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
-        </div>
-        <a  type="submit" class="btn btn-primary" href="inicio" >Submit </a>
-       
-      </form>
+      </center>        
+    </form>
 </body>
 </html>

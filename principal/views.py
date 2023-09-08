@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from principal.models import nuevoUsuario
+from pyexpat.errors import messages
 
 def login(request):
     context={}
@@ -23,3 +25,15 @@ def datos(request):
 def certificados(request):
     context={}
     return render(request, 'certificados.html', context)
+
+def paginalogin(request):
+    if request.method=='POST':
+        
+        try:
+            detalleUsuario=nuevoUsuario.objects.get(Documento=request.POST['correo'], Clave=request.POST['password'])
+            print("Usuario=", detalleUsuario)
+            request.session['Documento']= detalleUsuario.Documento
+            return render(request, 'inicio') 
+        except nuevoUsuario.DoesNotExist as e:
+            messages.success(request, 'nombre de usuario o password no es correcto...!')
+    return render(request, 'login')        
