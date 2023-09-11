@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import pyodbc
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'principal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["principal/templates"],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,21 +81,19 @@ WSGI_APPLICATION = 'principal.wsgi.application'
 
 DATABASES = { 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Deja esto como está si no lo necesitas
-        'NAME': BASE_DIR / 'db.sqlite3',  # Deja esto como está si no lo necesitas
-    },
-    
-    'custom_db': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '10.20.110.77',
-        'NAME': 'GHPROYECTO',
-        'USER': 'ccca',
-        'PASSWORD': 'ccca',
-        'OPTIONS':{
-            'driver': 'SQL Server',  # El controlador de SQL Server
+        'NAME': 'proyectogh',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        #'OPTIONS': {
+         #   'driver': 'ODBC Driver 17 for SQL Server', 
+
+          #  }
         }
     }
-}
+
 
 
 
