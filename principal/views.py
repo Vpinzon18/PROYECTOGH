@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from principal.models import nuevoUsuario
+from principal.models import usuario
 from pyexpat.errors import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
@@ -63,7 +63,7 @@ def signin(request):
             login(request, user)
             return redirect('inicio') #profile
         else:
-            msg = 'Error Login'
+            msg = 'Usuario o Contraseña Incorrecta'
             form = AuthenticationForm(request.POST)
             return render(request, 'login.html', {'form': form, 'msg': msg})
     else:
