@@ -20,41 +20,20 @@
 <body>
     {% include 'partials/header.html' %}
 
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-        <a href="/inicio" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">GESTION DE COLABORADORES</span>
-        </a>
-        <hr>
-        <ul>
-        <li>
-        <a class="btn btn-primary col-12" href="/usuarios" role="button">Usuarios</a>    
-        </li><br>        
-        <li>
-        <a class="btn btn-primary col-12" href="/formulario" role="button">Formulario</a>
-        </li><br>
-        <li>
-        <a class="btn btn-primary col-12" href="/datos" role="button">Datos Colaboradores</a>     
-        </li><br>
-        <li>
-        <a class="btn btn-primary col-12" href="/certificados" role="button">Certificados</a>
-        </li>
-        </ul>
-        <hr>
-        <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>mdo</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item" href="#">Configuración</a></li>
-        <li><a class="dropdown-item" href="#">Perfil</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
-        </ul>
-        </div>
-        </div>
-      <main>
+    <!-- Como un enlace -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Cerrar Sesion</a>
+      <h1 class= 'justify-content-center' > GESTION DE COLABORADORES </h1>
+    </div>
+  </nav>
+  
+  <!-- Como un encabezado -->
+  <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Navbar</span>
+    </div>
+  </nav>
 
     {% block contenido %}
     {% endblock contenido %}

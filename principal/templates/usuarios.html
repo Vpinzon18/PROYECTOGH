@@ -2,11 +2,58 @@
 {% load static %}
 
 
+
 {% block contenido %}
-esta es la pagina de ususaios
+
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10 rounded p-5" style="">
+              <h1 class="fw-bold text-center mb-5"><strong>Crear Usuarios</strong></h1>
+
+            <table class="table table-primary table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Clave</th>
+                    <th scope="col">Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>113051614</td>
+                    <td>Alvaro</td>
+                    <td>Chamorro</td>
+                    <td>123</td>
+                    <td>Activo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>74651321</td>
+                    <td>Victor</td>
+                    <td>Pinzon</td>
+                    <td>789</td>
+                    <td>Activo</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>9876543</td>
+                    <td>Mario</td>
+                    <td>Morales</td>
+                    <td>456</td>
+                    <td>Activo</td>
+                </tr>
+                </tbody>
+            </table>
+
 {% endblock contenido %}
     
-    
+
+
     {% block titulo %}
     {% endblock titulo %}
         
+
