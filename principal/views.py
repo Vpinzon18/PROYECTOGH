@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from principal.models import usuario
 from pyexpat.errors import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 from django.shortcuts import HttpResponseRedirect
+from django.contrib.auth.models import User
 
 ##(request, 'login.html', context)
 
@@ -14,8 +14,9 @@ def inicio(request):
     return render(request, 'index.html', context)
 
 def usuarios(request):
-    context={}
-    return render(request, 'usuarios.html', context)
+    usuarios = User.objects.all()
+    return render(request, 'usuarios.html', {'usuarios': usuarios})
+
 
 def formulario(request):
     context={}
@@ -75,4 +76,4 @@ def profile(request):
    
 def signout(request):
     logout(request)
-    return redirect('inicio')
+    return redirect('/')

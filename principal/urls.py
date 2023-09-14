@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from principal.views import inicio, usuarios, formulario, datos, certificados
 from principal import views
+from . import views
 
 
 urlpatterns = [
@@ -35,4 +36,7 @@ urlpatterns = [
     path('signout/',views.signout, name='signout'),
     path('signup/',views.signup, name='signup'),
     path('profile/',views.profile, name='profile'),
+    
+    
+    path('', views.home)
 ]
