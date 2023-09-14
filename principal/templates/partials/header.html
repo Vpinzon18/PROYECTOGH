@@ -1,23 +1,30 @@
 {% load static %}
+
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <h1 class= 'justify-content-center' > GESTION DE COLABORADORES </h1>
+  </div>
+</nav>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">GESTION DE COLABORADORES</a>
+    <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+          <a type="button" class="btn btn-success" href="/usuarios">USUARIOS</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Características</a>
+          <a type="button" class="btn btn-success" href="/formulario">FORMULARIOS</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Precios</a>
+          <a type="button" class="btn btn-success" href="/datos">DATA COLABORADORES</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled">Deshabilitado</a>
+          <a type="button" class="btn btn-success" href="/certificados">CERTIFICADOS</a>
         </li>
       </ul>
     </div>
