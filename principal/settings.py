@@ -79,20 +79,16 @@ WSGI_APPLICATION = 'principal.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 #from principal import db
 
-DATABASES = { 
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.mysql',  # Usa 'django.db.backends.sqlserver' para SQL Server
         'NAME': 'proyectogh',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        #'OPTIONS': {
-         #   'driver': 'ODBC Driver 17 for SQL Server', 
-
-          #  }
-        }
-    }
+        'USER': 'remote',
+        'PASSWORD': '1234',
+          'HOST': '10.20.110.91', # Puede ser una dirección IP o nombre de host
+        'PORT': '3306',  # Por lo general, 1433 para SQL Server
+    },
+}
 
 
 
