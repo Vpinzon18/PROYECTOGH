@@ -13,6 +13,10 @@ def inicio(request):
     context={}
     return render(request, 'index.html', context)
 
+def perfil(request):
+    context={}
+    return render(request, 'perfil.html', context)
+
 def usuarios(request):
     usuarios = User.objects.all()
     return render(request, 'usuarios.html', {'usuarios': usuarios})
@@ -42,7 +46,7 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('inicio')
+            return redirect('/perfil')
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -77,3 +81,15 @@ def profile(request):
 def signout(request):
     logout(request)
     return redirect('/')
+
+def registrarUsuario(request):
+    Nombre = request.POST['txtNombre']
+    Apellido = request.POST['txtApellido']
+    Email = request.POST['txtEmail']
+    Username = request.POST['txtUsername']
+    Password = request.POST['txtPassword']
+    
+    usuario = User.objects.create(
+        first_name=Nombre, last_name=Apellido, email=Email, username=Username, password=Password)
+    return redirect('usuarios')
+    
