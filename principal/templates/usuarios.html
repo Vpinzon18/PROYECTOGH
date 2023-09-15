@@ -4,32 +4,6 @@
 
 {% block contenido %}
 
-<!-- En lista_usuarios.html -->
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Nombre</th>
-            <th>Correo electrónico</th>
-            <!-- Agrega más encabezados según tus necesidades -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for usuario in usuarios %}
-            <tr>
-                <td>{{ usuario.id }}</td>
-                <td>{{ usuario.username }}</td>
-                <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
-                <td>{{ usuario.email }}</td>
-                <!-- Agrega más columnas según tus necesidades -->
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-
-
 
         <div class="container">
           <div class="row justify-content-center">
@@ -40,38 +14,25 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Documento</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
-                    <th scope="col">Clave</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Username</th>
                 </tr>
                 </thead>
                 <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <th> {{ usuario.id }} </th>
+                            <td>{{ usuario.first_name }}</td>
+                            <td>{{ usuario.last_name }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.is_active }}</td>
+                            <th> {{ usuario.username }} </th>
+                        </tr>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>113051614</td>
-                    <td>Alvaro</td>
-                    <td>Chamorro</td>
-                    <td>123</td>
-                    <td>Activo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>74651321</td>
-                    <td>Victor</td>
-                    <td>Pinzon</td>
-                    <td>789</td>
-                    <td>Activo</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>9876543</td>
-                    <td>Mario</td>
-                    <td>Morales</td>
-                    <td>456</td>
-                    <td>Activo</td>
-                </tr>
+                {% endfor %}
                 </tbody>
             </table>
 
