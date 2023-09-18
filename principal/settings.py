@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import pyodbc
+# import pyodbc
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,19 +85,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'proyectogh',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
+        'USER': 'remote',
+        'PASSWORD': '1234',
+        'HOST': '10.20.110.91',
         'PORT': '3306',
-        #'OPTIONS': {
-         #   'driver': 'ODBC Driver 17 for SQL Server', 
-
-          #  }
-        }
+       
     }
-
-
-
+   }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
