@@ -89,4 +89,34 @@ def registrarUsuario(request):
     usuario = User.objects.create(
         first_name=Nombre, last_name=Apellido, email=Email, username=Username, password=Password)
     return redirect('usuarios')
+
     
+def eliminarUsuario(request, id):
+    usuario = User.objects.get(id=id)
+    usuario.delete()    
+    return redirect('usuarios')
+
+
+def edicionUsuario(request, id):
+    usuario = User.objects.get(id=id)
+    return render(request, "edicionUsuario.html", {"usuario": usuario})
+
+
+def editarUsuario(request):
+    id = request.POST['txtid']
+    Nombre = request.POST['txtNombre']
+    Apellido = request.POST['txtApellido']
+    Email = request.POST['txtEmail']
+    Username = request.POST['txtUsername']
+    
+    usuario = User.objects.get(id=id)
+    usuario.first_name = Nombre
+    usuario.last_name = Apellido
+    usuario.email = Email
+    usuario.username = Username
+    usuario.save()
+    
+    return redirect('usuarios')
+    
+
+

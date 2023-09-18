@@ -37,6 +37,9 @@ urlpatterns = [
     path('signup/',views.signup, name='signup'),
     path('profile/',views.profile, name='profile'),
     path('registrarUsuario/', views.registrarUsuario),
+    path('edicionUsuario/<id>', views.edicionUsuario),
+    path('eliminarUsuario/<id>', views.eliminarUsuario),
+    path('editarUsuario/', views.editarUsuario)
     
     #path('', views.home)
 ]

@@ -10,15 +10,16 @@
             <div class="col-lg-10 rounded p-5" style="">
               <h1 class="fw-bold text-center mb-5"><strong>Usuarios</strong></h1>
 
-            <table class="table table-primary table-striped">
+            <table class="table table-light table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">APELLIDO</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">USERNAME</th>
+                    <th scope="col">ESTADO</th>
+                    <th colspan="2">OPCIONES</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,8 +29,10 @@
                             <td>{{ usuario.first_name }}</td>
                             <td>{{ usuario.last_name }}</td>
                             <td>{{ usuario.email }}</td>
-                            <td>{{ usuario.is_active }}</td>
-                            <th> {{ usuario.username }} </th>
+                            <td>{{ usuario.username }}</td>
+                            <th> {{ usuario.is_active }} </th>
+                            <td><a href="/edicionUsuario/{{usuario.id}}" class="btn btn-info">Editar</a></td>
+                            <td><a href="/eliminarUsuario/{{usuario.id}}" class="btn btn-danger">Eliminar</a></td>
                         </tr>
                 <tr>
                 {% endfor %}
