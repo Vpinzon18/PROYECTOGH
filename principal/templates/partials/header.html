@@ -31,5 +31,9 @@
         </li>
       </ul>
     </div>
+    {% if user.is_authenticated %}
+      Hola {{ user.username }}!
+      {% endif %}
   </div>
 </nav>
+

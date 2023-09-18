@@ -33,8 +33,7 @@ def certificados(request):
 
 
 def signup(request):
-    if request.user.is_authenticated:
-        return redirect('inicio')
+  
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -42,8 +41,8 @@ def signup(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('/formulario')
+            
+            return redirect('/usuarios')
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -51,7 +50,7 @@ def signup(request):
         return render(request, 'signup.html', {'form': form})
    
 def home(request): 
-    return render(request, 'home.html')
+    return render(request, 'usuarios.html')
    
   
 def signin(request):
@@ -117,6 +116,8 @@ def editarUsuario(request):
     usuario.save()
     
     return redirect('usuarios')
+
+
     
 
 
