@@ -108,6 +108,7 @@ def editarUsuario(request):
     Email = request.POST['txtEmail']
     Username = request.POST['txtUsername']
     
+    
     usuario = User.objects.get(id=id)
     usuario.first_name = Nombre
     usuario.last_name = Apellido
