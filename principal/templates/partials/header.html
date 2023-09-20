@@ -31,12 +31,10 @@
         </li>
       </ul>
     </div>
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
       <strong>{% if user.is_authenticated %}
         Hola {{ user.first_name }}!
         {% endif %}</strong>
-      </a>
+      
     
   </div>
 </nav>
