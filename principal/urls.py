@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios, formulario, datos, certificados
+from principal.views import inicio, usuarios, formulario, datos, certificados, prueba
 from principal import views
 from . import views
 
@@ -29,6 +29,8 @@ urlpatterns = [
     path('formulario/', formulario, name="formulario"),
     path('datos/', datos, name="datos"),
     path('certificados/', certificados, name="certificados"),
+    path('prueba/', prueba, name="prueba"),
+
     
     
     path('', views.signin, name='signin'),
