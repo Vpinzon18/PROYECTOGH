@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
 from principal.forms import StudentForm #forms.py
+from django.contrib.auth.decorators import login_required
 
 ##(request, 'login.html', context)
 
@@ -123,15 +124,32 @@ def editarUsuario(request):
 
 
     
-def prueba(request):  
-    if request.method == 'POST':  
-        student = StudentForm(request.POST, request.FILES)  
-        if student.is_valid():  
-            handle_uploaded_file(request.FILES['file'])  
-            model_instance = student.save(commit=False)
-            model_instance.save()
-            return HttpResponse("File uploaded successfuly")  
-    else:  
-        student = StudentForm()  
-        return render(request,"prueba.html",{'form':student})
+def prueba(request):
+    if request.method == 'POST':
+        # Obtén el usuario actualmente autenticado
+        user = request.user
+
+        # Copia los datos del formulario para modificarlos
+        form_data = request.POST.copy()
+
+        # Establece el campo 'idUser' con el ID del usuario actual
+        form_data['idUser'] = user.id
+
+        # Crea una instancia de StudentForm con los datos actualizados
+        form = StudentForm(form_data, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponse("La información se ha enviado correctamente")
+        else:
+            print(form.errors)  # Imprime los errores de validación en la consola para su depuración
+            return HttpResponse("ERROR")
+
+    else:
+        form = StudentForm()
+        return render(request, "prueba.html", {'form': form})
+
+
+
+
 
