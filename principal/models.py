@@ -12,13 +12,10 @@ class StudentForm(models.Model):
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    file      = models.FileField()
+    file = models.FileField()
     fecha_creacion = models.DateTimeField(default=timezone.now)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    
-
-    class Meta:  
+    class Meta:
         db_table = "student"
 
 

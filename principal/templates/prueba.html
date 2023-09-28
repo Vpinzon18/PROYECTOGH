@@ -4,21 +4,46 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container" style="padding:20px;">
-    <div class="row">
-        <div class="col-12">
+    
+
             <form method="POST" class="post-form" enctype="multipart/form-data">  
                 {% extends 'partials/body.html' %}
                 {% load static %}
                 {% block contenido %}
-                
+                <style>
+                    .left-align-label {
+                        display: block;
+                        text-align: left;
+                    }
+                </style>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 px-8 py-3">
+                            <div class="text-center mt-5">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h1 class="titulo">ESTUDIO SOCIODEMOGRÁFICO 2023</h1>
+                                        <p>Esta herramienta ayudará al Centro Cultural Colombo Americano a identificar a sus colaboradores en aspectos relacionados como estructura familiar, laboral y estado salud con el fin de implementar actividades de bienestar y seguridad y salud en el trabajo de acuerdo a las necesidades identificadas. Esta información será de acceso exclusivo de Ana María Chate, Jefe de Gestión Humana (amchate@colomboamericano.edu.co)</p>
+                                        <p>Autorizo al Centro Cultural Colombo Americano el tratamiento de mis datos personales, incluyendo los de salud que son sensibles, con la finalidad de desarrollar acciones de promoción, prevención, tratamiento para la gestión de riesgo en salud y/o frente a la propagación, contagio y control de COVID-19, acorde con lo normado por el Ministerio de Salud y Protección Social y las demás autoridades competentes, y para las demás finalidades que se encuentran establecidas en la política de privacidad que puede ser consultada en nuestra página web, donde además se encuentran los canales de contacto, y la forma de ejercer mis derechos a revocar la autorización, conocer, actualizar, rectificar y suprimir mi información.</p>
+                                        <p>Te sugerimos tener a la mano la fecha de nacimiento de las personas con las que vives y una foto tipo documento (Preferiblemente tamaño 3x4, fondo blanco)</p>
+                                    </div>
+                                </div>
+                                <br>
                     {% csrf_token %}  
-                    {{ form.as_p }}  
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="mb-3 text-left">
+                                {{ form.as_p }} 
+                                  </select>
+                              </div>
+                        </div>
+                      </div>
+                     <br>
+                    <button type="submit" class="btn btn-primary float-left">Save</button>
                     {% endblock contenido %}
                  
             </form>  
-        </div>
+        
     </div>
 </div>
 </body>  
