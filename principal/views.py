@@ -8,7 +8,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import StudentForm #forms.py
+from principal.forms import FormularioForm #forms.py
 from django.contrib.auth.decorators import login_required
 
 ##(request, 'login.html', context)
@@ -134,10 +134,8 @@ def prueba(request):
 
         # Establece el campo 'idUser' con el ID del usuario actual
         form_data['idUser'] = user.id
-
         # Crea una instancia de StudentForm con los datos actualizados
-        form = StudentForm(form_data, request.FILES)
-
+        form = FormularioForm(form_data, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponse("La información se ha enviado correctamente")
@@ -146,7 +144,7 @@ def prueba(request):
             return HttpResponse("ERROR")
 
     else:
-        form = StudentForm()
+        form = FormularioForm()
         return render(request, "prueba.html", {'form': form})
 
 

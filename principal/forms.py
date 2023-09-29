@@ -1,17 +1,18 @@
 from django import forms  
-from principal.models import StudentForm  #models.py
+from principal.models import FormularioForm  #models.py
      
-class StudentForm(forms.ModelForm):
+class FormularioForm(forms.ModelForm):
     class Meta:
-        model = StudentForm
-        fields = ['firstname', 'lastname', 'email', 'file', 'fecha_creacion', 'idUser']
+        model = FormularioForm
+        fields = ['Documento','Numero_Contacto','tipo_sangre','Cargo_Actual','Numero_Emergencia','Fecha_Nacimiento', 'Departamento_Nacimiento','Sexo','Estado_Civil','Vegetariano','idUser']
         widgets = {
-            'idUser': forms.HiddenInput(),  # Campo oculto
+            'idUser': forms.HiddenInput(),# Campo oculto
+            'Fecha_Nacimiento': forms.DateInput(attrs={'type': 'date'}),
+             
         }
-
  
     def __init__(self, *args, **kwargs):
-            super(StudentForm, self).__init__(*args, **kwargs)
+            super(FormularioForm, self).__init__(*args, **kwargs)
             for field_name, field in self.fields.items():
                 field.widget.attrs['class'] = 'form-control'  
 
@@ -25,3 +26,4 @@ class TuModeloForm(forms.ModelForm):
         fields = ['opciones']
 
 
+# , 'lastname', 'email', 'file', 'fecha_creacion',
