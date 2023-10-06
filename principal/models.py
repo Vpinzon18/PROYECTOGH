@@ -4,9 +4,44 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils import timezone
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+import re
+from django.utils.translation import gettext_lazy as _
  
+ # Define a regular expression pattern
+regex_pattern = r'\d{3}-\d{2}-\d{4}'
 
+# Use the regex_pattern in a regular expression match
+text = 'My social security number is 123-45-6789'
+match = re.search(regex_pattern, text)
 
+if match:
+    print("Match found:", match.group())
+else:
+    print("No match found")
+ 
+ 
+#  validacion para soo poder subir archivos tipo img
+def validate_image_file_extension(value):
+    import os
+    from django.core.exceptions import ValidationError
+    from django.utils.translation import gettext_lazy as _
+
+    ext = os.path.splitext(value.name)[1].lower()
+    valid_extensions = ['.jpg', '.jpeg', '.png']
+
+    if not ext in valid_extensions:
+        raise ValidationError(_('Formato de archivo no válido. Los formatos permitidos son .jpg, .jpeg y .png.'))
+ 
+ 
+# Validacion para ingresar una mayuscula 
+def contiene_mayuscula(value):
+    if not any(char.isupper() for char in value):
+        raise ValidationError('El campo debe contener al menos una letra mayúscula.')
+    # Validacion para ingresar una mayuscula
+def contiene_solo_letras(value):
+    if not re.match(regex_pattern, value):
+        raise ValidationError('El campo solo debe contener letras y espacios.')
 
 class FormularioForm(models.Model):
     id = models.AutoField(primary_key=True)
@@ -80,40 +115,10 @@ class FormularioForm(models.Model):
     Numero_Contacto = models.PositiveIntegerField()
     Numero_Emergencia = models.PositiveIntegerField()
     Fecha_Nacimiento = models.DateField()
-    Departamento_Nacimiento = models.CharField(
-    max_length=100,choices=[
-    ('Amazonas', 'Amazonas'),
-    ('Antioquia', 'Antioquia'),
-    ('Arauca', 'Arauca'),
-    ('Atlántico', 'Atlántico'),
-    ('Bolívar', 'Bolívar'),
-    ('Boyacá', 'Boyacá'),
-    ('Caldas', 'Caldas'),
-    ('Cauca', 'Cauca'),
-    ('Caquetá', 'Caquetá'),
-    ('Casanare', 'Casanare'),
-    ('Cesar', 'Cesar'),
-    ('Chocó', 'Chocó'),
-    ('Córdoba', 'Córdoba'),
-    ('Cundinamarca', 'Cundinamarca'),
-    ('Guainía', 'Guainía'),
-    ('Guaviare', 'Guaviare'),
-    ('Huila', 'Huila'),
-    ('La Guajira', 'La Guajira'),
-    ('Magdalena', 'Magdalena'),
-    ('Meta', 'Meta'),
-    ('Nariño', 'Nariño'),
-    ('Norte de Santander', 'Norte de Santander'),
-    ('Quindío', 'Quindío'),
-    ('Risaralda', 'Risaralda'),
-    ('San Andrés y Providencia', 'San Andrés y Providencia'),
-    ('Santander', 'Santander'),
-    ('Sucre', 'Sucre'),
-    ('Tolima', 'Tolima'),
-    ('Valle del Cauca', 'Valle del Cauca'),
-    ('Vaupés', 'Vaupés'),
-    ('Vichada', 'Vichada'),
-    ('Otros', 'Otros'),])
+    Departamento_Nacimiento = models.CharField(max_length=20, validators=[contiene_mayuscula])
+    Ciudad_Nacimiento = models.CharField(max_length=20, validators=[contiene_mayuscula])
+    Ciudad_Residencia = models.CharField(max_length=20, validators=[contiene_mayuscula])
+    Direccion_Residencia = models.CharField(max_length=100, )
     Sexo = models.CharField(
         max_length=15,choices=[
             ('Masculino','Masculino'),
@@ -128,7 +133,30 @@ class FormularioForm(models.Model):
             ('Viudo(a)', 'Viudo(a)')
         ]
     )
+    Talla_Camisa = models.CharField(
+        max_length=15,choices=[
+            ('XS','XS'),
+            ('S','S'),
+            ('M','M'),
+            ('L','L'),
+            ('XL','XL'),
+            ('XXL','XXL'),
+            ('XXXL','XXXL')
+        ]
+    )
     Vegetariano = models.CharField(
+        max_length=2,choices=[
+            ('Si','Si'),
+            ('No', 'No'),
+        ]
+    )
+    Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS = models.CharField(
+        max_length=2,choices=[
+            ('Si','Si'),
+            ('No', 'No'),
+        ]
+    )
+    Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral = models.CharField(
         max_length=2,choices=[
             ('Si','Si'),
             ('No', 'No'),
@@ -137,14 +165,27 @@ class FormularioForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = "Formulario"
-
+    file = models.FileField(validators=[validate_image_file_extension])
 
 class Opcion(models.Model):
     nombre = models.CharField(max_length=50)
 
 class TuModelo(models.Model):
     opciones = models.ManyToManyField('Opcion', verbose_name="Opciones")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
        # lastname = models.CharField(max_length=50)
     # email = models.EmailField(max_length=254)
-    # file = models.FileField()
     # fecha_creacion = models.DateTimeField(default=timezone.now)
+    
+    
+    
+    
