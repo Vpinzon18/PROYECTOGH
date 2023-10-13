@@ -1,5 +1,5 @@
 {% extends "./base.html" %}
-
+{% load static %}
 {% block title %} ProyetoGh {% endblock %}
 
 {% block content %}
@@ -29,7 +29,7 @@
                   </div>
                   <br>
                   <div class="form-group">
-                    <input type="text" id="txtApellido" name="txtApellido" value="{{usuario.last_name}}" class="form-control" placeholder="APELLIDO"
+                    <input type="text" id="txtApellido" name="txtApellido" value="{{usuario.last_name}}" class="form-control" placeholder="apellido"
                         maxlength="50" required>
                   </div>
                   <br>

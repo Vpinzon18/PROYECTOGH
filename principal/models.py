@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 import re
 from django.utils.translation import gettext_lazy as _
+
  
  # Define a regular expression pattern
 regex_pattern = r'\d{3}-\d{2}-\d{4}'
@@ -46,6 +47,15 @@ def contiene_solo_letras(value):
 class FormularioForm(models.Model):
     id = models.AutoField(primary_key=True)
     Documento = models.PositiveIntegerField()
+    Tipo_Documento = models.CharField(
+        max_length=30,choices=[
+            (' Cédula de Ciudadanía', 'Cédula de Ciudadanía'),
+            (' Cédula de Extranjería', 'Cédula de Extranjería'),
+            (' Tarjeta de Identidad', 'Tarjeta de Identidad'),
+            (' Pasaporte', 'Pasaporte'),
+            (' Registro Civil', 'Registro Civil'),
+        ]
+    )
     tipo_sangre = models.CharField(
         max_length=3,choices=[
             ('A+','A+'),
@@ -114,7 +124,7 @@ class FormularioForm(models.Model):
     ("Conductor-mensajero", "Conductor-mensajero"),])
     Numero_Contacto = models.PositiveIntegerField()
     Numero_Emergencia = models.PositiveIntegerField()
-    Fecha_Nacimiento = models.DateField()
+    Fecha_Nacimiento = models.DateField(default=timezone.now)
     Departamento_Nacimiento = models.CharField(max_length=20, validators=[contiene_mayuscula])
     Ciudad_Nacimiento = models.CharField(max_length=20, validators=[contiene_mayuscula])
     Ciudad_Residencia = models.CharField(max_length=20, validators=[contiene_mayuscula])
@@ -131,6 +141,18 @@ class FormularioForm(models.Model):
             ('Casado(a)', 'Casado(a)'),
             ('Union Libre', 'Union Libre'),
             ('Viudo(a)', 'Viudo(a)')
+        ]
+    )
+    Etnia = models.CharField(
+        max_length=15,choices=[
+            ('Mestizo', 'Mestizo'),
+            ('Afrocolombiano', 'Afrocolombiano'),
+            ('Indígena', 'Indígena'),
+            ('Blanco', 'Blanco'),
+            ('Meztizo', 'Meztizo'),
+            ('Mulato', 'Mulato'),
+            ('Zambo', 'Zambo'),
+            ('Raizal', 'Raizal'),
         ]
     )
     Talla_Camisa = models.CharField(
@@ -162,30 +184,68 @@ class FormularioForm(models.Model):
             ('No', 'No'),
         ]
     )
+    Pensionado = models.CharField(
+        max_length=13,choices=[
+            ('Por vejez','Por vejez'),
+            ('Por invalidez', 'Por invalidez'),
+            ('No', 'No'),
+        ]
+    )
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = "Formulario"
     file = models.FileField(validators=[validate_image_file_extension])
+    
 
-class Opcion(models.Model):
-    nombre = models.CharField(max_length=50)
 
-class TuModelo(models.Model):
-    opciones = models.ManyToManyField('Opcion', verbose_name="Opciones")
+
+class aseguramientoForm(models.Model):
+    id_Aseguramiento = models.AutoField(primary_key=True)
+    Tipo_Aseguramiento = models.CharField(max_length=50, choices=[
+        ('Medicina prepagada', 'Medicina prepagada'),
+        ('Plan complementario de salud', 'Plan complementario de salud'),
+        ('Seguro de vida', 'Seguro de vida'),
+        ('Seguro excequial', 'Seguro excequial'),
+        ('Emergencia médica (Ej. Emi, CEM)', 'Emergencia médica (Ej. Emi, CEM)'),
+        ('Previser', 'Previser'),
+        ('Ninguna', 'Ninguna'),
+    ])
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "aseguramiento_aseguramientoform"
+
+class HijoForm(models.Model):
+    id_Hijo = models.AutoField(primary_key=True)
+    Nombres_Hijo = models.CharField(max_length=20)
+    Apellido_Hijo = models.CharField(max_length=20)
+    Fecha_Nacimiento_Hijo = models.DateField(default=timezone.now)
+    Cuidador_Hijo = models.CharField(max_length=50, choices=[
+        ('Pareja', 'Pareja'),
+        ('Abuelos', 'Abuelos'),
+        ('Otro Familiar', 'Otro Familiar'),
+        ('Ciudador(a)', 'Ciudador(a)'),
+        ('Guardería', 'Guardería'),
+        ('No Requiere', 'No Requiere'),
+    ])
+    Convivencia_Hijo = models.CharField(
+        max_length=2,choices=[
+            ('Si','Si'),
+            ('No', 'No'),
+        ]
+    )
+    Requiere_Lugar_Para_Llevar_hijo = models.CharField(
+        max_length=2,choices=[
+            ('Si','Si'),
+            ('No', 'No'),
+        ]
+    )
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "Hijos"
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-       # lastname = models.CharField(max_length=50)
-    # email = models.EmailField(max_length=254)
-    # fecha_creacion = models.DateTimeField(default=timezone.now)
-    
-    
-    
-    
+    #  # lastname = models.CharField(max_length=50)
+    # # email = models.EmailField(max_length=254)
+    # # fecha_creacion = models.DateTimeField(default=timezone.now)

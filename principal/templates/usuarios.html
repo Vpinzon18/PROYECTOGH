@@ -1,13 +1,19 @@
 {% extends 'partials/body.html' %}
 {% load static %}
-
-
-{% block contenido %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block contenido %}
 
 
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-10 rounded p-5" style="">
+            <div class="col-lg-10 rounded p-5" >
               <h1 class="fw-bold text-center mb-5"><strong>Usuarios</strong></h1>
 
               <a href="/signup/" class="btn btn-success">New user</a></td>
@@ -35,8 +41,8 @@
                             <td>{{ usuario.username }}</td>
                             <th>{{ usuario.is_active }}</th>
                             <th>{{ usuario.idRol }}</th>
-                            <td><a href="/edicionUsuario/{{usuario.id}}" class="btn btn-info">Editar</a></td>
-                            <td><a href="/eliminarUsuario/{{usuario.id}}" class="btn btn-danger">Eliminar</a></td>
+                            <td><a href="/edicionUsuario/{{usuario.id}}" class="btn btn-info" >Editar</a></td>
+                            <td><a href="/eliminarUsuario/{{usuario.id}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
                         </tr>
                 <tr>
                 {% endfor %}
@@ -49,5 +55,10 @@
 
     {% block titulo %}
     {% endblock titulo %}
+    <script src='static js/ges'></script>
+</body>
+</html>
+
+
         
 

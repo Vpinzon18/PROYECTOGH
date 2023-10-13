@@ -8,8 +8,11 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm #forms.py
+from principal.forms import FormularioForm, AseguramientoForm #forms.py
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
+from django.views.generic.edit import FormView
+
 
 ##(request, 'login.html', context)
 
@@ -23,9 +26,10 @@ def usuarios(request):
     return render(request, 'usuarios.html', {'usuarios': usuarios})
 
 
-def formulario(request):
+
+def formularioII(request):
     context={}
-    return render(request, 'formulario.html', context) 
+    return render(request, 'Formulariopag2.html', context) 
 
 def datos(request):
     context={}
@@ -123,29 +127,49 @@ def editarUsuario(request):
     return redirect('usuarios')
 
 
-    
+
+class AñadirAseguramiento(FormView):
+    template_name = 'prueba.html'
+    form_class = formset_factory(AseguramientoForm, extra=2)
+    success_url = '.'
+
+form = FormularioForm()
+formaseguramiento = AseguramientoForm()
+
 def prueba(request):
+    AseguramientoFormSet = formset_factory(AseguramientoForm, extra=2)
+
     if request.method == 'POST':
-        # Obtén el usuario actualmente autenticado
         user = request.user
-
-        # Copia los datos del formulario para modificarlos
         form_data = request.POST.copy()
-
-        # Establece el campo 'idUser' con el ID del usuario actual
         form_data['idUser'] = user.id
-        # Crea una instancia de StudentForm con los datos actualizados
         form = FormularioForm(form_data, request.FILES)
-        if form.is_valid():
+        formaseguramiento_formset = AseguramientoFormSet(request.POST, prefix='aseguramiento')
+
+        if form.is_valid() and all(formaseguramiento_form.is_valid() for formaseguramiento_form in formaseguramiento_formset):
+            form.instance.idUser = user
             form.save()
+
+            for formaseguramiento in formaseguramiento_formset:
+                formaseguramiento.instance.idUser = user
+                formaseguramiento.save()
+
             return HttpResponse("La información se ha enviado correctamente")
         else:
-            print(form.errors)  # Imprime los errores de validación en la consola para su depuración
+            print(form.errors)
+            for formaseguramiento_form in formaseguramiento_formset:
+                print(formaseguramiento_form.errors)
+
             return HttpResponse("ERROR")
 
     else:
         form = FormularioForm()
-        return render(request, "prueba.html", {'form': form})
+        formaseguramiento_formset = AseguramientoFormSet(prefix='aseguramiento')
+
+        return render(request, "prueba.html", {'form': form, 'formaseguramiento_formset': formaseguramiento_formset})
+
+
+
 
 
 

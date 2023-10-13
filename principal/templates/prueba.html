@@ -28,16 +28,468 @@
                                         <p>Te sugerimos tener a la mano la fecha de nacimiento de las personas con las que vives y una foto tipo documento (Preferiblemente tamaño 3x4, fondo blanco)</p>
                                     </div>
                                 </div>
-                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ <div class="col-lg-10 offset-lg-1 px-8 py-3">
+    <div class="text-center mt-5">
+        <h2>Informacion Personal</h2>
+    </div>    
+</div>
+                         <br>
                     {% csrf_token %} 
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="mb-3 text-left">
-                                {{ form.as_p }}
+                    <div class="container"> <!-- Un contenedor principal para centrar el contenido en la página -->
+                        <div class="row align-items-start">
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Tipo_Documento.id_for_label }}" class="text-left">Tipo de Identificación:</label>
+                                  {{ form.Tipo_Documento }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Documento.id_for_label }}" class="text-left">Documento de Identificación:</label>
+                                  {{ form.Documento }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.tipo_sangre.id_for_label }}" class="text-left">Seleccione su tipo de sangre:</label>
+                                  {{ form.tipo_sangre }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Otros campos del formulario aquí -->
+                      </div>
+                      <br>
+                    
+                      <div class="container"> <!-- Un contenedor principal para centrar el contenido en la página -->
+                        <div class="row align-items-start">
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Cargo_Actual.id_for_label }}" class="text-left">Seleccione su cargo actual:</label>
+                                  {{ form.Cargo_Actual }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Numero_Contacto.id_for_label }}" class="text-left">Digite su numero de contacto:</label>
+                                  {{ form.Numero_Contacto }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Numero_Emergencia.id_for_label }}" class="text-left">Digite su numero de Emergencia:</label>
+                                  {{ form.Numero_Emergencia }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Otros campos del formulario aquí -->
+                      </div>
+                        <br>
+                      <div class="container"> <!-- Un contenedor principal para centrar el contenido en la página -->
+                        <div class="row align-items-start">
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Fecha_Nacimiento.id_for_label }}" class="text-left">Seleccione su Fecha de nacimiento:</label>
+                                  {{ form.Fecha_Nacimiento }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Departamento_Nacimiento.id_for_label }}" class="text-left">Digite su departamento de nacimiento :</label>
+                                  {{ form.Departamento_Nacimiento }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="{{ form.Ciudad_Nacimiento.id_for_label }}" class="text-left">Digite su Ciudad de nacimiento </label>
+                                  {{ form.Ciudad_Nacimiento }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Otros campos del formulario aquí -->
+                      </div>
+                      <br>
+
+                      <div class="container">
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="{{ form.Sexo.id_for_label }}" class="text-left">Seleccione su sexo:</label>
+                                            {{ form.Sexo }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="{{ form.Estado_Civil.id_for_label }}" class="text-left">Seleccione su estado civil:</label>
+                                            {{ form.Estado_Civil }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="{{ form.Etnia.id_for_label }}" class="text-left">Seleccione alguna Etnia:</label>
+                                            {{ form.Etnia }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="container">
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="{{ form.Ciudad_Residencia.id_for_label }}" class="text-left">Digite su ciudad de residencia:</label>
+                                            {{ form.Ciudad_Residencia }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="{{ form.Direccion_Residencia.id_for_label }}" class="text-left">Digite su dirección de residencia:</label>
+                                            {{ form.Direccion_Residencia }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="{{ form.Talla_Camisa.id_for_label }}" class="text-left">Seleccione una talla de camibuzo:</label>
+                                            {{ form.Talla_Camisa }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
+
+    <!-- Otros campos del formulario aquí -->
+</div>
+
+
+<!-- Otros campos del formulario aquí -->
+
+<br>
+<div class="container">
+  <div class="row justify-content-left align-items-center">
+      <div class="col-lg-4 px-6 py-2">
+          <div class="card">
+              <div class="card-body">
+                  <div class="form-group">
+                      <label for="{{ form.file.id_for_label }}" class="text-left">Seleccione su foto tipo carnet  </label>
+                      {{ form.file }}
+                  </div>
+                  <!-- Otros campos del formulario aquí -->
+              </div>
+          </div>
+      </div>
+      <br>
+      <div class="col-lg-4 px-6 py-2"> <!-- Esta columna contendrá el siguiente campo -->
+          <div class="card">
+              <div class="card-body">
+                  <div class="form-group">
+                      <label for="{{ form.Vegetariano.id_for_label }}" class="text-left">¿Es usted vegetariano (a)?* </label>
+                      {{ form.Vegetariano }}
+                  </div>
+                  <!-- Otros campos del formulario aquí -->
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<br>
+
+<div class="col-lg-10 offset-lg-1 px-8 py-3">
+    <div class="text-center mt-5">
+        <h2>Aseguramientos y Coberturas </h2>
+    </div>    
+</div>
+<br>
+<div class="container">
+    <div class="row justify-content-left align-items-center">
+        <div class="col-lg-4 px-6 py-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="{{ form.Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS.id_for_label }}" class="text-left">¿Actualmente tiene restricciones o recomendaciones para la actividad laboral entregadas por escrito por su EPS?</label>
+                        {{ form.Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-lg-4 px-6 py-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="{{ form.Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral.id_for_label }}" class="text-left">¿Actualmente se encuentra en proceso de calificación de pérdida de capacidad laboral?</label>
+                        {{ form.Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="col-lg-4 px-6 py-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="{{ form.Pensionado.id_for_label }}" class="text-left">¿Usted es pensionado ?</label>
+                        {{ form.Pensionado }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-lg-4 px-6 py-2">
+          <div class="card">
+            <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                <label>¿Actualmente cuenta con alguno(s) de los siguientes aseguramientos?</label>
+                
+                {# Campo oculto para gestionar formset #}
+                {{ formaseguramiento_formset.management_form }}
+                
+                <div class="form-group aseguramiento-formset">
+                  {% for formaseguramiento_form in formaseguramiento_formset %}
+                    <div class="form-row">
+                      {{ formaseguramiento_form.id_Aseguramiento }}
+                      {{ formaseguramiento_form.Tipo_Aseguramiento }}
+                      <br>
+                    </div>
+                  {% endfor %}
+                </div>
+                
+                <button type="button" id="add-aseguramiento">Añadir Otro Aseguramiento</button>
+                
+
+              </form>
+            </div>
+          </div>
+        </div>
+        
+                
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            var aseguramientoFormset = $('.aseguramiento-formset');
+          
+            // Manejar el botón "Añadir Otro Aseguramiento"
+            $("#add-aseguramiento").on("click", function() {
+              // Clona el último formulario y cambia sus nombres e ids
+              var clonedForm = aseguramientoFormset.find('.form-row:last').clone();
+              clonedForm.find('select').val(""); // Limpia los valores
+          
+              // Encuentra el número actual de formularios
+              var numForms = aseguramientoFormset.find('.form-row').length;
+              // Itera sobre los elementos con id y modifica sus ids
+              clonedForm.find('[id]').each(function() {
+                var id = $(this).attr('id');
+                var newId = id.replace(/-\d+-/, '-' + numForms + '-');
+                $(this).attr('id', newId);
+              });
+          
+              // Itera sobre los elementos con name y modifica sus nombres
+              clonedForm.find('[name]').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/-\d+-/, '-' + numForms + '-');
+                $(this).attr('name', newName);
+              });
+          
+              // Agrega el formulario clonado al final
+              clonedForm.appendTo(aseguramientoFormset);
+          
+              // Actualiza el valor de TOTAL_FORMS
+              numForms++;
+              $('input[name="aseguramiento-TOTAL_FORMS"]').val(numForms);
+          
+              // Agrega un botón de eliminación a este nuevo campo
+              var removeButton = $('<button type="button" class="remove-aseguramiento">Quitar Aseguramiento</button>');
+              removeButton.on("click", function() {
+                // Elimina este campo al hacer clic en el botón "Quitar Aseguramiento"
+                clonedForm.remove();
+          
+                // Actualiza el valor de TOTAL_FORMS
+                numForms = aseguramientoFormset.find('.form-row').length;
+                $('input[name="aseguramiento-TOTAL_FORMS"]').val(numForms);
+              });
+              clonedForm.append(removeButton);
+            });
+          
+            // Manejar el botón "Quitar Aseguramiento" para los campos iniciales
+            aseguramientoFormset.on("click", ".remove-aseguramiento", function() {
+              var parentForm = $(this).closest('.form-row');
+              // Elimina este campo al hacer clic en el botón "Quitar Aseguramiento"
+              parentForm.remove();
+          
+              // Actualiza el valor de TOTAL_FORMS
+              numForms = aseguramientoFormset.find('.form-row').length;
+              $('input[name="aseguramiento-TOTAL_FORMS"]').val(numForms);
+            });
+          });
+        </script>
+        
+              
+              <br>
+                <div class="col-lg-10 offset-lg-1 px-8 py-3">
+                  <div class="text-center mt-5">
+                      <h2>INFORMACIÓN FAMILIAR</h2>
+                      <p>Tenga a la mano los nombres y fechas de nacimiento de las personas que viven con usted y/o personas a cargo</p>
+                  </div>    
+              </div>
+              <br>
+          
+              
+              <form method="post">
+                {% csrf_token %}
+                {{ formHijoForm.management_form }}
+                <div class="form-group Hijo-formset">
+                  {% for formHijoForm in formHijosFormSet %}
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="{{ formHijoForm.Nombres_Hijo.id_for_label }}" class="text-left">Nombres del Hijo</label>
+                            {{ formHijoForm.Nombres_Hijo }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="{{ formHijoForm.Apellido_Hijo.id_for_label }}" class="text-left">Apellido del Hijo</label>
+                            {{ formHijoForm.Apellido_Hijo }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="{{ formHijoForm.Fecha_Nacimiento_Hijo.id_for_label }}" class="text-left">Fecha de Nacimiento del Hijo</label>
+                            {{ formHijoForm.Fecha_Nacimiento_Hijo }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              <br>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="{{ formHijoForm.Cuidador_Hijo.id_for_label }}" class="text-left">Cuidador del Hijo</label>
+                            {{ formHijoForm.Cuidador_Hijo }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="{{ formHijoForm.Convivencia_Hijo.id_for_label }}" class="text-left">Convivencia del Hijo</label>
+                            {{ formHijoForm.Convivencia_Hijo }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="{{ formHijoForm.Requiere_Lugar_Para_Llevar_hijo.id_for_label }}" class="text-left">¿Requiere lugar para llevar al Hijo?</label>
+                            {{ formHijoForm.Requiere_Lugar_Para_Llevar_hijo }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </form>
+              
+
+
+              
+              
                      <br>
                     <button type="submit" class="btn btn-primary float-left">Save</button>
                     {% endblock contenido %}
