@@ -8,10 +8,11 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm, AseguramientoForm #forms.py
+from principal.forms import FormularioForm, AseguramientoForm , FamiliarForm 
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.views.generic.edit import FormView
+import logging
 
 
 ##(request, 'login.html', context)
@@ -126,47 +127,64 @@ def editarUsuario(request):
     
     return redirect('usuarios')
 
-
-
-class AñadirAseguramiento(FormView):
-    template_name = 'prueba.html'
-    form_class = formset_factory(AseguramientoForm, extra=2)
-    success_url = '.'
-
-form = FormularioForm()
-formaseguramiento = AseguramientoForm()
+ 
 
 def prueba(request):
-    AseguramientoFormSet = formset_factory(AseguramientoForm, extra=2)
+    FamiliarFormSet = formset_factory(FamiliarForm, extra=1)
 
     if request.method == 'POST':
         user = request.user
         form_data = request.POST.copy()
         form_data['idUser'] = user.id
-        form = FormularioForm(form_data, request.FILES)
-        formaseguramiento_formset = AseguramientoFormSet(request.POST, prefix='aseguramiento')
 
-        if form.is_valid() and all(formaseguramiento_form.is_valid() for formaseguramiento_form in formaseguramiento_formset):
+        form = FormularioForm(form_data, request.FILES)
+        familiar_formset = FamiliarFormSet(request.POST, prefix='familiar')
+
+        # Manejar el formulario AseguramientoForm
+        aseguramiento_form = AseguramientoForm(request.POST)
+
+        if form.is_valid() and familiar_formset.is_valid() and aseguramiento_form.is_valid():
             form.instance.idUser = user
             form.save()
 
-            for formaseguramiento in formaseguramiento_formset:
-                formaseguramiento.instance.idUser = user
-                formaseguramiento.save()
+            for familiar_form in familiar_formset:
+                familiar_form.instance.idUser = user
+                familiar_form.save()
+
+            aseguramiento = aseguramiento_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            aseguramiento.idUser = user
+            aseguramiento.save()
 
             return HttpResponse("La información se ha enviado correctamente")
         else:
-            print(form.errors)
-            for formaseguramiento_form in formaseguramiento_formset:
-                print(formaseguramiento_form.errors)
-
-            return HttpResponse("ERROR")
+            logger = logging.getLogger('principal')
+            logger.error("Error en el formulario.")
+            for error in form.errors:
+                logger.error(f"Formulario: {error}: {form.errors[error]}")
+            for familiar_form in familiar_formset:
+                for error in familiar_form.errors:
+                    logger.error(f"FamiliarForm: {error}: {familiar_form.errors[error]}")
+            for error in aseguramiento_form.errors:
+                logger.error(f"AseguramientoForm: {error}: {aseguramiento_form.errors[error]}")
 
     else:
         form = FormularioForm()
-        formaseguramiento_formset = AseguramientoFormSet(prefix='aseguramiento')
+        familiar_formset = FamiliarFormSet(prefix='familiar')
+        aseguramiento_form = AseguramientoForm()
 
-        return render(request, "prueba.html", {'form': form, 'formaseguramiento_formset': formaseguramiento_formset})
+    return render(
+        request,
+        "prueba.html",
+        {'form': form, 'familiar_formset': familiar_formset, 'aseguramiento_form': aseguramiento_form}
+    )
+
+
+
+
+
+
+
+
 
 
 

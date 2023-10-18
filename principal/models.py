@@ -200,41 +200,48 @@ class FormularioForm(models.Model):
 
 
 class aseguramientoForm(models.Model):
-    id_Aseguramiento = models.AutoField(primary_key=True)
-    Tipo_Aseguramiento = models.CharField(max_length=50, choices=[
-        ('Medicina prepagada', 'Medicina prepagada'),
-        ('Plan complementario de salud', 'Plan complementario de salud'),
-        ('Seguro de vida', 'Seguro de vida'),
-        ('Seguro excequial', 'Seguro excequial'),
-        ('Emergencia médica (Ej. Emi, CEM)', 'Emergencia médica (Ej. Emi, CEM)'),
-        ('Previser', 'Previser'),
-        ('Ninguna', 'Ninguna'),
-    ])
+    id_aseguramiento = models.AutoField(primary_key=True)
+    medicina_prepagada = models.BooleanField(default=False)
+    plan_complementario_salud = models.BooleanField(default=False)
+    seguro_de_vida = models.BooleanField(default=False)
+    seguro_exequial = models.BooleanField(default=False)
+    emergencia_medica = models.BooleanField(default=False)
+    previser = models.BooleanField(default=False)
+    ninguna = models.BooleanField(default=False)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "aseguramiento_aseguramientoform"
+        db_table = "aseguramiento"
 
-class HijoForm(models.Model):
-    id_Hijo = models.AutoField(primary_key=True)
-    Nombres_Hijo = models.CharField(max_length=20)
-    Apellido_Hijo = models.CharField(max_length=20)
-    Fecha_Nacimiento_Hijo = models.DateField(default=timezone.now)
-    Cuidador_Hijo = models.CharField(max_length=50, choices=[
+class familiarForm(models.Model):
+    id_Familiar = models.AutoField(primary_key=True)
+    Parentesco_Familiar = models.CharField(max_length=50, choices=[
         ('Pareja', 'Pareja'),
         ('Abuelos', 'Abuelos'),
         ('Otro Familiar', 'Otro Familiar'),
         ('Ciudador(a)', 'Ciudador(a)'),
         ('Guardería', 'Guardería'),
         ('No Requiere', 'No Requiere'),
+        ('No Tengo Hijos', 'No Tengo Hijos'),
     ])
+    Nombres_Familiar = models.CharField(max_length=20)
+    Apellidos_Familiar = models.CharField(max_length=20)
+    Fecha_Nacimiento_Familiar = models.DateField(default=timezone.now)
     Convivencia_Hijo = models.CharField(
-        max_length=2,choices=[
+        max_length=14,choices=[
             ('Si','Si'),
             ('No', 'No'),
+            ('No Tengo Hijos', 'No Tengo Hijos'),
         ]
     )
     Requiere_Lugar_Para_Llevar_hijo = models.CharField(
+        max_length=14,choices=[
+            ('Si','Si'),
+            ('No', 'No'),
+            ('No Tengo Hijos', 'No Tengo Hijos'),
+        ]
+    )
+    Discapacidad_Familiar = models.CharField(
         max_length=2,choices=[
             ('Si','Si'),
             ('No', 'No'),
@@ -243,7 +250,24 @@ class HijoForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "Hijos"
+        db_table = "FamiliaresConvivencia"
+    
+    
+# class cuidadorHijoForm(models.Model):
+#     id_CuidadorHijo = models.AutoField(primary_key=True)
+#     TipoCuidador_Hijo = models.CharField(max_length=50, choices=[
+#         ('Pareja', 'Pareja'),
+#         ('Abuelos', 'Abuelos'),
+#         ('Otro Familiar', 'Otro Familiar'),
+#         ('Ciudador(a)', 'Ciudador(a)'),
+#         ('Guardería', 'Guardería'),
+#         ('No Requiere', 'No Requiere'),
+#         ('No Tengo Hijos', 'No Tengo Hijos'),
+#     ])
+#     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+#     class Meta:
+#         db_table = "Cuidador_Hijo"
     
     
     #  # lastname = models.CharField(max_length=50)

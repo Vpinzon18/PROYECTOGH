@@ -1,7 +1,8 @@
 from django import forms  
 from principal.models import FormularioForm
 from principal.models import aseguramientoForm
-from principal.models import HijoForm
+from principal.models import familiarForm
+# from principal.models import cuidadorHijoForm
 from django.forms import modelformset_factory
      
 class FormularioForm(forms.ModelForm):
@@ -23,25 +24,40 @@ class FormularioForm(forms.ModelForm):
 class AseguramientoForm(forms.ModelForm):
     class Meta:
         model = aseguramientoForm
-        fields = ['Tipo_Aseguramiento']
+        fields = ['medicina_prepagada', 'plan_complementario_salud', 'seguro_de_vida', 'seguro_exequial', 'emergencia_medica', 'previser', 'ninguna']
         widgets = {
-            'Tipo_Aseguramiento': forms.Select(attrs={'class': 'form-select'}),
-            'idUser': forms.HiddenInput(),  # Campo oculto para el ID de usuario
+            'medicina_prepagada': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'plan_complementario_salud': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'seguro_de_vida': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'seguro_exequial': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'emergencia_medica': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'previser': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'ninguna': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 
-class HijosForm(forms.ModelForm):
+class FamiliarForm(forms.ModelForm):
     class Meta:
-        model = HijoForm
-        fields = ['Nombres_Hijo','Apellido_Hijo','Fecha_Nacimiento_Hijo','Cuidador_Hijo','Convivencia_Hijo','Requiere_Lugar_Para_Llevar_hijo']
+        model = familiarForm
+        fields = ['Parentesco_Familiar','Nombres_Familiar','Apellidos_Familiar','Fecha_Nacimiento_Familiar','Convivencia_Hijo','Requiere_Lugar_Para_Llevar_hijo','Discapacidad_Familiar']
         widgets = {
-            
-            'Requiere_Lugar_Para_Llevar_hijo': forms.Select(attrs={'class': 'form-select'}),
-            'idUser': forms.HiddenInput(),  # Campo oculto para el ID de usuario
-            'Fecha_Nacimiento_Hijo': forms.DateInput(attrs={'class': 'text-left','type': 'date'}),
+            'Parentesco_Familiar': forms.Select(attrs={'class': 'form-control'}),
+            'Nombres_Familiar': forms.TextInput(attrs={'class': 'form-control'}),
+            'Apellidos_Familiar': forms.TextInput(attrs={'class': 'form-control'}),
+            'Fecha_Nacimiento_Familiar': forms.DateInput(attrs={'class': 'text-left','type': 'date'}),
+            'Discapacidad_Familiar': forms.Select(attrs={'class': 'form-control'}),
+            'Convivencia_Hijo': forms.Select(attrs={'class': 'form-control'}),
+            'Requiere_Lugar_Para_Llevar_hijo': forms.Select(attrs={'class': 'form-control'}),
         }
 
-
+# class CuidadorHijo(forms.ModelForm):
+#     class Meta:
+#         model = cuidadorHijoForm
+#         fields = ['TipoCuidador_Hijo']
+#         widgets = {
+#             'TipoCuidador_Hijo': forms.Select(attrs={'class': 'form-select'}),
+#             'idUser': forms.HiddenInput(),  # Campo oculto para el ID de usuario
+#         }
 
 
 
