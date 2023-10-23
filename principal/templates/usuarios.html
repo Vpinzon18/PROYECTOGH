@@ -42,12 +42,43 @@
                             <th>{{ usuario.is_active }}</th>
                             <th>{{ usuario.idRol }}</th>
                             <td><a href="/edicionUsuario/{{usuario.id}}" class="btn btn-info" >Editar</a></td>
-                            <td><a href="/eliminarUsuario/{{usuario.id}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                            <td><a href="/eliminarUsuario/{{usuario.id}}" class="btn btn-danger btnEliminacion eliminar-btn">Eliminar</a></td>
+
                         </tr>
                 <tr>
                 {% endfor %}
                 </tbody>
             </table>
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const eliminarBotones = document.querySelectorAll(".eliminar-btn");
+            
+                  eliminarBotones.forEach((boton) => {
+                    boton.addEventListener("click", function (event) {
+                      event.preventDefault(); // Evita la acción por defecto del enlace
+            
+                      Swal.fire({
+                        title: "¿Estás seguro?",
+                        text: "No podrás deshacer esta acción",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "No, cancelar",
+                        reverseButtons: true,
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
+                          window.location.href = boton.href;
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                          Swal.fire("Cancelado", "Tu archivo está a salvo :)", "error");
+                        }
+                      });
+                    });
+                  });
+                });
+              </script>
 
 {% endblock contenido %}
     
@@ -56,6 +87,8 @@
     {% block titulo %}
     {% endblock titulo %}
     <script src='static js/ges'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>
 
