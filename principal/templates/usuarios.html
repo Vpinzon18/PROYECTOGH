@@ -1,53 +1,97 @@
 {% extends 'partials/body.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  {% block contenido %}
 
 
-{% block contenido %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 rounded p-5">
+        <h1 class="fw-bold text-center mb-5"><strong>Usuarios</strong></h1>
+
+        <a href="/signup/" class="btn btn-success">New user</a></td>
+
+        <table class="table table-light table-striped">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">NOMBRE</th>
+              <th scope="col">APELLIDO</th>
+              <th scope="col">EMAIL</th>
+              <th scope="col">USERNAME</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">ROL</th>
+              <th colspan="2">OPCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+              <th> {{ usuario.id }} </th>
+              <td>{{ usuario.first_name }}</td>
+              <td>{{ usuario.last_name }}</td>
+              <td>{{ usuario.email }}</td>
+              <td>{{ usuario.username }}</td>
+              <th>{{ usuario.is_active }}</th>
+              <th>{{ usuario.idRol }}</th>
+              <td><a href="/edicionUsuario/{{usuario.id}}" class="btn btn-info">Editar</a></td>
+              <td><a href="/eliminarUsuario/{{usuario.id}}"
+                  class="btn btn-danger btnEliminacion eliminar-btn">Eliminar</a></td>
+
+            </tr>
+            <tr>
+              {% endfor %}
+          </tbody>
+        </table>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const eliminarBotones = document.querySelectorAll(".eliminar-btn");
+
+            eliminarBotones.forEach((boton) => {
+              boton.addEventListener("click", function (event) {
+                event.preventDefault(); // Evita la acción por defecto del enlace
+
+                Swal.fire({
+                  title: "¿Estás seguro?",
+                  text: "No podrás deshacer esta acción",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: "Sí, eliminar",
+                  cancelButtonText: "No, cancelar",
+                  reverseButtons: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
+                    window.location.href = boton.href;
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire("Cancelado", "El Usuario no se Elimino", "error");
+                  }
+                });
+              });
+            });
+          });
+        </script>
+
+        {% endblock contenido %}
 
 
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-10 rounded p-5" style="">
-              <h1 class="fw-bold text-center mb-5"><strong>Usuarios</strong></h1>
 
-              <a href="/signup/" class="btn btn-success">New user</a></td>
+        {% block titulo %}
+        {% endblock titulo %}
+        <script src='static js/ges'></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            <table class="table table-light table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">NOMBRE</th>
-                    <th scope="col">APELLIDO</th>
-                    <th scope="col">EMAIL</th>
-                    <th scope="col">USERNAME</th>
-                    <th scope="col">ESTADO</th>
-                    <th scope="col">ROL</th>
-                    <th colspan="2">OPCIONES</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for usuario in usuarios %}
-                        <tr>
-                            <th> {{ usuario.id }} </th>
-                            <td>{{ usuario.first_name }}</td>
-                            <td>{{ usuario.last_name }}</td>
-                            <td>{{ usuario.email }}</td>
-                            <td>{{ usuario.username }}</td>
-                            <th>{{ usuario.is_active }}</th>
-                            <th>{{ usuario.idRol }}</th>
-                            <td><a href="/edicionUsuario/{{usuario.id}}" class="btn btn-info">Editar</a></td>
-                            <td><a href="/eliminarUsuario/{{usuario.id}}" class="btn btn-danger">Eliminar</a></td>
-                        </tr>
-                <tr>
-                {% endfor %}
-                </tbody>
-            </table>
+</body>
 
-{% endblock contenido %}
-    
-
-
-    {% block titulo %}
-    {% endblock titulo %}
-        
-
+</html>

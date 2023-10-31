@@ -1,0 +1,196 @@
+<div class="col-lg-10 offset-lg-1 px-8 py-3">
+    <div class="text-center mt-5">
+        <h2>INFORMACIÓN FAMILIAR</h2>
+        <p>Tenga a la mano los nombres y fechas de nacimiento de las personas que viven con usted y/o
+            personas a cargo</p>
+    </div>
+</div>
+<br>
+
+<h4 id="familiar-title">Digite la informacion personal de sus hijos</h4>
+{% csrf_token %}
+{{ familiar_formset.management_form }}
+<div class="container">
+
+    <div class="form-group Hijo-formset">
+        <div id="familiares-container">
+            {% for form in formularios_familiares %}
+            <div class="familiar-form">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Nombres_Familiar.id_for_label }}"
+                                        class="text-left">Digite los Nombres del Familiar</label>
+                                    <hr>
+                                    {{ form.Nombres_Familiar }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Apellidos_Familiar.id_for_label }}"
+                                        class="text-left">Digite los Apellidos del Familiar</label>
+                                    <hr>
+                                    {{ form.Apellidos_Familiar }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Fecha_Nacimiento_Familiar.id_for_label }}"
+                                        class="text-left">Digite la fecha de nacimiento de su
+                                        familiar</label>
+                                    <hr>
+                                    {{ form.Fecha_Nacimiento_Familiar }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Requiere_Lugar_Para_Llevar_hijo.id_for_label }}"
+                                        class="text-left">¿Requiere llevar a su(s) Hij@(s) a algún lugar
+                                        para que lo(la) cuiden?</label>
+                                    <hr>
+                                    {{ form.Requiere_Lugar_Para_Llevar_hijo }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Convivencia_Hijo.id_for_label }}"
+                                        class="text-left">Selecione si su hij@ vive actualmente con
+                                        usted</label>
+                                    <hr>
+                                    {{ form.Convivencia_Hijo }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Dependiente_Economico.id_for_label }}"
+                                        class="text-left">¿Este familiar depende económicamente de
+                                        usted?</label>
+                                    <hr>
+                                    {{ form.Dependiente_Economico }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Sexo_Familiar.id_for_label }}"
+                                        class="text-left">Seleccione el género del familiar</label>
+                                    <hr>
+                                    {{ form.Sexo_Familiar }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ form.instance.Parentesco_Familiar.id_for_label }}"
+                                        class="text-left">Parentesco con el familiar</label>
+                                    <hr>
+                                    {{ form.Parentesco_Familiar }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <br>
+    <button type="button" id="add-familiar" class="btn btn-success">Añadir Otro
+        Familiar</button>
+    <button type="button" id="remove-familiar" style="display: none;" class="btn btn-danger">Quitar
+        Familiar</button>
+    <br>
+</div>
+<br>
+
+<div></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var addButton = $("#add-familiar");
+        var removeButton = $("#remove-familiar");
+        var totalForms = $("#id_familiar-TOTAL_FORMS");
+
+        addButton.on("click", function () {
+            // Clonar el último formulario y su título
+            var clonedForm = $(".familiar-form:last").clone();
+            var clonedTitle = $("#familiar-title").clone();
+
+            // Encontrar el último número y sumar 1
+            var num = parseInt(clonedForm.find('[name^="familiar-"]').attr('name').match(/\d+/)[0]) + 1;
+
+            // Actualizar los campos clonados con el nuevo número
+            clonedForm.find('[name^="familiar-"]').each(function () {
+                var name = $(this).attr('name').replace(/\d+/, num);
+                $(this).attr('name', name);
+            });
+
+            clonedForm.find('[id^="id_familiar-"]').each(function () {
+                var id = $(this).attr('id').replace(/\d+/, num);
+                $(this).attr('id', id);
+            });
+
+            // Limpiar los valores de los campos clonados
+            clonedForm.find('input, select').val('');
+
+            // Agregar el formulario clonado y su título al final
+            clonedTitle.appendTo("#familiares-container");
+            clonedForm.appendTo("#familiares-container");
+
+            // Incrementar el valor de TOTAL_FORMS
+            totalForms.val(num + 1);
+
+            // Mostrar el botón "Quitar Familiar" si hay más de un formulario
+            if ($(".familiar-form").length > 1) {
+                removeButton.show();
+            }
+        });
+
+        removeButton.on("click", function () {
+            var numForms = $(".familiar-form").length;
+
+            if (numForms > 1) {
+                // Eliminar el último formulario clonado y su título
+                $(".familiar-form:last").remove();
+                $("#familiares-container h4:last").remove();
+
+                // Decrementar el valor de TOTAL_FORMS
+                totalForms.val(numForms - 1);
+            }
+
+            // Ocultar el botón "Quitar Familiar" si hay un solo formulario
+            if (numForms === 1) {
+                removeButton.hide();
+            }
+        });
+    });
+</script>

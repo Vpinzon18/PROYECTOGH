@@ -1,13 +1,29 @@
-{% extends 'base.html' %}
-  
-{% block title %}Login{% endblock %}
-  
+{% extends 'base.html' %} {% block title %}Login{% endblock %} 
 {% block content %}
-  <h2>Login</h2> 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Login</button>
-  </form>
-  <p style="color: red">{{ msg }}</p>
-{% endblock %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 offset-lg-1 px-8 py-3">
+      <div class="text-center mt-5">
+        <div class="card">
+          <h2>Login</h2>
+          <form method="post">
+            {% csrf_token %} 
+            <div class="form-group">
+              <label for="{{ form.username.label }}" class="text-left">Digite su usuario </label>
+              {{ form.username }}
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="{{ form.password.label }}" class="text-left">Digite su contraseña </label>
+              {{ form.password }}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+          <p style="color: red">{{ msg }}</p>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

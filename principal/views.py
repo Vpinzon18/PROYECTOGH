@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from pyexpat.errors import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
@@ -8,33 +8,197 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm #forms.py
+from principal.forms import FormularioForm, AseguramientoForm , FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
+from django.views.generic.edit import FormView
+from .models import formularioForm ,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
+import logging
+from django.core.paginator import Paginator
 
-##(request, 'login.html', context)
 
 def inicio(request):
     context={}
     return render(request, 'index.html', context)
 
-
 def usuarios(request):
     usuarios = User.objects.all()
     return render(request, 'usuarios.html', {'usuarios': usuarios})
 
-
-def formulario(request):
+def formularioII(request):
     context={}
-    return render(request, 'formulario.html', context) 
+    return render(request, 'Formulariopag2.html', context) 
 
 def datos(request):
+    # Obtener todos los usuarios en la base de datos
+    bdcolaboradore = User.objects.all()
+    form = formularioForm.objects.all()
+
+    return render(request, 'datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
+
+def DataColaboradores(request):
     context={}
-    return render(request, 'datos.html', context)
+    return render(request, 'datacolaboradores.html', context) 
+
+
+
+# ESTE ES LA CONSULTA PARA EL MODULO DE DB COLABORADORES ESTA CONSULTA OBTINENE TODOS LOS DATOS REGISTRADOS TANTO EN EL FOMRULARIO COM ADATOS ADICIONALES AÑADIDOS POR LOS USUARIOS DE GESTION HUMANA
+
+def bd_colaboradores(request, idUser_id):
+    print("este es el form", idUser_id)  
+    try:
+        # formulario sociodemografico
+        form_Sociodemografico = formularioForm.objects.get(idUser_id=idUser_id)
+        print("este es el form", form_Sociodemografico)
+        form = FormularioForm(instance=form_Sociodemografico)
+        print("este es el form", form)
+        # formulario aseguramiento
+        form_aseguramiento = aseguramientoForm.objects.filter(idUser_id=idUser_id)
+        form_a = AseguramientoForm(instance=form_aseguramiento[0]) 
+        print("este es el form aseguramiento", form_a)
+        # formualrio familiares
+        form_f = familiarForm.objects.filter(idUser_id=idUser_id)
+        formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
+        print("Estos son los formularios familiares:", formularios_familiares)
+        # formulario discapacidad familiar
+        form_d = familiardiscapacidadForm.objects.filter(idUser_id=idUser_id)
+        formulario_discapacidad = FamiliarDiscapacidadForm(instance=form_d[0]) 
+        print("este es el form aseguramiento", formulario_discapacidad)
+        # formulario de situaciones afectables
+        form_s = situacionesafectableForm.objects.filter(idUser_id=idUser_id)
+        formulario_situacion = SituacionesAfectableForm(instance=form_s[0]) 
+        print("este es el form situacoiones afectables", formulario_situacion)
+        # formulario mascotas
+        form_M = mascotasForm.objects.filter(idUser_id=idUser_id)
+        formulario_Mascotas = [MascotasForm(instance=Form_Mas) for Form_Mas in form_M]
+        print("Estos son los formularios Mascotas:", formulario_Mascotas)
+        # formulario transportes
+        form_t = transorteForm.objects.filter(idUser_id=idUser_id)
+        transporte_form = TransportesForm(instance=form_t[0]) 
+        print("este es el form transporte", transporte_form)
+        # formulario recursos digitales
+        form_recur = recursosdigitales.objects.filter(idUser_id=idUser_id)
+        recursos_form = RecursosDigitalesForm(instance=form_recur[0]) 
+        print("este es el form recursos", recursos_form)
+        # formulario recursos para aprendizaje 
+        form_apre = appaprendizajeForm.objects.filter(idUser_id=idUser_id)
+        appaprendizaje_form = AppAprendizajeForm(instance=form_apre[0]) 
+        print("este es el form aplicaciones para aprendizaje", appaprendizaje_form)
+        # formulario ofrecimientos empresariales 
+        form_ofre = ofrecimientoForm.objects.filter(idUser_id=idUser_id)
+        ofrecimientos_form = OfrecimientosForm(instance=form_ofre[0]) 
+        print("este es el form aplicaciones para los ofreciminetos empresarioes ", ofrecimientos_form)
+        # formulario desarrollo personal 
+        form_desa = desarrollopersonalForm.objects.filter(idUser_id=idUser_id)
+        desarrollopersonal_form = DesarrolloPersonalForm(instance=form_desa[0]) 
+        print("este es el form aplicaciones para los desarrollos personales ", desarrollopersonal_form)
+        # formulario Reconocmienot 
+        form_reco = reconocimientoempresarialForm.objects.filter(idUser_id=idUser_id)
+        reconocimientoempresarial_form = ReconocimientoEmpresarialForm(instance=form_reco[0]) 
+        print("este es el form aplicaciones para los desarrollos personales ", reconocimientoempresarial_form)
+        # formulario actividades culturales
+        form_cultu = actividadesculturalesForm.objects.filter(idUser_id=idUser_id)
+        actividadesculturales_form = ActividadesCulturalesForm(instance=form_cultu[0]) 
+        print("este es el form aplicaciones para las activiadades culturales ", actividadesculturales_form)
+        # formulario actividades Salud 
+        form_salud = actividadessaludForm.objects.filter(idUser_id=idUser_id)
+        actividadessalud_form = ActividadesSaludForm(instance=form_salud[0]) 
+        print("este es el form aplicaciones para las activiadades de salud", actividadessalud_form)
+        # formulario actividades Tiempo libre
+        form_libre = tiempolibreForm.objects.filter(idUser_id=idUser_id)
+        tiempolibre_form = TiempoLibreForm(instance=form_libre[0]) 
+        print("este es el form aplicaciones para las activiadades de tiempo libre", tiempolibre_form)
+         # formulario Enfermedades diagnosticadas
+        form_enfe = enfermedadesForm.objects.filter(idUser_id=idUser_id)
+        enfermedades_form = EnfermedadesForm(instance=form_enfe[0]) 
+        print("este es el form aplicaciones para las activiadades de tiempo libre", enfermedades_form)
+        # formulario deportes en practica 
+        form_depo = deporteForm.objects.filter(idUser_id=idUser_id)
+        deportes_form = DeportesForm(instance=form_depo[0]) 
+        print("este es el form aplicaciones para las activiadades deportivas ", deportes_form)
+        # formulario molestias en los ultimos 6 meses 
+        form_mole = molestaseismesesForm.objects.filter(idUser_id=idUser_id)
+        molestiasseismeses_form = MolestiasSeisMesesForm(instance=form_mole[0]) 
+        print("este es el form  para las molestias en los ultimos seis meses  ", molestiasseismeses_form)
+        # formulario molestias en los ultimos 6 meses en la voz 
+        form_voz = molestiasvozForm.objects.filter(idUser_id=idUser_id)
+        molestiasvoz_form = MolestiasVozForm(instance=form_voz[0]) 
+        print("este es el form para las molestias en los ultimos seis meses en la VOZ ", molestiasvoz_form)
+        # formulario CAMBIOS  en los ultimos 6 meses en la voz 
+        form_saudicio = sintomasaudicionForm.objects.filter(idUser_id=idUser_id)
+        sintomasaudicion_form = SintomasAudicionForm(instance=form_saudicio[0]) 
+        print("este es el form sintomas de audicion", sintomasaudicion_form)
+    except formularioForm.DoesNotExist and  aseguramientoForm.DoesNotExist and  familiarForm.DoesNotExist:
+        form = None
+        form_a = None
+        formularios_familiares = None
+        formulario_discapacidad = None
+        formulario_situacion = None
+        formulario_Mascotas = None
+        transporte_form = None
+        recursos_form = None
+        appaprendizaje_form = None
+        ofrecimientos_form = None
+        desarrollopersonal_form = None
+        reconocimientoempresarial_form = None
+        actividadesculturales_form = None
+        actividadessalud_form = None
+        tiempolibre_form = None
+        enfermedades_form= None
+        deportes_form= None
+        molestiasseismeses_form = None
+        molestiasvoz_form = None
+        sintomasaudicion_form = None
+    
+    return render(request, 'bd_colaboradores.html',
+                  {'form': form,
+                   'form_a':form_a ,
+                    'formularios_familiares':formularios_familiares,
+                    'formulario_discapacidad':formulario_discapacidad,
+                    'formulario_situacion':formulario_situacion,
+                    'formulario_Mascotas': formulario_Mascotas,
+                    'transporte_form':transporte_form,
+                    'recursos_form': recursos_form,
+                    'appaprendizaje_form': appaprendizaje_form,
+                    'ofrecimientos_form': ofrecimientos_form,
+                    'desarrollopersonal_form': desarrollopersonal_form,
+                    'reconocimientoempresarial_form': reconocimientoempresarial_form,
+                    'actividadesculturales_form': actividadesculturales_form,
+                    'actividadessalud_form':actividadessalud_form,
+                    'tiempolibre_form':tiempolibre_form,
+                    'enfermedades_form':enfermedades_form,
+                    'deportes_form': deportes_form,
+                    'molestiasseismeses_form': molestiasseismeses_form,
+                    'molestiasvoz_form': molestiasvoz_form,
+                    'sintomasaudicion_form':sintomasaudicion_form
+                   })
+
+
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from .forms import FormularioForm  # Asegúrate de importar tu formulario aquí
+
+def ActualizarDataColaboradores(request, idUser_id):
+    user = request.user
+    form_data = get_object_or_404(formularioForm, idUser_id=idUser_id)
+
+    if request.method == 'POST':
+        form_data = FormularioForm(request.POST, request.FILES, instance=form_data)
+
+        if form_data.is_valid():
+            form_data.save()
+            print("AAAA MLP PROYECTO",ActualizarDataColaboradores )  # Este es el print de depuración
+
+    return render(request, "datos.html", {'form': form_data})
+
+
+def PowerBi(request):
+    context={}
+    return render(request, 'PowerBi.html', context)
 
 def certificados(request):
     context={}
     return render(request, 'certificados.html', context)
-
 
 def signup(request):
   
@@ -55,7 +219,6 @@ def signup(request):
    
 def home(request): 
     return render(request, 'usuarios.html')
-   
   
 def signin(request):
     if request.user.is_authenticated:
@@ -93,17 +256,14 @@ def registrarUsuario(request):
         first_name=Nombre, last_name=Apellido, email=Email, username=Username, password=Password)
     return redirect('usuarios')
 
-    
 def eliminarUsuario(request, id):
     usuario = User.objects.get(id=id)
     usuario.delete()    
     return redirect('usuarios')
 
-
 def edicionUsuario(request, id):
     usuario = User.objects.get(id=id)
     return render(request, "edicionUsuario.html", {"usuario": usuario})
-
 
 def editarUsuario(request):
     id = request.POST['txtid']
@@ -122,30 +282,249 @@ def editarUsuario(request):
     
     return redirect('usuarios')
 
-
-    
 def prueba(request):
+    FamiliarFormSet = formset_factory(FamiliarForm, extra=1)
+    MascotasFormSet = formset_factory(MascotasForm, extra=1)
+
     if request.method == 'POST':
-        # Obtén el usuario actualmente autenticado
         user = request.user
-
-        # Copia los datos del formulario para modificarlos
         form_data = request.POST.copy()
-
-        # Establece el campo 'idUser' con el ID del usuario actual
         form_data['idUser'] = user.id
-        # Crea una instancia de StudentForm con los datos actualizados
+
         form = FormularioForm(form_data, request.FILES)
-        if form.is_valid():
+        familiar_formset = FamiliarFormSet(request.POST, prefix='familiar')
+        mascota_formset = MascotasFormSet(request.POST, prefix='mascota')
+        aseguramiento_form = AseguramientoForm(request.POST)
+        familiarDiscapacidad_form = FamiliarDiscapacidadForm(request.POST)
+        situacionesafectable_form = SituacionesAfectableForm(request.POST)
+        transporte_form = TransportesForm(request.POST)
+        recursos_form = RecursosDigitalesForm(request.POST)
+        appaprendizaje_form = AppAprendizajeForm(request.POST)
+        ofrecimientos_form = OfrecimientosForm(request.POST)
+        desarrollopersonal_form = DesarrolloPersonalForm(request.POST)
+        reconocimientoempresarial_form = ReconocimientoEmpresarialForm(request.POST)
+        actividadesculturales_form = ActividadesCulturalesForm(request.POST)
+        actividadessalud_form = ActividadesSaludForm(request.POST)
+        tiempolibre_form =TiempoLibreForm(request.POST)
+        enfermedades_form = EnfermedadesForm(request.POST)
+        deportes_form = DeportesForm(request.POST)
+        molestiasseismeses_form = MolestiasSeisMesesForm(request.POST)
+        molestiasvoz_form = MolestiasVozForm(request.POST)
+        sintomasaudicion_form = SintomasAudicionForm(request.POST)
+
+        if form.is_valid() and familiar_formset.is_valid() and aseguramiento_form.is_valid() and familiarDiscapacidad_form.is_valid() and situacionesafectable_form.is_valid() and mascota_formset.is_valid and transporte_form.is_valid() and recursos_form.is_valid() and appaprendizaje_form.is_valid() and ofrecimientos_form.is_valid() and desarrollopersonal_form.is_valid() and reconocimientoempresarial_form.is_valid and actividadesculturales_form.is_valid() and  actividadessalud_form.is_valid()  and  tiempolibre_form.is_valid() and enfermedades_form.is_valid() and deportes_form.is_valid() and molestiasseismeses_form.is_valid() and molestiasvoz_form.is_valid():
+            form.instance.idUser = user
             form.save()
+
+            for familiar_form in familiar_formset:
+                familiar_form.instance.idUser = user
+                familiar_form.save()
+                
+            for mascota_form in mascota_formset:
+                mascota_form.instance.idUser = user
+                mascota_form.save()
+            
+            sintomasaudicion = sintomasaudicion_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            sintomasaudicion.idUser = user
+            sintomasaudicion.save()
+            
+            molestiasvoz = molestiasvoz_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            molestiasvoz.idUser = user
+            molestiasvoz.save()
+            
+            molestias = molestiasseismeses_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            molestias.idUser = user
+            molestias.save()
+            
+            deportes = deportes_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            deportes.idUser = user
+            deportes.save()
+            
+            enfermedades = enfermedades_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            enfermedades.idUser = user
+            enfermedades.save() 
+            
+            tiempolibre = tiempolibre_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            tiempolibre.idUser = user
+            tiempolibre.save() 
+             
+            actividadessalud = actividadessalud_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            actividadessalud.idUser = user
+            actividadessalud.save() 
+             
+            actividadesculturales = actividadesculturales_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            actividadesculturales.idUser = user
+            actividadesculturales.save()  
+            
+            reconocimientoempresarial = reconocimientoempresarial_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            reconocimientoempresarial.idUser = user
+            reconocimientoempresarial.save()  
+             
+            desarrollopersonal = desarrollopersonal_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            desarrollopersonal.idUser = user
+            desarrollopersonal.save() 
+                
+            ofrecimiento = ofrecimientos_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            ofrecimiento.idUser = user
+            ofrecimiento.save()
+            
+            appaprendizaje = appaprendizaje_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            appaprendizaje.idUser = user
+            appaprendizaje.save()
+            
+            recursos = recursos_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            recursos.idUser = user
+            recursos.save()    
+            
+            transporte = transporte_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            transporte.idUser = user
+            transporte.save()
+            
+            aseguramiento = aseguramiento_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            aseguramiento.idUser = user
+            aseguramiento.save()
+            
+            familiarDiscapacidad = familiarDiscapacidad_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            familiarDiscapacidad.idUser = user
+            familiarDiscapacidad.save()
+            
+            situacionesafectable = situacionesafectable_form.save(commit=False)  # Guardar manualmente el objeto aseguramiento
+            situacionesafectable.idUser = user
+            situacionesafectable.save()
+
             return HttpResponse("La información se ha enviado correctamente")
         else:
-            print(form.errors)  # Imprime los errores de validación en la consola para su depuración
-            return HttpResponse("ERROR")
-
+            logger = logging.getLogger('principal')
+            logger.error("Error en el formulario.")
+            for error in form.errors:
+                logger.error(f"Formulario: {error}: {form.errors[error]}")
+            for familiar_form in familiar_formset:
+                for error in familiar_form.errors:
+                    logger.error(f"FamiliarForm: {error}: {familiar_form.errors[error]}")
+            for mascota_form in mascota_formset:
+                for error in mascota_form.errors:
+                    logger.error(f"MascotasForm: {error}: {mascota_form.errors[error]}")        
+            for error in aseguramiento_form.errors:
+                logger.error(f"AseguramientoForm: {error}: {aseguramiento_form.errors[error]}")
+            for error in familiarDiscapacidad_form.errors:
+                logger.error(f"FamiliarDiscapacidadForm: {error}: {familiarDiscapacidad_form.errors[error]}")
+            for error in situacionesafectable_form.errors:
+                logger.error(f"SituacionesAfectableForm: {error}: {situacionesafectable_form.errors[error]}") 
+            for error in transporte_form.errors:
+                logger.error(f"TransporteForm: {error}: {transporte_form.errors[error]}") 
+            for error in recursos_form.errors:
+                logger.error(f"RecursosDigitalesForm: {error}: {recursos_form.errors[error]}")     
+            for error in appaprendizaje_form.errors:
+                logger.error(f"AppAprendizajeForm: {error}: {appaprendizaje_form.errors[error]}")     
+            for error in ofrecimientos_form.errors:
+                logger.error(f"OfrecimientosForm: {error}: {ofrecimientos_form.errors[error]}")  
+            for error in desarrollopersonal_form.errors:
+                logger.error(f"desarrollopersonalForm: {error}: {desarrollopersonal_form.errors[error]}")
+            for error in reconocimientoempresarial_form.errors:
+                logger.error(f"ReconocimientoEmpresarialForm: {error}: {reconocimientoempresarial_form.errors[error]}")
+            for error in actividadesculturales_form.errors:
+                logger.error(f"actividadesculturalesForm: {error}: {actividadesculturales_form.errors[error]}")
+            for error in actividadessalud_form.errors:
+                logger.error(f"ActividadesSaludForm: {error}: {actividadessalud_form.errors[error]}")
+            for error in tiempolibre_form.errors:
+                logger.error(f"TiempoLibreForm: {error}: {tiempolibre_form.errors[error]}")
+            for error in enfermedades_form.errors:
+                logger.error(f"EnfermedadesForm: {error}: {enfermedades_form.errors[error]}")
+            for error in deportes_form.errors:
+                logger.error(f"DeportesForm: {error}: {deportes_form.errors[error]}")
+            for error in molestiasseismeses_form.errors:
+                logger.error(f"MolestiasSeisMesesForm: {error}: {molestiasseismeses_form.errors[error]}")    
+            for error in molestiasvoz_form.errors:
+                logger.error(f"MolestiasVozForm: {error}: {molestiasvoz_form.errors[error]}") 
+            for error in sintomasaudicion_form.errors:
+                logger.error(f"SintomasAudicionForm: {error}: {sintomasaudicion_form.errors[error]}") 
     else:
         form = FormularioForm()
-        return render(request, "prueba.html", {'form': form})
+        familiar_formset = FamiliarFormSet(prefix='familiar')
+        mascota_formset = MascotasFormSet(prefix='mascota')
+        aseguramiento_form = AseguramientoForm()
+        familiarDiscapacidad_form = FamiliarDiscapacidadForm()
+        situacionesafectable_form = SituacionesAfectableForm()
+        transporte_form = TransportesForm()
+        recursos_form = RecursosDigitalesForm()
+        appaprendizaje_form = AppAprendizajeForm()
+        ofrecimientos_form = OfrecimientosForm()
+        desarrollopersonal_form = DesarrolloPersonalForm()
+        reconocimientoempresarial_form = ReconocimientoEmpresarialForm()
+        actividadesculturales_form = ActividadesCulturalesForm()
+        actividadessalud_form = ActividadesSaludForm()
+        tiempolibre_form = TiempoLibreForm()
+        enfermedades_form = EnfermedadesForm()
+        deportes_form = DeportesForm()
+        molestiasseismeses_form = MolestiasSeisMesesForm()
+        molestiasvoz_form = MolestiasVozForm()
+        sintomasaudicion_form = SintomasAudicionForm()
+        
+    return render(
+        request,
+        "prueba.html",
+        {'form': form,
+         'familiar_formset': familiar_formset,
+         'aseguramiento_form': aseguramiento_form,
+         'familiarDiscapacidad_form':familiarDiscapacidad_form,
+         'situacionesafectable_form':situacionesafectable_form,
+         'mascota_formset':mascota_formset ,
+         'transporte_form':transporte_form,
+         'recursos_form':recursos_form,
+         'appaprendizaje_form':appaprendizaje_form,
+         'ofrecimientos_form': ofrecimientos_form,
+         'desarrollopersonal_form': desarrollopersonal_form,
+         'reconocimientoempresarial_form': reconocimientoempresarial_form,
+         'actividadesculturales_form': actividadesculturales_form,
+         'actividadessalud_form': actividadessalud_form,
+         'tiempolibre_form':tiempolibre_form,
+         'enfermedades_form':enfermedades_form,
+         'deportes_form':deportes_form,
+         'molestiasseismeses_form': molestiasseismeses_form,
+         'molestiasvoz_form':molestiasvoz_form,
+         'sintomasaudicion_form': sintomasaudicion_form       
+         })
+    
+def Contratacion(request): 
+    if request.method == 'POST':
+        user = request.user
+        form_data = request.POST.copy()
+        form_data['idUser'] = user.id
+
+        contratacion_form = ContratacionForm(form_data, request.FILES)
+        
+        if contratacion_form.is_valid(): 
+            contratacion_form.instance.idUser = user
+            contratacion_form.save()
+
+            return HttpResponse("La información se ha enviado correctamente")
+        else:
+            logger = logging.getLogger('principal')
+            logger.error("Error en el formulario.")
+    else:
+        contratacion_form = ContratacionForm
+        
+    return render(
+        request,
+        "prueba.html",
+        {'contratacion_form': contratacion_form,      
+         })
+
+def Paginador(request):
+    form = formularioForm.objects.all()
+    
+    context = {
+        'form':form 
+        }
+    return render(request, 'prueba.html', context)
+
+
+
+
+
+
+
+
 
 
 

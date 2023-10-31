@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios, formulario, datos, certificados, prueba
+from principal.views import inicio, usuarios, formularioII, datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion, ActualizarDataColaboradores
 from principal import views
 from . import views
 
@@ -26,13 +26,24 @@ urlpatterns = [
     #path('', login, name="login"),
     path('inicio/', inicio, name="inicio"),
     path('usuarios/', usuarios, name="usuarios"),
-    path('formulario/', formulario, name="formulario"),
+    path('formularioII/', formularioII, name="formularioII"),
     path('datos/', datos, name="datos"),
     path('certificados/', certificados, name="certificados"),
     path('prueba/', prueba, name="prueba"),
+    path('datos/DataColaboradores/', DataColaboradores, name="DataColaboradores"),
+    path('PowerBi/', PowerBi, name="PowerBi"),
+    path('bd_colaboradores/<idUser_id>', bd_colaboradores),
+    path('Contratacion/<idUser_id>', Contratacion),
+    path('bd_colaboradores/ActualizarDataColaboradores/<int:idUser_id>/', ActualizarDataColaboradores, name='actualizardatos'),
 
-    
-    
+
+
+
+
+
+
+
+
     path('', views.signin, name='signin'),
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),
@@ -42,6 +53,8 @@ urlpatterns = [
     path('edicionUsuario/<id>', views.edicionUsuario),
     path('eliminarUsuario/<id>', views.eliminarUsuario),
     path('editarUsuario/', views.editarUsuario)
+    
+    
     
     #path('', views.home)
 ]

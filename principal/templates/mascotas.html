@@ -1,0 +1,119 @@
+<div class="col-lg-10 offset-lg-1 px-8 py-3">
+    <div class="text-center mt-5">
+        <h2>MASCOTAS</h2>
+        <h4 id="mascota-title">Digite la informacion sobre sus mascotas</h4>
+    </div>
+</div>
+
+{% csrf_token %}
+{{ mascota_formset.management_form }}
+<div class="container mascota">
+    <div class="form-group mascota">
+        <div id="mascota-container">
+            {% for Form_Mas in formulario_Mascotas %}
+            <div class="mascota-form">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ Form_Mas.instance.Tipo_Mascota.id_for_label }}" class="text-left">
+                                        <h6>Seleccione el tipo o raza de su
+                                            mascota</h6>
+                                    </label>
+                                    <hr>
+                                    {{ Form_Mas.Tipo_Mascota }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="{{ Form_Mas.instance.Nombre_Mascota.id_for_label }}"
+                                        class="text-left">Nombre de su mascota <h6>En
+                                            caso de
+                                            que no tenga mascotas digite "Ninguno"</h6></label>
+                                    <hr>
+                                    {{ Form_Mas.Nombre_Mascota }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <div>
+        <button type="button" id="add-mascota" class="btn btn-success">Añadir Otra Mascota</button>
+        <button type="button" id="remove-mascota" style="display: none;" class="btn btn-danger">Quitar
+            Mascota</button>
+    </div>
+    <br>
+</div>
+<hr>
+
+<script>
+    $(document).ready(function () {
+        var addButton = $("#add-mascota");
+        var removeButton = $("#remove-mascota");
+        var totalForms = $("#id_mascota-TOTAL_FORMS");
+
+        addButton.on("click", function () {
+            // Clonar el último formulario y su título
+            var clonedForm = $(".mascota-form:last").clone();
+            var clonedTitle = $("#mascota-title").clone();
+
+            // Encontrar el último número y sumar 1
+            var num = parseInt(clonedForm.find('[name^="mascota-"]').attr('name').match(/\d+/)[0]) + 1;
+
+            // Actualizar los campos clonados con el nuevo número
+            clonedForm.find('[name^="mascota-"]').each(function () {
+                var name = $(this).attr('name').replace(/\d+/, num);
+                $(this).attr('name', name);
+            });
+
+            clonedForm.find('[id^="id_mascota-"]').each(function () {
+                var id = $(this).attr('id').replace(/\d+/, num);
+                $(this).attr('id', id);
+            });
+
+            // Limpiar los valores de los campos clonados
+            clonedForm.find('input, select').val('');
+
+            // Agregar el formulario clonado y su título al final
+            clonedTitle.appendTo("#mascota-container");
+            clonedForm.appendTo("#mascota-container");
+
+            // Incrementar el valor de TOTAL_FORMS
+            totalForms.val(num + 1);
+
+            // Mostrar el botón "Quitar Familiar" si hay más de un formulario
+            if ($(".mascota-form").length > 1) {
+                removeButton.show();
+            }
+        });
+
+        removeButton.on("click", function () {
+            var numForms = $(".mascota-form").length;
+
+            if (numForms > 1) {
+                // Eliminar el último formulario clonado y su título
+                $(".mascota-form:last").remove();
+                $("#mascota-container h4:last").remove();
+
+                // Decrementar el valor de TOTAL_FORMS
+                totalForms.val(numForms - 1);
+            }
+
+            // Ocultar el botón "Quitar Familiar" si hay un solo formulario
+            if (numForms === 1) {
+                removeButton.hide();
+            }
+        });
+    });
+</script>
