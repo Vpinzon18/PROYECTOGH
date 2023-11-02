@@ -1,55 +1,83 @@
 {% load static %}
 
-<div class="row">
-  <div class="col-lg-10 offset-lg-1 px-8 py-3">
-    <div class="text-center ">
-      <div class="container-fluid">
-        <h1 class='justify-content-center'> GESTION DE COLABORADORES </h1>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(3, 53, 111);">
+  <!-- Container wrapper -->
+  <div class=" container-fluid">
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarCenteredExample"
+      aria-controls="navbarCenteredExample" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav">
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse justify-content-center" id="navbarCenteredExample">
+      <!-- Left links -->
+      <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a type="button" class="btn btn-success" href="/inicio">INICIO</a>
+          <a class="nav-link" href="/inicio">INICIO</a>
         </li>
         <li class="nav-item">
-          <a type="button" class="btn btn-success" href="/usuarios">USUARIOS</a>
+          <a class="nav-link" href="/usuarios">USUARIOS</a>
         </li>
         <li class="nav-item">
-          <a type="button" class="btn btn-success" href="/prueba">FORMULARIOS</a>
+          <a class="nav-link" href="/prueba">FORMULARIOS</a>
         </li>
-        <div class="btn-group">
-          <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             DATA COLABORADORES
-          </button>
-          <ul class="dropdown-menu">
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="/PowerBi">Power Bi Consultas</a></li>
             <li><a class="dropdown-item" href="/datos">Colaboradores BD</a></li>
             <li><a class="dropdown-item" href="DataColaboradores">Datos GH</a></li>
           </ul>
-        </div>
-        <li class="nav-item">
-          <a type="button" class="btn btn-success" href="/certificados">CERTIFICADOS</a>
+        <li class="nav-item ml-auto mr-0">
+          <a type="button" class="btn btn-outline-danger btn-cerrarsesion" class="nav-link" href="/signout">CERRAR
+            SESION</a>
         </li>
-        <li class="nav-item">
-          <a type="button" class="btn btn-danger" href="/signout">CERRAR SESION</a>
+
+        <!-- animacion cerrar sesion -->
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const eliminarBotones = document.querySelectorAll(".btn-cerrarsesion");
+
+            eliminarBotones.forEach((boton) => {
+              boton.addEventListener("click", function (event) {
+                event.preventDefault(); // Evita la acción por defecto del enlace
+
+                Swal.fire({
+                  title: "¿Estás seguro de Cerrar Sesion?",
+                  text: "Seleciona una opcion",
+                  icon: "info",
+                  showCancelButton: true,
+                  confirmButtonText: "Sip, Deseo salir ya",
+                  cancelButtonText: "Nop, aun no",
+                  reverseButtons: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
+                    window.location.href = boton.href;
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire("Disfruta tu estadia ^^", "cancelaste el cerrado de sesion", "success");
+                  }
+                });
+              });
+            });
+          });
+        </script>
+
+
         </li>
       </ul>
+      <!-- Left links -->
     </div>
-
-
-
+    <!-- Collapsible wrapper -->
   </div>
+  <!-- Container wrapper -->
 </nav>

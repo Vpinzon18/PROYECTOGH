@@ -152,6 +152,7 @@ def bd_colaboradores(request, idUser_id):
     
     return render(request, 'bd_colaboradores.html',
                   {'form': form,
+                   'idUser_id': idUser_id,
                    'form_a':form_a ,
                     'formularios_familiares':formularios_familiares,
                     'formulario_discapacidad':formulario_discapacidad,
@@ -171,26 +172,72 @@ def bd_colaboradores(request, idUser_id):
                     'molestiasseismeses_form': molestiasseismeses_form,
                     'molestiasvoz_form': molestiasvoz_form,
                     'sintomasaudicion_form':sintomasaudicion_form
+                
                    })
 
 
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from .forms import FormularioForm  # Asegúrate de importar tu formulario aquí
 
-def ActualizarDataColaboradores(request, idUser_id):
-    user = request.user
-    form_data = get_object_or_404(formularioForm, idUser_id=idUser_id)
+from django.contrib import messages  # Importa el módulo de mensajes
+
+def ActualizacionDatosColaboradores(request, idUser_id):
+    # Asegúrate de que el usuario esté autenticado
+    if not request.user.is_authenticated:
+        return redirect('/')  # Redirige al inicio de sesión si el usuario no está autenticado
+
+    try:
+        form1 = formularioForm.objects.get(idUser_id=idUser_id)
+    except formularioForm.DoesNotExist:
+        # Manejo de errores si no se encuentra el formulario
+        print("El formulario no existe.")
+        messages.error(request, "El formulario no existe.")  # Agrega un mensaje de error
+        return HttpResponse("El formulario no existe.")
+
+    try:
+        form_aseguramiento = aseguramientoForm.objects.get(idUser_id=idUser_id)
+    except aseguramientoForm.DoesNotExist:
+        form_aseguramiento = None
 
     if request.method == 'POST':
-        form_data = FormularioForm(request.POST, request.FILES, instance=form_data)
+        form = FormularioForm(request.POST, instance=form1)
+        form_a = AseguramientoForm(request.POST, instance=form_aseguramiento)
 
-        if form_data.is_valid():
-            form_data.save()
-            print("AAAA MLP PROYECTO",ActualizarDataColaboradores )  # Este es el print de depuración
+        if form.is_valid() and form_a.is_valid():
+            form.save()
+            form_a.save()
+            print("Los formularios se han actualizado con éxito.")
+            return redirect('datos')  # Redirige a la lista de formularios u otra vista que desees
+        else:
+            print("Error en los formularios. Revise los campos.")
+            messages.error(request, "Error en los formularios. Revise los campos.")
+    else:
+        form = FormularioForm(instance=form1)
+        form_a = AseguramientoForm(instance=form_aseguramiento)
 
-    return render(request, "datos.html", {'form': form_data})
+    return render(request, 'bd_colaboradores.html', {'form': form, 'form_a': form_a, 'idUser_id': idUser_id})
 
+
+
+
+
+
+
+
+
+        
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 def PowerBi(request):
     context={}
@@ -220,23 +267,33 @@ def signup(request):
 def home(request): 
     return render(request, 'usuarios.html')
   
+
+
 def signin(request):
     if request.user.is_authenticated:
         return render(request, 'home.html')
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect('inicio') #profile
+            msg2 = '¡Bienvenido! Has iniciado sesión con éxito.'
+            messages.success(request,msg2 )  # Agrega el mensaje de bienvenida
+            return redirect('inicio')  # Reemplaza 'inicio' con la URL correcta
         else:
             msg = 'Usuario o Contraseña Incorrecta'
             form = AuthenticationForm(request.POST)
-            return render(request, 'login.html', {'form': form, 'msg': msg})
+            messages.error(request, msg)  # Agrega el mensaje de error
+            return render(request, 'login.html', {'form': form})
+    
     else:
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
+
+
   
 def profile(request): 
     return render(request, 'profile.html')
@@ -257,7 +314,7 @@ def registrarUsuario(request):
     return redirect('usuarios')
 
 def eliminarUsuario(request, id):
-    usuario = User.objects.get(id=id)
+    usuario = User.objects.get(id=id) 
     usuario.delete()    
     return redirect('usuarios')
 
@@ -271,13 +328,14 @@ def editarUsuario(request):
     Apellido = request.POST['txtApellido']
     Email = request.POST['txtEmail']
     Username = request.POST['txtUsername']
-    
+    Password = request.POST['txtPassword']
     
     usuario = User.objects.get(id=id)
     usuario.first_name = Nombre
     usuario.last_name = Apellido
     usuario.email = Email
     usuario.username = Username
+    usuario.set_password(Password)  # Cambia la contraseña de forma segura
     usuario.save()
     
     return redirect('usuarios')

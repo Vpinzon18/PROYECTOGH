@@ -44,13 +44,36 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        <input type="text" id="txtPassword" name="txtPassword" value="{{usuario.password}}"
+                            class="form-control" placeholder="Password" maxlength="50" required>
                     </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-block text-white"><a
+                                        href="/usuarios">Cancelar</a></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
                 </form>
             </div>
         </div>
     </div>
 
 </div>
+
+
+
+
 
 {% endblock %}

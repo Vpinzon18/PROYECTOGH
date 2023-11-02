@@ -5,12 +5,12 @@ from django.forms import modelformset_factory
 class FormularioForm(forms.ModelForm):
     class Meta:
         model = formularioForm
-        fields = ['Tipo_Documento','Documento','Numero_Contacto','tipo_sangre','Cargo_Actual','Numero_Emergencia','Fecha_Nacimiento', 'Departamento_Nacimiento','Ciudad_Nacimiento','Ciudad_Residencia','Direccion_Residencia','Sexo','Estado_Civil','Etnia','Talla_Camisa','Vegetariano','file','Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS','Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral','Pensionado','Discapacidad_Familiar','Tipo_Vivienda','Estrato_Vivienda','Tiempo_Desplazamiento','Tiempo_Vinculacion_Laboral','Tiempo_Cargo_Laboral','Nivel_Educativo_Mas_Alto','Ultimo_Nivel_Educativo','Tipo_Contrato_Form','Horario_laboral','Horas_Laborales','Promedio_Ingresos','Frecuencia_Actividad_Fisica','Patologia_Mental','Pareja_Embarazo','PesoKg', 'AlturaCm','PesoKg', 'Actualemte_Fuma','Promedio_Cigarrillos','Consumo_Bebidas','Frecuencia_Deporte','Actualimente_Utiliza_Voz','Horas_Utilizacion_Voz','Utiliza_Manos_Libres','Horas_Utilizacion_Manos_Libre','idUser']
+        fields = ['Tipo_Documento','Documento','Numero_Contacto','tipo_sangre','Cargo_Actual','Numero_Emergencia','Fecha_Nacimiento', 'Departamento_Nacimiento','Ciudad_Nacimiento','Ciudad_Residencia','Direccion_Residencia','Sexo','Estado_Civil','Etnia','Talla_Camisa','Vegetariano','file','Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS','Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral','Pensionado','Discapacidad_Familiar','Tipo_Vivienda','Estrato_Vivienda','Tiempo_Desplazamiento','Tiempo_Vinculacion_Laboral','Tiempo_Cargo_Laboral','Nivel_Educativo_Mas_Alto','Ultimo_Nivel_Educativo','Tipo_Contrato_Form','Horario_laboral','Horas_Laborales','Promedio_Ingresos','Frecuencia_Actividad_Fisica','Patologia_Mental','Pareja_Embarazo','PesoKg', 'AlturaCm', 'Actualemte_Fuma','Promedio_Cigarrillos','Consumo_Bebidas','Frecuencia_Deporte','Actualimente_Utiliza_Voz','Horas_Utilizacion_Voz','Utiliza_Manos_Libres','Horas_Utilizacion_Manos_Libre','idUser']
         widgets = {
             'idUser': forms.HiddenInput(attrs={'class': 'text-left'}),# Campo oculto
-            'Fecha_Nacimiento': forms.DateInput(attrs={'type': 'date'}),
-             
+            'Fecha_Nacimiento': forms.DateInput(format='%d/%m/%Y'),
         }
+        input_formats = ['%d/%m/%Y']
  
     def __init__(self, *args, **kwargs):
             super(FormularioForm, self).__init__(*args, **kwargs)

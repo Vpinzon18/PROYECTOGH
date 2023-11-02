@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios, formularioII, datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion, ActualizarDataColaboradores
+from principal.views import inicio, usuarios, formularioII, datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores
 from principal import views
 from . import views
 
@@ -32,18 +32,23 @@ urlpatterns = [
     path('prueba/', prueba, name="prueba"),
     path('datos/DataColaboradores/', DataColaboradores, name="DataColaboradores"),
     path('PowerBi/', PowerBi, name="PowerBi"),
-    path('bd_colaboradores/<idUser_id>', bd_colaboradores),
+    path('bd_colaboradores/<int:idUser_id>/', bd_colaboradores, name='bd_colaboradores'),
+    path('ActualizacionDatosColaboradores/<int:idUser_id>/', ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
     path('Contratacion/<idUser_id>', Contratacion),
-    path('bd_colaboradores/ActualizarDataColaboradores/<int:idUser_id>/', ActualizarDataColaboradores, name='actualizardatos'),
-
-
-
-
-
-
-
-
-
     path('', views.signin, name='signin'),
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),

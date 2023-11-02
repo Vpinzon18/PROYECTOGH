@@ -1,29 +1,101 @@
-{% extends 'base.html' %} {% block title %}Login{% endblock %} 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 offset-lg-1 px-8 py-3">
-      <div class="text-center mt-5">
-        <div class="card">
-          <h2>Login</h2>
-          <form method="post">
-            {% csrf_token %} 
-            <div class="form-group">
-              <label for="{{ form.username.label }}" class="text-left">Digite su usuario </label>
-              {{ form.username }}
+{% load static %}
+
+<style>
+  body,
+  html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .vh-100 {
+    height: 100%;
+    background-image: url('https://www.frontconsulting.com/wp-content/uploads/2016/11/fondo_formulario3.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
+<section class="vh-100"
+  style="background-image: url('https://www.frontconsulting.com/wp-content/uploads/2016/11/fondo_formulario3.jpg');">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img
+                src="https://media.licdn.com/dms/image/C4E03AQGTuFfKFpJyfA/profile-displayphoto-shrink_800_800/0/1651786933923?e=2147483647&v=beta&t=SHAIw9TdY_hHzGN2c-VB_9OCP8Z3-sFHXmf4kDdtVb8"
+                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
             </div>
-            <br>
-            <div class="form-group">
-              <label for="{{ form.password.label }}" class="text-left">Digite su contraseña </label>
-              {{ form.password }}
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
+                <form method="post">
+                  {% csrf_token %}
+
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;"><strong>Logueate !! :D</strong></h5>
+
+                  <div class="form-outline mb-4">
+                    <input id="form2Example17" class="form-control form-control-lg" {{ form.username }} <label
+                      for="{{ form.username.label }}" class="text-left"><strong>Digita tu Usuario </strong> </label>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="password" class="form-control form-control-lg" {{form.password}} <label
+                      for="{{ form.password.label }}" class="text-left"><strong>Digita tu Contraseña </strong></label>
+                  </div>
+
+                  <button class="btn btn-outline-info btn-block BTN-INGRESAR">INGRESAR</button>
+
+
+                  <!-- Incluye SweetAlert2 si aún no lo has hecho -->
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                  <!-- Agrega este script en tu plantilla para mostrar la alerta -->
+                  {% if messages %}
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      {% for message in messages %}
+                      {% if message.tags == 'success' %}
+                      Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Bienvenido',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                      {% elif message.tags == 'error' %}
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Usuario o Contraseña Incorrecta',
+                        text: "{{ message }}",
+                      });
+                      {% endif %}
+                      {% endfor %}
+                    });
+                  </script>
+                {% endif %}
+                
+
+                </form>
+
+
+
+
+              </div>
             </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
-          <p style="color: red">{{ msg }}</p>
-          {% endblock %}
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+
+
+{% endblock content %}ñ

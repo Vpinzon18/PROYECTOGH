@@ -61,224 +61,218 @@
 				<p>Digite todos sus datos personales actualizados correspondientes</p>
 			</div>
 		</div>
-		<br>
+
 		{% csrf_token %}
-		<div class="container"> <!-- Un contenedor principal para centrar el contenido en la página -->
-			<div class="row align-items-start">
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Tipo_Documento.id_for_label }}" class="text-left">Tipo de
-									Identificación:</label>
-								<hr>
-								{{ form.Tipo_Documento }}
+		<div class="container">
+			<div class="container">
+				<div class="row align-items-start">
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Tipo_Documento.id_for_label }}" class="text-left">Seleccione su
+										Tipo de
+										Identificación:</label>
+									<hr>
+									{{ form.Tipo_Documento }}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Documento.id_for_label }}" class="text-left">Documento de
-									Identificación:</label>
-								<hr>
-								{{ form.Documento }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.tipo_sangre.id_for_label }}" class="text-left">Seleccione su tipo de
-									sangre:</label>
-								<hr>
-								{{ form.tipo_sangre }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<br>
 
-		<div class="container">
-			<div class="row align-items-start">
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Cargo_Actual.id_for_label }}" class="text-left">Seleccione su cargo
-									actual:</label>
-								<hr>
-								{{ form.Cargo_Actual }}
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Documento.id_for_label }}" class="text-left">Documento de
+										Identificación:</label>
+									<hr>
+									{{ form.Documento }}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Numero_Contacto.id_for_label }}" class="text-left">Digite su numero
-									de contacto:</label>
-								<hr>
-								{{ form.Numero_Contacto }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Numero_Emergencia.id_for_label }}" class="text-left">Digite su
-									numero de Emergencia:</label>
-								<hr>
-								{{ form.Numero_Emergencia }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Otros campos del formulario aquí -->
-		</div>
-		<br>
-		<div class="container"> <!-- Un contenedor principal para centrar el contenido en la página -->
-			<div class="row align-items-start">
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Fecha_Nacimiento.id_for_label }}" class="text-left">Seleccione su
-									Fecha de nacimiento:</label>
-								<hr>
-								{{ form.Fecha_Nacimiento }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Departamento_Nacimiento.id_for_label }}" class="text-left">Digite su
-									departamento de nacimiento :</label>
-								<hr>
-								{{ form.Departamento_Nacimiento }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Ciudad_Nacimiento.id_for_label }}" class="text-left">Digite su
-									Ciudad de nacimiento </label>
-								<hr>
-								{{ form.Ciudad_Nacimiento }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<br>
 
-		<div class="container">
-			<div class="row align-items-start">
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Sexo.id_for_label }}" class="text-left">Seleccione su sexo:</label>
-								<hr>
-								{{ form.Sexo }}
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.tipo_sangre.id_for_label }}" class="text-left">Seleccione su
+										tipo de sangre:</label>
+									<hr>
+									{{ form.tipo_sangre }}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Estado_Civil.id_for_label }}" class="text-left">Seleccione su estado
-									civil:</label>
-								<hr>
-								{{ form.Estado_Civil }}
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Cargo_Actual.id_for_label }}" class="text-left">Seleccione su
+										cargo actual:</label>
+									<hr>
+									{{ form.Cargo_Actual }}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Etnia.id_for_label }}" class="text-left">Seleccione alguna
-									Etnia:</label>
-								<hr>
-								{{ form.Etnia }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="container">
-			<div class="row align-items-start">
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Ciudad_Residencia.id_for_label }}" class="text-left">Digite su
-									ciudad de residencia:</label>
-								<hr>
-								{{ form.Ciudad_Residencia }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Direccion_Residencia.id_for_label }}" class="text-left">Digite su
-									dirección de residencia:</label>
-								<hr>
-								{{ form.Direccion_Residencia }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="col">
-					<div class="card">
-						<div class="card-body">
-							<div class="form-group">
-								<label for="{{ form.Talla_Camisa.id_for_label }}" class="text-left">Seleccione una talla
-									de camibuzo:</label>
-								<hr>
-								{{ form.Talla_Camisa }}
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Numero_Contacto.id_for_label }}" class="text-left">Digite su
+										número de contacto:</label>
+									<hr>
+									{{ form.Numero_Contacto }}
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- Otros campos del formulario aquí -->
+			<br>
+
+			<div class="container">
+				<div class="row align-items-start">
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Numero_Emergencia.id_for_label }}" class="text-left">Digite su
+										número de Emergencia:</label>
+									<hr>
+									{{ form.Numero_Emergencia }}
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Fecha_Nacimiento.id_for_label }}" class="text-left">Seleccione
+										su Fecha de nacimiento:</label>
+									<hr>
+									{{ form.Fecha_Nacimiento }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Departamento_Nacimiento.id_for_label }}"
+										class="text-left">Digite su departamento de nacimiento:</label>
+									<hr>
+									{{ form.Departamento_Nacimiento }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Ciudad_Nacimiento.id_for_label }}" class="text-left">Digite su
+										Ciudad de nacimiento:</label>
+									<hr>
+									{{ form.Ciudad_Nacimiento }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Sexo.id_for_label }}" class="text-left">Seleccione su
+										sexo:</label>
+									<hr>
+									{{ form.Sexo }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+
+			<div class="container">
+				<div class="row align-items-start">
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Estado_Civil.id_for_label }}" class="text-left">Seleccione su
+										estado civil actual:</label>
+									<hr>
+									{{ form.Estado_Civil }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Etnia.id_for_label }}" class="text-left">Seleccione su tipo de
+										Etnia:</label>
+									<hr>
+									{{ form.Etnia }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Ciudad_Residencia.id_for_label }}" class="text-left">Digite su
+										ciudad de residencia:</label>
+									<hr>
+									{{ form.Ciudad_Residencia }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Direccion_Residencia.id_for_label }}" class="text-left">Digite
+										su dirección de residencia:</label>
+									<hr>
+									{{ form.Direccion_Residencia }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="{{ form.Talla_Camisa.id_for_label }}" class="text-left">Seleccione una
+										talla de camibuzo:</label>
+									<hr>
+									{{ form.Talla_Camisa }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<br>
 		<div class="container">
@@ -3189,8 +3183,9 @@
 					</div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary float-left">Save</button>
+			<button type="submit" class="btn btn-primary float-left btn-form">Save</button>
 		</div>
+
 
 		{% endblock contenido %}
 	</form>
