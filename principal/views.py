@@ -8,7 +8,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm, AseguramientoForm , FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
+from principal.forms import FormularioForm, AseguramientoForm , HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.views.generic.edit import FormView
@@ -27,7 +27,7 @@ def usuarios(request):
 
 def formularioII(request):
     context={}
-    return render(request, 'Formulariopag2.html', context) 
+    return render(request, 'formulario.html', context) 
 
 def datos(request):
     # Obtener todos los usuarios en la base de datos
@@ -197,25 +197,55 @@ def ActualizacionDatosColaboradores(request, idUser_id):
     except aseguramientoForm.DoesNotExist:
         form_aseguramiento = None
 
+    try:
+        form_d = familiardiscapacidadForm.objects.get(idUser_id=idUser_id)
+    except familiardiscapacidadForm.DoesNotExist:
+        form_d = None
+
+    print("Datos del formulario de discapacidad:", form_d)  # Agrega este print
+
     if request.method == 'POST':
         form = FormularioForm(request.POST, instance=form1)
         form_a = AseguramientoForm(request.POST, instance=form_aseguramiento)
+        form_d = FamiliarDiscapacidadForm(request.POST, instance=form_d)
 
-        if form.is_valid() and form_a.is_valid():
+        # Agrega la lógica de actualización de los formularios familiares
+        form_f = familiarForm.objects.filter(idUser_id=idUser_id)
+        formularios_familiares = [FamiliarForm(request.POST, instance=form) for form in form_f]
+
+        if form.is_valid() and form_a.is_valid() and form_d.is_valid() and all([f.is_valid() for f in formularios_familiares]):
             form.save()
             form_a.save()
+            form_d.save()
+            for f, form_familiar in zip(form_f, formularios_familiares):
+                form_familiar.save()
             print("Los formularios se han actualizado con éxito.")
             return redirect('datos')  # Redirige a la lista de formularios u otra vista que desees
         else:
             print("Error en los formularios. Revise los campos.")
-            messages.error(request, "Error en los formularios. Revise los campos.")
+            messages.error(request, "Error en los formularios. Revise los campos: {}".format(form.errors.as_text() + form_a.errors.as_text() + form_d.errors.as_text()))
+            # Agrega errores de formularios familiares a los mensajes
+            for f in formularios_familiares:
+                messages.error(request, f"Error en formulario familiar: {f.errors.as_text()}")
     else:
         form = FormularioForm(instance=form1)
         form_a = AseguramientoForm(instance=form_aseguramiento)
+        form_discapacidad = FamiliarDiscapacidadForm(instance=form_d)
 
-    return render(request, 'bd_colaboradores.html', {'form': form, 'form_a': form_a, 'idUser_id': idUser_id})
+        # Obtén los formularios familiares para mostrar en la plantilla
+        form_f = familiarForm.objects.filter(idUser_id=idUser_id)
+        formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
 
+    # Aquí creas un contexto con los datos de los formularios para pasar a la plantilla
+    context = {
+        'form': form,
+        'form_a': form_a,
+        'form_d': form_d,
+        'formularios_familiares': formularios_familiares,
+        'idUser_id': idUser_id,
+    }
 
+    return render(request, 'bd_colaboradores.html', context)
 
 
 
@@ -248,24 +278,30 @@ def certificados(request):
     return render(request, 'certificados.html', context)
 
 def signup(request):
-  
     if request.method == 'POST':
+        # Crea un formulario con los campos adicionales
         form = UserCreationForm(request.POST)
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+
+        # Valida y guarda el formulario
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.save()
+
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            
+            login(request, user)
             return redirect('/usuarios')
-        else:
-            return render(request, 'signup.html', {'form': form})
     else:
         form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
-   
-def home(request): 
-    return render(request, 'usuarios.html')
+
+    return render(request, 'signup.html', {'form': form})
   
 
 
@@ -343,6 +379,7 @@ def editarUsuario(request):
 def prueba(request):
     FamiliarFormSet = formset_factory(FamiliarForm, extra=1)
     MascotasFormSet = formset_factory(MascotasForm, extra=1)
+    EducacionFormSet = formset_factory(HistorialEducativoForm, extra=1)
 
     if request.method == 'POST':
         user = request.user
@@ -352,6 +389,7 @@ def prueba(request):
         form = FormularioForm(form_data, request.FILES)
         familiar_formset = FamiliarFormSet(request.POST, prefix='familiar')
         mascota_formset = MascotasFormSet(request.POST, prefix='mascota')
+        Educacion_FormSet = EducacionFormSet(request.POST, prefix='Educacion')
         aseguramiento_form = AseguramientoForm(request.POST)
         familiarDiscapacidad_form = FamiliarDiscapacidadForm(request.POST)
         situacionesafectable_form = SituacionesAfectableForm(request.POST)
@@ -370,13 +408,17 @@ def prueba(request):
         molestiasvoz_form = MolestiasVozForm(request.POST)
         sintomasaudicion_form = SintomasAudicionForm(request.POST)
 
-        if form.is_valid() and familiar_formset.is_valid() and aseguramiento_form.is_valid() and familiarDiscapacidad_form.is_valid() and situacionesafectable_form.is_valid() and mascota_formset.is_valid and transporte_form.is_valid() and recursos_form.is_valid() and appaprendizaje_form.is_valid() and ofrecimientos_form.is_valid() and desarrollopersonal_form.is_valid() and reconocimientoempresarial_form.is_valid and actividadesculturales_form.is_valid() and  actividadessalud_form.is_valid()  and  tiempolibre_form.is_valid() and enfermedades_form.is_valid() and deportes_form.is_valid() and molestiasseismeses_form.is_valid() and molestiasvoz_form.is_valid():
+        if form.is_valid() and familiar_formset.is_valid() and Educacion_FormSet.is_valid() and aseguramiento_form.is_valid() and familiarDiscapacidad_form.is_valid() and situacionesafectable_form.is_valid() and mascota_formset.is_valid and transporte_form.is_valid() and recursos_form.is_valid() and appaprendizaje_form.is_valid() and ofrecimientos_form.is_valid() and desarrollopersonal_form.is_valid() and reconocimientoempresarial_form.is_valid and actividadesculturales_form.is_valid() and  actividadessalud_form.is_valid()  and  tiempolibre_form.is_valid() and enfermedades_form.is_valid() and deportes_form.is_valid() and molestiasseismeses_form.is_valid() and molestiasvoz_form.is_valid():
             form.instance.idUser = user
             form.save()
 
             for familiar_form in familiar_formset:
                 familiar_form.instance.idUser = user
                 familiar_form.save()
+                
+            for Educacion_Form in Educacion_FormSet:
+                Educacion_Form.instance.idUser = user
+                Educacion_Form.save()
                 
             for mascota_form in mascota_formset:
                 mascota_form.instance.idUser = user
@@ -462,6 +504,9 @@ def prueba(request):
             for mascota_form in mascota_formset:
                 for error in mascota_form.errors:
                     logger.error(f"MascotasForm: {error}: {mascota_form.errors[error]}")        
+            for Educacion_Form in Educacion_FormSet:
+                for error in Educacion_Form.errors:
+                    logger.error(f"Educacion_Form: {error}: {Educacion_Form.errors[error]}")          
             for error in aseguramiento_form.errors:
                 logger.error(f"AseguramientoForm: {error}: {aseguramiento_form.errors[error]}")
             for error in familiarDiscapacidad_form.errors:
@@ -500,6 +545,7 @@ def prueba(request):
         form = FormularioForm()
         familiar_formset = FamiliarFormSet(prefix='familiar')
         mascota_formset = MascotasFormSet(prefix='mascota')
+        Educacion_FormSet = EducacionFormSet( prefix='Educacion')
         aseguramiento_form = AseguramientoForm()
         familiarDiscapacidad_form = FamiliarDiscapacidadForm()
         situacionesafectable_form = SituacionesAfectableForm()
@@ -540,7 +586,8 @@ def prueba(request):
          'deportes_form':deportes_form,
          'molestiasseismeses_form': molestiasseismeses_form,
          'molestiasvoz_form':molestiasvoz_form,
-         'sintomasaudicion_form': sintomasaudicion_form       
+         'sintomasaudicion_form': sintomasaudicion_form,
+         'Educacion_FormSet':Educacion_FormSet    
          })
     
 def Contratacion(request): 

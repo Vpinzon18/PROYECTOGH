@@ -253,20 +253,8 @@ class formularioForm(models.Model):
             ('mas de 20 años', 'mas de 20 años'),
         ]
     )
-    Nivel_Educativo_Mas_Alto = models.CharField(
-        max_length=22,choices=[
-            ('Bachiller','Bachiller'),
-            ('Tecnico', 'Tecnico'),
-            ('Tecnologo', 'Tecnologo'),
-            ('Profesional/Licenciado', 'Profesional/Licenciado'),
-            ('Especialista', 'Especialista'),
-            ('Magister', 'Magister'),
-            ('Doctorado', 'Doctorado'),
-            ('Posdoctorado', 'Posdoctorado'),
-            ('Ninguno', 'Ninguno'),
-        ]
-    )
-    Ultimo_Nivel_Educativo = models.CharField(max_length=250)
+    
+    
     Tipo_Contrato_Form = models.CharField(
         max_length=23,choices=[
             ('Termino Fijo','Termino Fijo'),
@@ -439,7 +427,7 @@ class familiarForm(models.Model):
     ])
     Nombres_Familiar = models.CharField(max_length=20)
     Apellidos_Familiar = models.CharField(max_length=20)
-    Fecha_Nacimiento_Familiar = models.DateField(default=timezone.now)
+    Fecha_Nacimiento_Familiar = models.DateField()
     Convivencia_Hijo = models.CharField(
         max_length=14,choices=[
             ('Si','Si'),
@@ -466,12 +454,7 @@ class familiarForm(models.Model):
             ('No', 'No'),
         ]
     )
-    Dependiente_Economico = models.CharField(
-        max_length=2,choices=[
-            ('Si','Si'),
-            ('No', 'No'),
-        ]
-    )
+    
    
     
     
@@ -484,28 +467,18 @@ class familiardiscapacidadForm(models.Model):
     id_familiardiscapacidadForm = models.AutoField(primary_key=True)
     padre = models.BooleanField(default=False)
     madre = models.BooleanField(default=False)
-    hijo = models.BooleanField(default=False)
-    hija = models.BooleanField(default=False)
-    abuelo = models.BooleanField(default=False)
-    abuela = models.BooleanField(default=False)
-    nieto = models.BooleanField(default=False)
-    nieta = models.BooleanField(default=False)
-    hermano = models.BooleanField(default=False)
-    hermana = models.BooleanField(default=False)
-    tio = models.BooleanField(default=False)
-    tia = models.BooleanField(default=False)
-    primo = models.BooleanField(default=False)
-    prima = models.BooleanField(default=False)
-    sobrino = models.BooleanField(default=False)
-    sobrina = models.BooleanField(default=False)
-    cuñado = models.BooleanField(default=False)
-    cuñada = models.BooleanField(default=False)
-    suegro = models.BooleanField(default=False)
-    suegra = models.BooleanField(default=False)
+    hijo_a = models.BooleanField(default=False)
+    abuelo_a = models.BooleanField(default=False)
+    nieto_a = models.BooleanField(default=False)
+    hermano_a = models.BooleanField(default=False)
+    tio_a = models.BooleanField(default=False)
+    primo_a = models.BooleanField(default=False)
+    sobrino_a = models.BooleanField(default=False)
+    cuñado_a = models.BooleanField(default=False)
+    suegro_a = models.BooleanField(default=False)
     yerno = models.BooleanField(default=False)
     nuera = models.BooleanField(default=False)
-    esposo = models.BooleanField(default=False)
-    esposa = models.BooleanField(default=False)
+    esposo_a = models.BooleanField(default=False)
     Ninguno = models.BooleanField(default=False)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -923,4 +896,28 @@ class contratacionForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Formulario_Contratacion'
-    
+class historialeducativoFormn(models.Model):
+    id_estudio = models.AutoField(primary_key=True)
+    tipo_titulo = models.CharField(
+        max_length=30,choices=[
+            
+            (' Estiudiante', 'Estiudiante'),
+            (' Primaria', 'Primaria'),
+            (' Bachiller', 'Bachiller'),
+            (' Tecnico', 'Tecnico'),
+            (' Tecnólogo', 'Tecnólogo'),
+            (' Licenciado', 'Licenciado'),
+            (' Profesional: ', 'Profesional'),
+            (' Especialista', 'Especialista'),
+            (' Magister', 'Magister'),
+            (' Maestria', 'Maestria'),
+            (' Doctorado', 'Doctorado'),
+            (' NR', 'NR'),
+        ]
+    )
+    Descripcion_titulo = models.CharField(max_length=200)
+    Instituto_titulo = models.CharField(max_length=200)
+    Fecha_obtencion_titulo = models.DateField()
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta: 
+        db_table = 'Formulario_Historial_educativo'

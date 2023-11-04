@@ -1,14 +1,14 @@
 from django import forms  
-from principal.models import formularioForm, aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
+from principal.models import formularioForm, historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
 from django.forms import modelformset_factory
      
 class FormularioForm(forms.ModelForm):
     class Meta:
         model = formularioForm
-        fields = ['Tipo_Documento','Documento','Numero_Contacto','tipo_sangre','Cargo_Actual','Numero_Emergencia','Fecha_Nacimiento', 'Departamento_Nacimiento','Ciudad_Nacimiento','Ciudad_Residencia','Direccion_Residencia','Sexo','Estado_Civil','Etnia','Talla_Camisa','Vegetariano','file','Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS','Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral','Pensionado','Discapacidad_Familiar','Tipo_Vivienda','Estrato_Vivienda','Tiempo_Desplazamiento','Tiempo_Vinculacion_Laboral','Tiempo_Cargo_Laboral','Nivel_Educativo_Mas_Alto','Ultimo_Nivel_Educativo','Tipo_Contrato_Form','Horario_laboral','Horas_Laborales','Promedio_Ingresos','Frecuencia_Actividad_Fisica','Patologia_Mental','Pareja_Embarazo','PesoKg', 'AlturaCm', 'Actualemte_Fuma','Promedio_Cigarrillos','Consumo_Bebidas','Frecuencia_Deporte','Actualimente_Utiliza_Voz','Horas_Utilizacion_Voz','Utiliza_Manos_Libres','Horas_Utilizacion_Manos_Libre','idUser']
+        fields = ['Tipo_Documento','Documento','Numero_Contacto','tipo_sangre','Cargo_Actual','Numero_Emergencia','Fecha_Nacimiento', 'Departamento_Nacimiento','Ciudad_Nacimiento','Ciudad_Residencia','Direccion_Residencia','Sexo','Estado_Civil','Etnia','Talla_Camisa','Vegetariano','file','Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS','Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral','Pensionado','Discapacidad_Familiar','Tipo_Vivienda','Estrato_Vivienda','Tiempo_Desplazamiento','Tiempo_Vinculacion_Laboral','Tiempo_Cargo_Laboral','Tipo_Contrato_Form','Horario_laboral','Horas_Laborales','Promedio_Ingresos','Frecuencia_Actividad_Fisica','Patologia_Mental','Pareja_Embarazo','PesoKg', 'AlturaCm', 'Actualemte_Fuma','Promedio_Cigarrillos','Consumo_Bebidas','Frecuencia_Deporte','Actualimente_Utiliza_Voz','Horas_Utilizacion_Voz','Utiliza_Manos_Libres','Horas_Utilizacion_Manos_Libre','idUser']
         widgets = {
             'idUser': forms.HiddenInput(attrs={'class': 'text-left'}),# Campo oculto
-            'Fecha_Nacimiento': forms.DateInput(format='%d/%m/%Y'),
+            'Fecha_Nacimiento' : forms.DateInput(format='%d/%m/%Y', attrs={'class': 'fecha-personalizada'})
         }
         input_formats = ['%d/%m/%Y']
  
@@ -49,33 +49,23 @@ class FamiliarForm(forms.ModelForm):
 class FamiliarDiscapacidadForm(forms.ModelForm):
     class Meta:
         model = familiardiscapacidadForm
-        fields = ['padre','madre','hijo','hija','abuelo','abuela','nieto','nieta','hermano','hermana','tio','tia','primo','prima','sobrino','sobrina','cuñado','cuñada','suegro','suegra','yerno','nuera','esposo','esposa','Ninguno']
+        fields = ['padre', 'madre', 'hijo_a', 'abuelo_a', 'nieto_a', 'hermano_a', 'tio_a', 'primo_a', 'sobrino_a', 'cuñado_a', 'suegro_a', 'yerno', 'nuera', 'esposo_a', 'Ninguno']
         widgets = {
-        'padre' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'madre' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'hijo' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'hija' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'abuelo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'abuela': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'nieto': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'nieta': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'hermano': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'hermana': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'tio' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'tia'   : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'primo'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'prima'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'sobrino'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'sobrina'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'cuñado'   : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'cuñada'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'suegro'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'suegra'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'yerno'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'nuera'   : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'esposo'    : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'esposa'   : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        'Ninguno'  : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'padre': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'madre': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'hijo_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'abuelo_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'nieto_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'hermano_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'tio_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'primo_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'sobrino_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'cuñado_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'suegro_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'yerno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'nuera': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'esposo_a': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        'Ninguno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         
 class SituacionesAfectableForm(forms.ModelForm):
@@ -439,6 +429,23 @@ class ContratacionForm(forms.ModelForm):
         'INgreso_Mensual_Escrito': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres del familiar'}),
         'Fecha_Peticion_Carta': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
+class HistorialEducativoForm(forms.ModelForm):
+    
+    class Meta:
+        model= historialeducativoFormn
+        fields = ['tipo_titulo','Descripcion_titulo','Instituto_titulo','Fecha_obtencion_titulo']
+        widgets = {
+            'tipo_titulo': forms.Select(attrs={'class': 'form-control'}),
+            'Descripcion_titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descripcion de su titulo'}),
+            'Instituto_titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del instituto'}),
+            'Fecha_obtencion_titulo': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
+        }
         
-
+    
+    
+    
+    
+    
+    
+    
 # , 'lastname', 'email', 'file', 'fecha_creacion',m
