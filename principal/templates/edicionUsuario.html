@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+    <div class="col-md-10">
         {% if messages %}
         {% for message in messages %}
         <div class="alert alert-dismissible alert-success">
@@ -23,31 +23,83 @@
                             placeholder="id" maxlength="50" readonly required>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <input type="text" id="txtNombre" name="txtNombre" value="{{usuario.first_name}}"
-                            class="form-control" placeholder="Nombre" maxlength="50" required>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Edite los nombres del empleado</label>
+                                        <input type="text" id="txtNombre" name="txtNombre"
+                                            value="{{usuario.first_name}}" class="form-control" placeholder="Nombre"
+                                            maxlength="50" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Edite el apellido de su empleado</label>
+                                        <input type="text" id="txtApellido" name="txtApellido"
+                                            value="{{usuario.last_name}}" class="form-control" placeholder="apellido"
+                                            maxlength="50" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Edite el E-mail de su empleado</label>
+                                        <input type="text" id="txtEmail" name="txtEmail" value="{{usuario.email}}"
+                                            class="form-control" placeholder="Email" maxlength="50" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <input type="text" id="txtApellido" name="txtApellido" value="{{usuario.last_name}}"
-                            class="form-control" placeholder="apellido" maxlength="50" required>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>edite el "nombre" del ingreso del empleado</label>
+                                        <input type="text" id="txtUsername" name="txtUsername"
+                                            value="{{usuario.username}}" class="form-control" placeholder="username"
+                                            maxlength="50" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>edite la contraseña del empleado</label>
+                                        <input type="text" id="txtPassword" name="txtPassword"
+                                            value="{{usuario.password}}" class="form-control" placeholder="Password"
+                                            maxlength="50" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <label>Estado del usuario Activo o Inactivo</label>
+                                    <input type="checkbox" name="txtEstado" {% if usuario.is_active %}checked{% endif%}>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <input type="text" id="txtEmail" name="txtEmail" value="{{usuario.email}}" class="form-control"
-                            placeholder="Email" maxlength="50" required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <input type="text" id="txtUsername" name="txtUsername" value="{{usuario.username}}"
-                            class="form-control" placeholder="username" maxlength="50" required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <input type="text" id="txtPassword" name="txtPassword" value="{{usuario.password}}"
-                            class="form-control" placeholder="Password" maxlength="50" required>
-                    </div>
-                    <br>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -58,10 +110,11 @@
                             <div class="form-group">
                                 <button class="btn btn-danger btn-block text-white"><a
                                         action="/usuarios">Cancelar</a></button>
-
                             </div>
+
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>

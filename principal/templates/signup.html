@@ -7,25 +7,24 @@
 <form method="post">
   {% csrf_token %}
   {% for field in form %}
-  <div class="form-group">
-    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+  <p>
+    {{ field.label_tag }}<br>
     {{ field }}
-    {% if field.errors %}
-    <ul class="errorlist">
-      {% for error in field.errors %}
-      <li>{{ error }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
+    {% for error in field.errors %}
+  <p style="color: red">{{ error }}</p>
+  {% endfor %}
+  </p>
   {% endfor %}
   <div class="col-md-1">
     <div class="form-group">
-      <button class="btn btn-danger text-white" action="/usuarios">Cancelar</button>
-      <button type="submit" class="btn btn-success">Guardar</button>
+      <div class="btn-group">
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <div></div>
+        <button class="btn btn-danger text-white" href="/usuarios">Cancelar</button>
+      </div>
     </div>
   </div>
 </form>
-
 
 {% endblock %}

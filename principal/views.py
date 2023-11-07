@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from pyexpat.errors import messages
+from django.contrib import messages 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
@@ -8,11 +9,11 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm, AseguramientoForm , HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
+from principal.forms import FormularioForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.views.generic.edit import FormView
-from .models import formularioForm ,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
+from .models import formularioForm ,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
 import logging
 from django.core.paginator import Paginator
 
@@ -36,13 +37,132 @@ def datos(request):
 
     return render(request, 'datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
 
+
+def Info_Familiar_DB(request,idUser_id):
+    
+    familiar_Info = familiarForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def DataColaboradores(request):
     context={}
     return render(request, 'datacolaboradores.html', context) 
-
-
-
 # ESTE ES LA CONSULTA PARA EL MODULO DE DB COLABORADORES ESTA CONSULTA OBTINENE TODOS LOS DATOS REGISTRADOS TANTO EN EL FOMRULARIO COM ADATOS ADICIONALES AÑADIDOS POR LOS USUARIOS DE GESTION HUMANA
+def bd_colaboradores_Contratacion(request,idUser_id):
+    try:
+        form_con = contratacionForm.objects.filter(idUser_id=idUser_id)
+        formulario_Contratacion = [ContratacionForm(instance=form_con) for form_con in form_con]
+        print("Estos son los formularios Mascotas:", formulario_Contratacion)
+    except contratacionForm.DoesNotExist:
+        formulario_Contratacion = None
+    return render(request, 'bd_colaboradores_Contratacion.html',{'idUser_id':idUser_id,'formulario_Contratacion':formulario_Contratacion })
+  
+def bd_colaboradores_Educacion(request,idUser_id):
+    try:
+        form_edu = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
+        formulario_Educacion = [HistorialEducativoForm(instance=form_edu) for form_edu in form_edu]
+        print("Estos son los formularios Mascotas:", formulario_Educacion)
+    except historialeducativoFormn.DoesNotExist:
+        formulario_Educacion = None
+    return render(request, 'bd_colaboradores_Educacion.html',{'idUser_id':idUser_id,'formulario_Educacion':formulario_Educacion })
+  
+def bd_colaboradores_mascotas(request,idUser_id):
+    try:
+        form_M = mascotasForm.objects.filter(idUser_id=idUser_id)
+        formulario_Mascotas = [MascotasForm(instance=Form_Mas) for Form_Mas in form_M]
+        print("Estos son los formularios Mascotas:", formulario_Mascotas)
+    except mascotasForm.DoesNotExist:
+        formulario_Mascotas = None
+    return render(request, 'bd_colaboradores_mascotas.html',{'idUser_id':idUser_id,'formulario_Mascotas':formulario_Mascotas })
+ 
+ 
+        
+# def bd_claboradores_hijos(request, idUser_id):
+#      try:
+#         form_f = familiarForm.objects.filter(idUser_id=idUser_id)
+#         formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
+#         print("Estos son los formularios familiares:", formularios_familiares)
+#      except  familiarForm.DoesNotExist:
+#         formularios_familiares = None
+#      return render(request, 'bd_colaboradores_hijos.html',{'idUser_id':idUser_id, 'formularios_familiares':formularios_familiares})
+
+
+
+
+
+
+
+# def Actualizar_Hjios(request, idUser_id):
+#     if not request.user.is_authenticated:
+#         return redirect('/') 
+    
+#     if request.method == 'POST':
+        
+#         form_f = familiarForm.objects.filter(idUser_id=idUser_id)
+#         formularios_familiares = [FamiliarForm(request.POST, instance=form) for form in form_f]
+        
+#         if  all([f.is_valid() for f in formularios_familiares]):
+            
+#             for f, form_familiar in zip(form_f, formularios_familiares):
+#                 form_familiar.save()
+                
+#             return redirect('datos')
+#         else:
+#             print("Error en los formularios. Revise los campos.")
+#             for f in formularios_familiares:
+#                 messages.error(request, f"Error en formulario familiar: {f.errors.as_text()}")
+#     else:
+#             form_f = familiarForm.objects.filter(idUser_id=idUser_id)
+#             formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
+       
+#     return render(request, 'bd_colaboradores_hijos.html',{'idUser_id':idUser_id,'formularios_familiares':formularios_familiares} )
+
+# def Agregar_Familiar(request):
+#     FamiliarFormSet_Hijo = formset_factory(FamiliarForm, extra=1)
+#     if request.method == 'POST':
+#         user = request.user
+#         form_data = request.POST.copy()
+#         form_data['idUser'] = user.id
+        
+#         FamiliarFormSet_Hijo = FamiliarFormSet_Hijo(request.POST, prefix='familiar')
+        
+#         if FamiliarFormSet_Hijo.is_valid():
+        
+#              for familiar_formulario in FamiliarFormSet_Hijo:
+#                  familiar_formulario.instance.idUser = user
+#                  familiar_formulario.save()
+#                  return HttpResponse("datos")
+#              else:
+#                   logger = logging.getLogger('principal')
+#                   logger.error("Error en el formulario.")
+#                   for familiar_formulario in FamiliarFormSet_Hijo:
+#                       for error in familiar_formulario.errors:
+#                        logger.error(f"FamiliarForm: {error}: {familiar_formulario.errors[error]}")
+                       
+#         else:
+#              FamiliarFormSet_Hijo = FamiliarFormSet_Hijo(prefix='familiar_formulario')
+             
+#         return render (request, "bd_claboradores_hijos.html",{'FamiliarFormSet_Hijo': FamiliarFormSet_Hijo,})
+                
+    
 
 def bd_colaboradores(request, idUser_id):
     print("este es el form", idUser_id)  
@@ -57,9 +177,7 @@ def bd_colaboradores(request, idUser_id):
         form_a = AseguramientoForm(instance=form_aseguramiento[0]) 
         print("este es el form aseguramiento", form_a)
         # formualrio familiares
-        form_f = familiarForm.objects.filter(idUser_id=idUser_id)
-        formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
-        print("Estos son los formularios familiares:", formularios_familiares)
+       
         # formulario discapacidad familiar
         form_d = familiardiscapacidadForm.objects.filter(idUser_id=idUser_id)
         formulario_discapacidad = FamiliarDiscapacidadForm(instance=form_d[0]) 
@@ -69,9 +187,7 @@ def bd_colaboradores(request, idUser_id):
         formulario_situacion = SituacionesAfectableForm(instance=form_s[0]) 
         print("este es el form situacoiones afectables", formulario_situacion)
         # formulario mascotas
-        form_M = mascotasForm.objects.filter(idUser_id=idUser_id)
-        formulario_Mascotas = [MascotasForm(instance=Form_Mas) for Form_Mas in form_M]
-        print("Estos son los formularios Mascotas:", formulario_Mascotas)
+        
         # formulario transportes
         form_t = transorteForm.objects.filter(idUser_id=idUser_id)
         transporte_form = TransportesForm(instance=form_t[0]) 
@@ -131,10 +247,10 @@ def bd_colaboradores(request, idUser_id):
     except formularioForm.DoesNotExist and  aseguramientoForm.DoesNotExist and  familiarForm.DoesNotExist:
         form = None
         form_a = None
-        formularios_familiares = None
+        
         formulario_discapacidad = None
         formulario_situacion = None
-        formulario_Mascotas = None
+        
         transporte_form = None
         recursos_form = None
         appaprendizaje_form = None
@@ -154,10 +270,9 @@ def bd_colaboradores(request, idUser_id):
                   {'form': form,
                    'idUser_id': idUser_id,
                    'form_a':form_a ,
-                    'formularios_familiares':formularios_familiares,
+                    
                     'formulario_discapacidad':formulario_discapacidad,
                     'formulario_situacion':formulario_situacion,
-                    'formulario_Mascotas': formulario_Mascotas,
                     'transporte_form':transporte_form,
                     'recursos_form': recursos_form,
                     'appaprendizaje_form': appaprendizaje_form,
@@ -175,9 +290,7 @@ def bd_colaboradores(request, idUser_id):
                 
                    })
 
-
-
-from django.contrib import messages  # Importa el módulo de mensajes
+ # Importa el módulo de mensajes
 
 def ActualizacionDatosColaboradores(request, idUser_id):
     # Asegúrate de que el usuario esté autenticado
@@ -359,22 +472,34 @@ def edicionUsuario(request, id):
     return render(request, "edicionUsuario.html", {"usuario": usuario})
 
 def editarUsuario(request):
-    id = request.POST['txtid']
-    Nombre = request.POST['txtNombre']
-    Apellido = request.POST['txtApellido']
-    Email = request.POST['txtEmail']
-    Username = request.POST['txtUsername']
-    Password = request.POST['txtPassword']
-    
-    usuario = User.objects.get(id=id)
-    usuario.first_name = Nombre
-    usuario.last_name = Apellido
-    usuario.email = Email
-    usuario.username = Username
-    usuario.set_password(Password)  # Cambia la contraseña de forma segura
-    usuario.save()
-    
-    return redirect('usuarios')
+    if request.method == 'POST':
+        id = request.POST['txtid']
+        Nombre = request.POST['txtNombre']
+        Apellido = request.POST['txtApellido']
+        Email = request.POST['txtEmail']
+        Username = request.POST['txtUsername']
+        Password = request.POST['txtPassword']
+        Estado = request.POST.get('txtEstado')  # Recuperar el valor del checkbox
+
+        usuario = User.objects.get(id=id)
+        usuario.first_name = Nombre
+        usuario.last_name = Apellido
+        usuario.email = Email
+        usuario.username = Username
+        usuario.set_password(Password)
+
+        # Verifica si el checkbox está marcado
+        if Estado == 'on':
+            usuario.is_active = True
+        else:
+            usuario.is_active = False
+
+        usuario.save()
+
+        return redirect('usuarios')
+
+    # Si la solicitud no es POST, renderiza la página de edición
+    return render(request, 'editar_usuario.html')
 
 def prueba(request):
     FamiliarFormSet = formset_factory(FamiliarForm, extra=1)

@@ -826,6 +826,12 @@ class sintomasaudicionForm(models.Model):
         db_table = 'Formulario_Sintomas_Audicion'
 class contratacionForm(models.Model):
     id_Contrato = models.AutoField(primary_key=True)
+    Es_flexibilizado = models.CharField(
+          max_length=2,choices=[
+            ('Si','Si'),
+            ('No', 'No'),
+        ]
+    )
     Tipo_Contrato = models.CharField(
         max_length=23,choices=[
             ('Termino Fijo','Termino Fijo'),

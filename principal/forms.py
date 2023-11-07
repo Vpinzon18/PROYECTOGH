@@ -420,9 +420,10 @@ class SintomasAudicionForm(forms.ModelForm):
 class ContratacionForm(forms.ModelForm):
     class Meta:
         model = contratacionForm
-        fields = ['Tipo_Contrato', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Fecha_Fin_Contrato', 'Ingreso_Mensaul', 'INgreso_Mensual_Escrito','Fecha_Peticion_Carta']
+        fields = ['Tipo_Contrato','Es_flexibilizado', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Fecha_Fin_Contrato', 'Ingreso_Mensaul', 'INgreso_Mensual_Escrito','Fecha_Peticion_Carta']
         widgets = {
         'Tipo_Contrato': forms.Select(attrs={'class': 'form-control'}),
+        'Es_flexibilizado': forms.Select(attrs={'class': 'form-control'}),
         'Cargo_Contrato': forms.Select(attrs={'class': 'form-control'}),
         'Fecha_Inicio_Contrato': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         'Fecha_Fin_Contrato': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),

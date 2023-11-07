@@ -1,0 +1,58 @@
+{% extends 'partials/body.html' %}
+{% load static %}
+
+
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-10">
+            <div class="card">
+                <div class="card-body">
+                    <nav class="navbara navbar-expand-lg navbar-light navbar-static-top custom-navbar">
+                        <div class="collapse navbar-collapse">
+                            <div class="navbar-nav">
+                                <a href="/bd_colaboradores/{{idUser_id}}" class="link flex">
+                                    <i class="fab fa-wpforms"></i>
+                                    <span>Formulario SD</span>
+                                    <a href="/Info_Familiar_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-users"></i>
+                                        <span>Familiares </span>
+                                    </a>
+                                    <a href="/bd_colaboradores_mascotas/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-cat"></i>
+                                        <span>Mascotas </span>
+                                    </a>
+                                    <a href="/bd_colaboradores_Educacion/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span>Educación </span>
+                                    </a>
+                                    <a href="/bd_colaboradores_Contratacion/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-file-contract"></i>
+                                        <span>Contrato </span>
+                                    </a>
+                                    <a href="/bd_colaboradores_Contratacion/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-language"></i>
+                                        <span>OOPT</span>
+                                    </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10 offset-lg-1 px-8 py-3">
+        {% for form_edu in formulario_Educacion %}
+        {{ form_edu.as_p }}
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock contenido %}
+
+
+{% block titulo %}
+{% endblock titulo %}
