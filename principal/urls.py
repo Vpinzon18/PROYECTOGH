@@ -56,6 +56,11 @@ urlpatterns = [
     path('agregar_educacion/<int:idUser_id>/', views.agregar_educacion, name='agregar_educacion'),
     path('editar_educacion/<int:id_estudio>/', views.editar_educacion, name='editar_educacion'),
     path('eliminar_educacion/<int:id_estudio>/', views.eliminar_educacion, name='eliminar_educacion'),
+    
+    
+    # Urls para las vistas de la edicion de los datos de CONTRATACION
+    path("Info_Contratos_DB/<int:idUser_id>/", views.Info_Contratos_DB, name="Info_Contratos_DB"),
+    path('agregar_contrato/<int:idUser_id>/', views.agregar_contrato, name='agregar_contrato'),
 
 
 

@@ -26,7 +26,7 @@
                                         <i class="fas fa-graduation-cap"></i>
                                         <span>Educación </span>
                                     </a>
-                                    <a href="/bd_colaboradores_Contratacion/{{idUser_id}}" class="link flex">
+                                    <a href="/Info_Contratos_DB/{{idUser_id}}" class="link flex">
                                         <i class="fas fa-file-contract"></i>
                                         <span>Contrato </span>
                                     </a>
@@ -42,17 +42,101 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-10 offset-lg-1 px-8 py-3">
-        <h1>Edite la informacion de sus Contrato{{idUser_id}}</h1>
-        {% for form_con in formulario_Contratacion %}
-        {{ form_con.as_p }}
-    </div>
-    {% endfor %}
-</div>
 
-{% endblock contenido %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 rounded p-5">
+            <h1 class="fw-bold text-center mb-5"><strong>Info Contratos</strong></h1>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="/agregar_contrato/{{idUser_id}}" class="link flex ">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Agregar Un Contrato</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">TIPO CONTRATO</th>
+                        <th scope="col">CARGO DEL CONTRATO</th>
+                        <th scope="col">INGRESO MENSUAL</th>
+                        <th scope="col">FECHA INICIO CONTRATO</th>
+                        <th colspan="2">OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
 
 
-{% block titulo %}
-{% endblock titulo %}
+                    {% for contratos_info in contratos_info %}
+
+                    <tr>
+                        <td>{{ contratos_info.id_Contrato }}</td>
+                        <td>{{ contratos_info.Tipo_Contrato }}</td>
+                        <td>{{ contratos_info.Cargo_Contrato }}</td>
+                        <td>{{ contratos_info.Ingreso_Mensaul }}</td>
+                        <td>{{ contratos_info.Fecha_Inicio_Contrato }}</td>
+                        <td><a href="/editar_educacion/{{ Educacion_Info.id_estudio }}" class="btn btn-info">Editar</a>
+                        </td>
+
+                        <td>
+                            <a href="/eliminar_educacion/{{ Educacion_Info.id_estudio }}"
+                                class="btn btn-danger btnEliminacion eliminar-btn">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const eliminarBotones = document.querySelectorAll(".eliminar-btn");
+
+                    eliminarBotones.forEach((boton) => {
+                        boton.addEventListener("click", function (event) {
+                            event.preventDefault(); // Evita la acción por defecto del enlace
+
+                            Swal.fire({
+                                title: "¿Estás seguro de eliminar a este Titulo Educativo ?",
+                                text: "No podrás deshacer esta acción",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Sí, eliminar",
+                                cancelButtonText: "No, cancelar",
+                                reverseButtons: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
+                                    window.location.href = boton.href;
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    Swal.fire("Cancelado", "El Titulo educativo  no se Elimino", "error");
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+
+
+
+
+
+
+            <script src='static js/ges'></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            {% endblock contenido %}
+
+
+            {% block titulo %}
+            {% endblock titulo %}

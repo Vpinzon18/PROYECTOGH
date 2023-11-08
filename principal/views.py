@@ -42,11 +42,9 @@ def datos(request):
 
 
 
-
-
+#region  "TODAS LAS VISTAS DEL MODULO DATOS DE LOS  COLABORADORES"
 
 #region  VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DEL MODULO DATOS DE COLABORADORES 
-
 
 # Esta vista crea la tabla con el tota de familiares a editar
 def Info_Familiar_DB(request,idUser_id):
@@ -214,6 +212,37 @@ def eliminar_educacion(request, id_estudio):
     return render(request, 'datos.html', {'educacion': educacion})
 #endregion 
 
+#endregion 
+
+
+
+#region VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DEL MODULO DATA COLABORADORES 
+
+# Esta vista crea la tabla con el totaL de CONTRATOS a editar
+def Info_Contratos_DB(request,idUser_id):
+    
+    contratos_info = contratacionForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'idUser_id':idUser_id} )
+
+# Vista para agregar un nuevo familiar dentro del modulo datos empleados
+def agregar_contrato(request, idUser_id):
+    if request.method == 'POST':
+        coontrato = ContratacionForm(request.POST)
+        
+        if coontrato.is_valid():
+            coontrato = coontrato.save(commit=False)
+            coontrato.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            coontrato.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        coontrato = ContratacionForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'Agregar_Contrato.html', {'coontrato': coontrato})
+
+
+#endregion
 
 
 
@@ -234,82 +263,6 @@ def bd_colaboradores_Contratacion(request,idUser_id):
     return render(request, 'bd_colaboradores_Contratacion.html',{'idUser_id':idUser_id,'formulario_Contratacion':formulario_Contratacion })
   
 
-  
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def Actualizar_Hjios(request, idUser_id):
-#     if not request.user.is_authenticated:
-#         return redirect('/') 
-    
-#     if request.method == 'POST':
-        
-#         form_f = familiarForm.objects.filter(idUser_id=idUser_id)
-#         formularios_familiares = [FamiliarForm(request.POST, instance=form) for form in form_f]
-        
-#         if  all([f.is_valid() for f in formularios_familiares]):
-            
-#             for f, form_familiar in zip(form_f, formularios_familiares):
-#                 form_familiar.save()
-                
-#             return redirect('datos')
-#         else:
-#             print("Error en los formularios. Revise los campos.")
-#             for f in formularios_familiares:
-#                 messages.error(request, f"Error en formulario familiar: {f.errors.as_text()}")
-#     else:
-#             form_f = familiarForm.objects.filter(idUser_id=idUser_id)
-#             formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
-       
-#     return render(request, 'bd_colaboradores_hijos.html',{'idUser_id':idUser_id,'formularios_familiares':formularios_familiares} )
-
-# def Agregar_Familiar(request):
-#     FamiliarFormSet_Hijo = formset_factory(FamiliarForm, extra=1)
-#     if request.method == 'POST':
-#         user = request.user
-#         form_data = request.POST.copy()
-#         form_data['idUser'] = user.id
-        
-#         FamiliarFormSet_Hijo = FamiliarFormSet_Hijo(request.POST, prefix='familiar')
-        
-#         if FamiliarFormSet_Hijo.is_valid():
-        
-#              for familiar_formulario in FamiliarFormSet_Hijo:
-#                  familiar_formulario.instance.idUser = user
-#                  familiar_formulario.save()
-#                  return HttpResponse("datos")
-#              else:
-#                   logger = logging.getLogger('principal')
-#                   logger.error("Error en el formulario.")
-#                   for familiar_formulario in FamiliarFormSet_Hijo:
-#                       for error in familiar_formulario.errors:
-#                        logger.error(f"FamiliarForm: {error}: {familiar_formulario.errors[error]}")
-                       
-#         else:
-#              FamiliarFormSet_Hijo = FamiliarFormSet_Hijo(prefix='familiar_formulario')
-             
-#         return render (request, "bd_claboradores_hijos.html",{'FamiliarFormSet_Hijo': FamiliarFormSet_Hijo,})
-                
-    
 
 def bd_colaboradores(request, idUser_id):
     print("este es el form", idUser_id)  
