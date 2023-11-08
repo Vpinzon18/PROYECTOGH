@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios, Info_Mascotas_DB,formularioII,bd_colaboradores_Contratacion , editar_familiar,datos,bd_colaboradores_Educacion, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
+from principal.views import inicio, usuarios,Vista_Edicion_Mascotas, Info_Mascotas_DB,formularioII,bd_colaboradores_Contratacion , editar_familiar,datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
 from principal import views
 from . import views
 
@@ -35,7 +35,6 @@ urlpatterns = [
     path('bd_colaboradores/<int:idUser_id>/', bd_colaboradores, name='bd_colaboradores'),
     path('bd_claboradores_hijos/<int:idUser_id>/', editar_familiar, name='editar_familiar'),
     path('ActualizacionDatosColaboradores/<int:idUser_id>/', ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
-    path("bd_colaboradores_Educacion/<int:idUser_id>/", bd_colaboradores_Educacion, name="bd_colaboradores_Educacion"),
     path("bd_colaboradores_Contratacion/<int:idUser_id>/", bd_colaboradores_Contratacion, name="bd_colaboradores_Contratacion"),
    
    
@@ -47,10 +46,16 @@ urlpatterns = [
 
     # Urls para las vistas de edicion de datos de mascotas 
     path("Info_Mascotas_DB/<int:idUser_id>/", Info_Mascotas_DB, name="Info_Mascotas_DB"),
+    path('Vista_Edicion_Mascotas/<int:id_mascota>/', Vista_Edicion_Mascotas, name='Vista_Edicion_Mascotas'),
+    path('agregar_mascota/<int:idUser_id>/', views.agregar_mascota, name='agregar_mascota'),
+    path('eliminar_mascota/<int:id_mascota>/', views.eliminar_mascota, name='eliminar_mascota'),
+    
     
     # Urls para las vistas de la edicion de los datos de educacion 
-    
-
+    path("Info_Educacion_DB/<int:idUser_id>/", views.Info_Educacion_DB, name="Info_Educacion_DB"),
+    path('agregar_educacion/<int:idUser_id>/', views.agregar_educacion, name='agregar_educacion'),
+    path('editar_educacion/<int:id_estudio>/', views.editar_educacion, name='editar_educacion'),
+    path('eliminar_educacion/<int:id_estudio>/', views.eliminar_educacion, name='eliminar_educacion'),
 
 
 

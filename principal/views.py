@@ -38,27 +38,181 @@ def datos(request):
     return render(request, 'datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
 
 
+
+
+
+
+
+
+
+#region  VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DEL MODULO DATOS DE COLABORADORES 
+
+
+# Esta vista crea la tabla con el tota de familiares a editar
 def Info_Familiar_DB(request,idUser_id):
     
     familiar_Info = familiarForm.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
 
+# Vista para agregar un nuevo familiar dentro del modulo datos empleados
+def agregar_familiar(request, idUser_id):
+    if request.method == 'POST':
+        form = FamiliarForm(request.POST)
+        
+        if form.is_valid():
+            familiar = form.save(commit=False)
+            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        form = FamiliarForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'AgregarFamiliar.html', {'familiar_formulario': form})
+
+# Vista para editar un familiar dentro del modulo de data colaboradores 
+def editar_familiar(request, familiar_id):
+    try:
+        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
+        if request.method == 'POST':
+            form = FamiliarForm(request.POST, instance=familiar)  
+            if form.is_valid():
+                form.save() 
+                return redirect('datos')  
+
+        else:
+            form = FamiliarForm(instance=familiar) 
+
+    except familiarForm.DoesNotExist:
+        form = None
+
+    return render(request, 'Editar_Info_familiar_DB.html', {'familiar_formulario': form})
+
+# Vista para eliminar un familiar dentro del modulo data colaboradores
+def eliminar_familiar(request, familiar_id):
+    try:
+        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
+        familiar.delete()  # Esto eliminará el familiar
+        return redirect('datos')  # Redirige a donde desees después de eliminar
+
+    except familiarForm.DoesNotExist:
+        familiar = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
+
+    return render(request, 'datos.html', {'familiar': familiar})
+
+#endregion
+
+#region VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS  DEL MODULO DATOS DE LOS COLABORADORES 
+
+
+# Esta vista crea la tabla con el totaL de MASCOTAS por persona
 def Info_Mascotas_DB(request, idUser_id):
     
     Mascotas_Info = mascotasForm.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id})
 
+# Esta vista es para agregar una nueva mastoca 
+def agregar_mascota(request, idUser_id):
+    if request.method == 'POST':
+        form_add_mascotas = MascotasForm(request.POST)
+        
+        if form_add_mascotas.is_valid():
+            familiar = form_add_mascotas.save(commit=False)
+            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
 
+    else:
+        form_add_mascotas = MascotasForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
 
+    return render(request, 'Agregar_Mascotas.html', {'form_add_mascotas': form_add_mascotas})
 
+# Esta es la vista es para editar los datos de las mascotas  
+def Vista_Edicion_Mascotas(request, id_mascota):
+    try:
+        mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
+        if request.method == 'POST':
+            form_mascotas = MascotasForm(request.POST, instance=mascotas)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
+            if form_mascotas.is_valid():
+                form_mascotas.save()  # Esto actualizará automáticamente el familiar existente
+                return redirect('datos')  # Redirige a donde desees después de guarda
+        else:
+            form_mascotas = MascotasForm(instance=mascotas)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
+    except mascotasForm.DoesNotExist:
+        form_mascotas = None
 
+    return render(request, 'Editar_Info_Mascotas.html', {'form_mascotas': form_mascotas})
 
+# esta vista es para eliminar una mascota 
+def eliminar_mascota(request, id_mascota):
+    try:
+        mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
+        mascotas.delete()  # Esto eliminará el familiar
+        return redirect('datos')  # Redirige a donde desees después de eliminar
 
+    except mascotasForm.DoesNotExist:
+        mascotas = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
 
+    return render(request, 'datos.html', {'mascotas': mascotas})
 
+#endregion 
 
+#region  VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DEL MODULO DATA COLABORADORES
+
+# esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
+def Info_Educacion_DB(request, idUser_id):
+    
+    Educacion_Info = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_Educacion.html', {'Educacion_Info': Educacion_Info, 'idUser_id':idUser_id})
+
+# Esta vista es para agregar un nuevo titulo academico 
+def agregar_educacion(request, idUser_id):
+    if request.method == 'POST':
+        form_add_educacion = HistorialEducativoForm(request.POST)
+        
+        if form_add_educacion.is_valid():
+            educacion = form_add_educacion.save(commit=False)
+            educacion.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            educacion.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        form_add_educacion = HistorialEducativoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'Agregar_Educacion.html', {'form_add_educacion': form_add_educacion})
+
+# Vista para editar un titulo dentro del modulo de data colaboradores 
+def editar_educacion(request, id_estudio):
+    try:
+        educacion_form = historialeducativoFormn.objects.get(id_estudio=id_estudio)
+        if request.method == 'POST':
+            educacion = HistorialEducativoForm(request.POST, instance=educacion_form)  
+            if educacion.is_valid():
+                educacion.save() 
+                return redirect('datos')  
+
+        else:
+            educacion = HistorialEducativoForm(instance=educacion_form) 
+
+    except historialeducativoFormn.DoesNotExist:
+        educacion = None
+
+    return render(request, 'Editar_Info_Educacion.html', {'educacion': educacion})
+
+def eliminar_educacion(request, id_estudio):
+    try:
+        educacion = historialeducativoFormn.objects.get(id_estudio=id_estudio)
+        educacion.delete() 
+        return redirect('datos')  
+
+    except historialeducativoFormn.DoesNotExist:
+        educacion = None 
+
+    return render(request, 'datos.html', {'educacion': educacion})
+#endregion 
 
 
 
@@ -79,100 +233,25 @@ def bd_colaboradores_Contratacion(request,idUser_id):
         formulario_Contratacion = None
     return render(request, 'bd_colaboradores_Contratacion.html',{'idUser_id':idUser_id,'formulario_Contratacion':formulario_Contratacion })
   
-def bd_colaboradores_Educacion(request,idUser_id):
-    try:
-        form_edu = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
-        formulario_Educacion = [HistorialEducativoForm(instance=form_edu) for form_edu in form_edu]
-        print("Estos son los formularios Mascotas:", formulario_Educacion)
-    except historialeducativoFormn.DoesNotExist:
-        formulario_Educacion = None
-    return render(request, 'bd_colaboradores_Educacion.html',{'idUser_id':idUser_id,'formulario_Educacion':formulario_Educacion })
+
   
-# def bd_colaboradores_mascotas(request,idUser_id):
-#     try:
-#         form_M = mascotasForm.objects.filter(idUser_id=idUser_id)
-#         formulario_Mascotas = [MascotasForm(instance=Form_Mas--) for Form_Mas in form_M]
-#         print("Estos son los formularios Mascotas:", formulario_Mascotas)
-#     except mascotasForm.DoesNotExist:
-#         formulario_Mascotas = None
-#     return render(request, 'bd_colaboradores_mascotas.html',{'idUser_id':idUser_id,'formulario_Mascotas':formulario_Mascotas })
+
  
- 
-        
-
-
-def agregar_familiar(request, idUser_id):
-    if request.method == 'POST':
-        form = FamiliarForm(request.POST)
-        
-        if form.is_valid():
-            familiar = form.save(commit=False)
-            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        form = FamiliarForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'AgregarFamiliar.html', {'familiar_formulario': form})
 
 
 
 
-def editar_familiar(request, familiar_id):
-    try:
-        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
-        if request.method == 'POST':
-            form = FamiliarForm(request.POST, instance=familiar)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
-            if form.is_valid():
-                form.save()  # Esto actualizará automáticamente el familiar existente
-                return redirect('datos')  # Redirige a donde desees después de guardar
-
-        else:
-            form = FamiliarForm(instance=familiar)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
-
-    except familiarForm.DoesNotExist:
-        form = None
-
-    return render(request, 'Editar_Info_familiar_DB.html', {'familiar_formulario': form})
-
-def eliminar_familiar(request, familiar_id):
-    try:
-        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
-        familiar.delete()  # Esto eliminará el familiar
-        return redirect('datos')  # Redirige a donde desees después de eliminar
-
-    except familiarForm.DoesNotExist:
-        familiar = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
-
-    return render(request, 'datos.html', {'familiar': familiar})
 
 
 
 
-# def editar_familiar(request, familiar_id):
-#     # Obtén el familiar de la base de datos usando el ID proporcionado
-#     try:
-#         familiar = familiarForm.objects.get(familiar_id=familiar_id)
-#     except familiarForm.DoesNotExist:
-#         # Puedes manejar el caso en que el familiar no existe
-#         return HttpResponse("Familiar no encontrado")
 
-#     # Verifica si el usuario tiene permiso para editar este familiar (opcional)
 
-#     # Procesa el formulario de edición si se envía a través de POST
-#     if request.method == 'POST':
-#         form = FamiliarForm(request.POST, instance=familiar)
-#         if form.is_valid():
-#             form.save()
-#             # Redirige a la página de detalle del familiar o a donde desees
-#             return HttpResponseRedirect('/Info_Familiar_DB/' + str(familiar_id))
-    
-#     # Si no es una solicitud POST, muestra el formulario de edición
-#     else:
-#         form = FamiliarForm(instance=familiar)
-    
-#     return render(request, 'editar_familiar.html', {'form': form, 'familiar': familiar})
+
+
+
+
+
 
 
 

@@ -22,7 +22,7 @@
                                         <i class="fas fa-cat"></i>
                                         <span>Mascotas </span>
                                     </a>
-                                    <a href="/bd_colaboradores_Educacion/{{idUser_id}}" class="link flex">
+                                    <a href="/Info_Educacion_DB/{{idUser_id}}" class="link flex">
                                         <i class="fas fa-graduation-cap"></i>
                                         <span>Educación </span>
                                     </a>
@@ -42,17 +42,98 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-10 offset-lg-1 px-8 py-3">
-        {% for form_edu in formulario_Educacion %}
-        {{ form_edu.as_p }}
-        {% endfor %}
-    </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 rounded p-5">
+            <h1 class="fw-bold text-center mb-5"><strong>Info Familiares</strong></h1>
 
-</div>
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="/agregar_educacion/{{idUser_id}}" class="link flex ">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Agregar Un Titulo</span>
+                    </a>
+                </div>
 
-{% endblock contenido %}
+            </div>
+
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">TIPO TITULO</th>
+                        <th scope="col">DESCRIPCION TITULO</th>
+                        <th scope="col">INSTITUTO TITULO</th>
+                        <th colspan="2">OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
 
 
-{% block titulo %}
-{% endblock titulo %}
+                    {% for Educacion_Info in Educacion_Info %}
+
+                    <tr>
+                        <td>{{ Educacion_Info.id_estudio }}</td>
+                        <td>{{ Educacion_Info.tipo_titulo }}</td>
+                        <td>{{ Educacion_Info.Descripcion_titulo }}</td>
+                        <td>{{ Educacion_Info.Instituto_titulo }}</td>
+                        <td><a href="/editar_educacion/{{ Educacion_Info.id_estudio }}" class="btn btn-info">Editar</a>
+                        </td>
+
+                        <td>
+                            <a href="/eliminar_educacion/{{ Educacion_Info.id_estudio }}"
+                                class="btn btn-danger btnEliminacion eliminar-btn">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const eliminarBotones = document.querySelectorAll(".eliminar-btn");
+
+                    eliminarBotones.forEach((boton) => {
+                        boton.addEventListener("click", function (event) {
+                            event.preventDefault(); // Evita la acción por defecto del enlace
+
+                            Swal.fire({
+                                title: "¿Estás seguro de eliminar a este Titulo Educativo ?",
+                                text: "No podrás deshacer esta acción",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Sí, eliminar",
+                                cancelButtonText: "No, cancelar",
+                                reverseButtons: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
+                                    window.location.href = boton.href;
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    Swal.fire("Cancelado", "El Titulo educativo  no se Elimino", "error");
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+
+
+
+
+
+
+            <script src='static js/ges'></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            {% endblock contenido %}
+
+
+            {% block titulo %}
+            {% endblock titulo %}
