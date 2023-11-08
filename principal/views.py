@@ -44,7 +44,11 @@ def Info_Familiar_DB(request,idUser_id):
     
     return render(request, 'bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
 
-
+def Info_Mascotas_DB(request, idUser_id):
+    
+    Mascotas_Info = mascotasForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id})
 
 
 
@@ -84,14 +88,14 @@ def bd_colaboradores_Educacion(request,idUser_id):
         formulario_Educacion = None
     return render(request, 'bd_colaboradores_Educacion.html',{'idUser_id':idUser_id,'formulario_Educacion':formulario_Educacion })
   
-def bd_colaboradores_mascotas(request,idUser_id):
-    try:
-        form_M = mascotasForm.objects.filter(idUser_id=idUser_id)
-        formulario_Mascotas = [MascotasForm(instance=Form_Mas) for Form_Mas in form_M]
-        print("Estos son los formularios Mascotas:", formulario_Mascotas)
-    except mascotasForm.DoesNotExist:
-        formulario_Mascotas = None
-    return render(request, 'bd_colaboradores_mascotas.html',{'idUser_id':idUser_id,'formulario_Mascotas':formulario_Mascotas })
+# def bd_colaboradores_mascotas(request,idUser_id):
+#     try:
+#         form_M = mascotasForm.objects.filter(idUser_id=idUser_id)
+#         formulario_Mascotas = [MascotasForm(instance=Form_Mas--) for Form_Mas in form_M]
+#         print("Estos son los formularios Mascotas:", formulario_Mascotas)
+#     except mascotasForm.DoesNotExist:
+#         formulario_Mascotas = None
+#     return render(request, 'bd_colaboradores_mascotas.html',{'idUser_id':idUser_id,'formulario_Mascotas':formulario_Mascotas })
  
  
         

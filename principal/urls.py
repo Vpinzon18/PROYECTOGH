@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios, formularioII,bd_colaboradores_Contratacion , editar_familiar,datos,bd_colaboradores_Educacion, certificados,bd_colaboradores_mascotas, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
+from principal.views import inicio, usuarios, Info_Mascotas_DB,formularioII,bd_colaboradores_Contratacion , editar_familiar,datos,bd_colaboradores_Educacion, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
 from principal import views
 from . import views
 
@@ -35,16 +35,21 @@ urlpatterns = [
     path('bd_colaboradores/<int:idUser_id>/', bd_colaboradores, name='bd_colaboradores'),
     path('bd_claboradores_hijos/<int:idUser_id>/', editar_familiar, name='editar_familiar'),
     path('ActualizacionDatosColaboradores/<int:idUser_id>/', ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
-    path("Info_Familiar_DB/<int:idUser_id>/", Info_Familiar_DB, name="Info_Familiar_DB"),
-    path("bd_colaboradores_mascotas/<int:idUser_id>/", bd_colaboradores_mascotas, name="bd_colaboradores_mascotas"),
     path("bd_colaboradores_Educacion/<int:idUser_id>/", bd_colaboradores_Educacion, name="bd_colaboradores_Educacion"),
     path("bd_colaboradores_Contratacion/<int:idUser_id>/", bd_colaboradores_Contratacion, name="bd_colaboradores_Contratacion"),
+   
+   
+#    urls para la vista de edicion de datos de familiares 
+    path("Info_Familiar_DB/<int:idUser_id>/", Info_Familiar_DB, name="Info_Familiar_DB"),
     path('editar_familiar/<int:familiar_id>/', views.editar_familiar, name='editar_familiar'),
     path('eliminar_familiar/<int:familiar_id>/', views.eliminar_familiar, name='eliminar_familiar'),
     path('agregar_familiar/<int:idUser_id>/', views.agregar_familiar, name='agregar_familiar'),
 
-
-    # path("Actualizar_Hjios/<int:idUser_id>/", Actualizar_Hjios, name="Actualizar_Hjios"),
+    # Urls para las vistas de edicion de datos de mascotas 
+    path("Info_Mascotas_DB/<int:idUser_id>/", Info_Mascotas_DB, name="Info_Mascotas_DB"),
+    
+    # Urls para las vistas de la edicion de los datos de educacion 
+    
 
 
 
