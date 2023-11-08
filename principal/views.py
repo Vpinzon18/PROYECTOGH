@@ -95,16 +95,80 @@ def bd_colaboradores_mascotas(request,idUser_id):
  
  
         
-# def bd_claboradores_hijos(request, idUser_id):
-#      try:
-#         form_f = familiarForm.objects.filter(idUser_id=idUser_id)
-#         formularios_familiares = [FamiliarForm(instance=form) for form in form_f]
-#         print("Estos son los formularios familiares:", formularios_familiares)
-#      except  familiarForm.DoesNotExist:
-#         formularios_familiares = None
-#      return render(request, 'bd_colaboradores_hijos.html',{'idUser_id':idUser_id, 'formularios_familiares':formularios_familiares})
 
 
+def agregar_familiar(request, idUser_id):
+    if request.method == 'POST':
+        form = FamiliarForm(request.POST)
+        
+        if form.is_valid():
+            familiar = form.save(commit=False)
+            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        form = FamiliarForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'AgregarFamiliar.html', {'familiar_formulario': form})
+
+
+
+
+def editar_familiar(request, familiar_id):
+    try:
+        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
+        if request.method == 'POST':
+            form = FamiliarForm(request.POST, instance=familiar)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
+            if form.is_valid():
+                form.save()  # Esto actualizará automáticamente el familiar existente
+                return redirect('datos')  # Redirige a donde desees después de guardar
+
+        else:
+            form = FamiliarForm(instance=familiar)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
+
+    except familiarForm.DoesNotExist:
+        form = None
+
+    return render(request, 'Editar_Info_familiar_DB.html', {'familiar_formulario': form})
+
+def eliminar_familiar(request, familiar_id):
+    try:
+        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
+        familiar.delete()  # Esto eliminará el familiar
+        return redirect('datos')  # Redirige a donde desees después de eliminar
+
+    except familiarForm.DoesNotExist:
+        familiar = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
+
+    return render(request, 'datos.html', {'familiar': familiar})
+
+
+
+
+# def editar_familiar(request, familiar_id):
+#     # Obtén el familiar de la base de datos usando el ID proporcionado
+#     try:
+#         familiar = familiarForm.objects.get(familiar_id=familiar_id)
+#     except familiarForm.DoesNotExist:
+#         # Puedes manejar el caso en que el familiar no existe
+#         return HttpResponse("Familiar no encontrado")
+
+#     # Verifica si el usuario tiene permiso para editar este familiar (opcional)
+
+#     # Procesa el formulario de edición si se envía a través de POST
+#     if request.method == 'POST':
+#         form = FamiliarForm(request.POST, instance=familiar)
+#         if form.is_valid():
+#             form.save()
+#             # Redirige a la página de detalle del familiar o a donde desees
+#             return HttpResponseRedirect('/Info_Familiar_DB/' + str(familiar_id))
+    
+#     # Si no es una solicitud POST, muestra el formulario de edición
+#     else:
+#         form = FamiliarForm(instance=familiar)
+    
+#     return render(request, 'editar_familiar.html', {'form': form, 'familiar': familiar})
 
 
 
@@ -360,27 +424,6 @@ def ActualizacionDatosColaboradores(request, idUser_id):
 
     return render(request, 'bd_colaboradores.html', context)
 
-
-
-
-
-
-
-        
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
 def PowerBi(request):
     context={}

@@ -51,7 +51,15 @@
         <div class="col-lg-10 rounded p-5">
             <h1 class="fw-bold text-center mb-5"><strong>Info Familiares</strong></h1>
 
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="/agregar_familiar/{{idUser_id}}" class="link flex ">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Agregar Familiar</span>
+                    </a>
+                </div>
 
+            </div>
 
             <table class="table table-light table-striped">
                 <thead>
@@ -75,8 +83,15 @@
                         <td>{{ familiar_Info.Apellidos_Familiar }}</td>
                         <td>{{ familiar_Info.Parentesco_Familiar }}</td>
                         <th>{{ familiar_Info.Fecha_Nacimiento_Familiar }}</th>
-                        <td><a href="/bd_colaboradores/{{bdcolaboradore.id }} " class="btn btn-info">Editar
-                                Informacion</a></td>
+                        <td><a href="/editar_familiar/{{ familiar_Info.id_Familiar }}" class="btn btn-info">Editar</a>
+                        </td>
+
+                        <td>
+                            <a href="/eliminar_familiar/{{ familiar_Info.id_Familiar }}"
+                                class="btn btn-danger btnEliminacion eliminar-btn">
+                                Eliminar
+                            </a>
+                        </td>
                     </tr>
                     <tr>
                         {% endfor %}
@@ -95,7 +110,7 @@
                             event.preventDefault(); // Evita la acción por defecto del enlace
 
                             Swal.fire({
-                                title: "¿Estás seguro?",
+                                title: "¿Estás seguro de eliminar a este familiar?",
                                 text: "No podrás deshacer esta acción",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -107,7 +122,7 @@
                                     // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
                                     window.location.href = boton.href;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    Swal.fire("Cancelado", "El Usuario no se Elimino", "error");
+                                    Swal.fire("Cancelado", "El Familiar  no se Elimino", "error");
                                 }
                             });
                         });

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios, formularioII,bd_colaboradores_Contratacion , datos,bd_colaboradores_Educacion, certificados,bd_colaboradores_mascotas, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
+from principal.views import inicio, usuarios, formularioII,bd_colaboradores_Contratacion , editar_familiar,datos,bd_colaboradores_Educacion, certificados,bd_colaboradores_mascotas, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
 from principal import views
 from . import views
 
@@ -33,11 +33,17 @@ urlpatterns = [
     path('datos/DataColaboradores/', DataColaboradores, name="DataColaboradores"),
     path('PowerBi/', PowerBi, name="PowerBi"),
     path('bd_colaboradores/<int:idUser_id>/', bd_colaboradores, name='bd_colaboradores'),
+    path('bd_claboradores_hijos/<int:idUser_id>/', editar_familiar, name='editar_familiar'),
     path('ActualizacionDatosColaboradores/<int:idUser_id>/', ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
     path("Info_Familiar_DB/<int:idUser_id>/", Info_Familiar_DB, name="Info_Familiar_DB"),
     path("bd_colaboradores_mascotas/<int:idUser_id>/", bd_colaboradores_mascotas, name="bd_colaboradores_mascotas"),
     path("bd_colaboradores_Educacion/<int:idUser_id>/", bd_colaboradores_Educacion, name="bd_colaboradores_Educacion"),
     path("bd_colaboradores_Contratacion/<int:idUser_id>/", bd_colaboradores_Contratacion, name="bd_colaboradores_Contratacion"),
+    path('editar_familiar/<int:familiar_id>/', views.editar_familiar, name='editar_familiar'),
+    path('eliminar_familiar/<int:familiar_id>/', views.eliminar_familiar, name='eliminar_familiar'),
+    path('agregar_familiar/<int:idUser_id>/', views.agregar_familiar, name='agregar_familiar'),
+
+
     # path("Actualizar_Hjios/<int:idUser_id>/", Actualizar_Hjios, name="Actualizar_Hjios"),
 
 

@@ -454,11 +454,6 @@ class familiarForm(models.Model):
             ('No', 'No'),
         ]
     )
-    
-   
-    
-    
-    
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
