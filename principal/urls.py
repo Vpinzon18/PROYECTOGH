@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios,Vista_Edicion_Mascotas, Info_Mascotas_DB,formularioII,bd_colaboradores_Contratacion , editar_familiar,datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
+from principal.views import inicio, usuarios,Vista_Edicion_Mascotas, Info_Mascotas_DB,formularioII , editar_familiar,datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
 from principal import views
 from . import views
 
@@ -35,7 +35,7 @@ urlpatterns = [
     path('bd_colaboradores/<int:idUser_id>/', bd_colaboradores, name='bd_colaboradores'),
     path('bd_claboradores_hijos/<int:idUser_id>/', editar_familiar, name='editar_familiar'),
     path('ActualizacionDatosColaboradores/<int:idUser_id>/', ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
-    path("bd_colaboradores_Contratacion/<int:idUser_id>/", bd_colaboradores_Contratacion, name="bd_colaboradores_Contratacion"),
+    
    
    
 #    urls para la vista de edicion de datos de familiares 
@@ -61,7 +61,11 @@ urlpatterns = [
     # Urls para las vistas de la edicion de los datos de CONTRATACION
     path("Info_Contratos_DB/<int:idUser_id>/", views.Info_Contratos_DB, name="Info_Contratos_DB"),
     path('agregar_contrato/<int:idUser_id>/', views.agregar_contrato, name='agregar_contrato'),
+    path('editar_contrato/<int:id_Contrato>/', views.editar_contrato, name='editar_contrato'),
+    path('eliminar_contrato/<int:id_Contrato>/', views.eliminar_contrato, name='eliminar_contrato'),
 
+    # Urls para las vistas de la edicion de los datos de OOPT
+    
 
 
    

@@ -212,10 +212,6 @@ def eliminar_educacion(request, id_estudio):
     return render(request, 'datos.html', {'educacion': educacion})
 #endregion 
 
-#endregion 
-
-
-
 #region VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DEL MODULO DATA COLABORADORES 
 
 # Esta vista crea la tabla con el totaL de CONTRATOS a editar
@@ -225,7 +221,7 @@ def Info_Contratos_DB(request,idUser_id):
     
     return render(request, 'bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'idUser_id':idUser_id} )
 
-# Vista para agregar un nuevo familiar dentro del modulo datos empleados
+# Vista para agregar un nuevo CONTRATO  dentro del modulo datos empleados
 def agregar_contrato(request, idUser_id):
     if request.method == 'POST':
         coontrato = ContratacionForm(request.POST)
@@ -241,8 +237,39 @@ def agregar_contrato(request, idUser_id):
 
     return render(request, 'Agregar_Contrato.html', {'coontrato': coontrato})
 
+# Vista para Editar un CONTRATO dentro del modulo datos empleados
+def editar_contrato(request, id_Contrato):
+    try:
+        contrato  = contratacionForm.objects.get(id_Contrato=id_Contrato)
+        if request.method == 'POST':
+            contrato_form = ContratacionForm(request.POST, instance=contrato)  
+            if contrato_form.is_valid():
+                contrato_form.save() 
+                return redirect('datos')  
+
+        else:
+            contrato_form = ContratacionForm(instance=contrato) 
+
+    except contratacionForm.DoesNotExist:
+        contrato_form = None
+
+    return render(request, 'Editar_Info_contratacion.html', {'contrato_form': contrato_form})
+
+#  Vista par eliminar un  CONTRATO dentro del modulo de emmpleados 
+def eliminar_contrato(request, id_Contrato):
+    try:
+        contratacion = contratacionForm.objects.get(id_Contrato=id_Contrato)
+        contratacion.delete() 
+        return redirect('datos')  
+
+    except contratacionForm.DoesNotExist:
+        contratacion = None 
+
+    return render(request, 'datos.html', {'contratacion': contratacion})
 
 #endregion
+
+#endregion 
 
 
 
@@ -253,14 +280,7 @@ def DataColaboradores(request):
     context={}
     return render(request, 'datacolaboradores.html', context) 
 # ESTE ES LA CONSULTA PARA EL MODULO DE DB COLABORADORES ESTA CONSULTA OBTINENE TODOS LOS DATOS REGISTRADOS TANTO EN EL FOMRULARIO COM ADATOS ADICIONALES AÑADIDOS POR LOS USUARIOS DE GESTION HUMANA
-def bd_colaboradores_Contratacion(request,idUser_id):
-    try:
-        form_con = contratacionForm.objects.filter(idUser_id=idUser_id)
-        formulario_Contratacion = [ContratacionForm(instance=form_con) for form_con in form_con]
-        print("Estos son los formularios Mascotas:", formulario_Contratacion)
-    except contratacionForm.DoesNotExist:
-        formulario_Contratacion = None
-    return render(request, 'bd_colaboradores_Contratacion.html',{'idUser_id':idUser_id,'formulario_Contratacion':formulario_Contratacion })
+
   
 
 

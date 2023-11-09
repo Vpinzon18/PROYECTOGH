@@ -80,11 +80,11 @@
                         <td>{{ contratos_info.Cargo_Contrato }}</td>
                         <td>{{ contratos_info.Ingreso_Mensaul }}</td>
                         <td>{{ contratos_info.Fecha_Inicio_Contrato }}</td>
-                        <td><a href="/editar_educacion/{{ Educacion_Info.id_estudio }}" class="btn btn-info">Editar</a>
+                        <td><a href="/editar_contrato/{{ contratos_info.id_Contrato }}" class="btn btn-info">Editar</a>
                         </td>
 
                         <td>
-                            <a href="/eliminar_educacion/{{ Educacion_Info.id_estudio }}"
+                            <a href="/eliminar_contrato/{{ contratos_info.id_Contrato }}"
                                 class="btn btn-danger btnEliminacion eliminar-btn">
                                 Eliminar
                             </a>
@@ -107,7 +107,7 @@
                             event.preventDefault(); // Evita la acción por defecto del enlace
 
                             Swal.fire({
-                                title: "¿Estás seguro de eliminar a este Titulo Educativo ?",
+                                title: "¿Estás seguro de eliminar a este Contrato Educativo ?",
                                 text: "No podrás deshacer esta acción",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -119,7 +119,7 @@
                                     // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
                                     window.location.href = boton.href;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    Swal.fire("Cancelado", "El Titulo educativo  no se Elimino", "error");
+                                    Swal.fire("Cancelado", "El contrato educativo  no se Elimino", "error");
                                 }
                             });
                         });
