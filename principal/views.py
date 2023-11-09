@@ -357,7 +357,7 @@ def bd_colaboradores(request, idUser_id):
         form_s = situacionesafectableForm.objects.filter(idUser_id=idUser_id)
         formulario_situacion = SituacionesAfectableForm(instance=form_s[0]) 
         print("este es el form situacoiones afectables", formulario_situacion)
-        # formulario mascotas
+        
         
         # formulario transportes
         form_t = transorteForm.objects.filter(idUser_id=idUser_id)

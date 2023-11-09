@@ -447,7 +447,7 @@ class HistorialEducativoForm(forms.ModelForm):
 class OoptForm(forms.ModelForm):
     class Meta:
         model = ooptform
-        fields = ['Resultado_oopt','Cumnplimiento_Proficiencia','Fecha_Presentacion_oopt']
+        fields = ['Resultado_oopt','Fecha_Presentacion_oopt']
         widgets = {
         'Resultado_oopt': forms.Select(attrs={'class': 'form-control'}),
         'Fecha_Presentacion_oopt': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
