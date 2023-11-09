@@ -921,4 +921,23 @@ class historialeducativoFormn(models.Model):
     Fecha_obtencion_titulo = models.DateField()
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
-        db_table = 'Formulario_Historial_educativo'
+        db_table = 'Formulario_Historial_educativo'      
+class ooptform(models.Model):
+    id_oopt = models.AutoField(primary_key=True)
+    Resultado_oopt = models.CharField(max_length=30,choices=[
+            (' A1', 'A1'),
+            (' A2', 'A2'),
+            (' B1', 'B1'),
+            (' B2', 'B2'),
+            (' C1', 'C1'),
+            (' C2', 'C2'),
+            (' No Aplica: ', 'No Aplica'),
+        ]                                 
+    )
+    Fecha_Presentacion_oopt= models.DateField() 
+    Cumnplimiento_Proficiencia = models.FloatField()
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    
+    class Meta: 
+        db_table = 'Formulario_OOPT'

@@ -1,5 +1,5 @@
 from django import forms  
-from principal.models import formularioForm, historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
+from principal.models import formularioForm, ooptform,historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
 from django.forms import modelformset_factory
      
 class FormularioForm(forms.ModelForm):
@@ -430,6 +430,7 @@ class ContratacionForm(forms.ModelForm):
         'INgreso_Mensual_Escrito': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres del familiar'}),
         'Fecha_Peticion_Carta': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
+        
 class HistorialEducativoForm(forms.ModelForm):
     
     class Meta:
@@ -443,8 +444,14 @@ class HistorialEducativoForm(forms.ModelForm):
         }
         
     
-    
-    
+class OoptForm(forms.ModelForm):
+    class Meta:
+        model = ooptform
+        fields = ['Resultado_oopt','Cumnplimiento_Proficiencia','Fecha_Presentacion_oopt']
+        widgets = {
+        'Resultado_oopt': forms.Select(attrs={'class': 'form-control'}),
+        'Fecha_Presentacion_oopt': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
+        }
     
     
     

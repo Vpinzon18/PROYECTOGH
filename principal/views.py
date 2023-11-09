@@ -9,11 +9,11 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
+from principal.forms import FormularioForm,OoptForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.views.generic.edit import FormView
-from .models import formularioForm ,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
+from .models import formularioForm ,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
 import logging
 from django.core.paginator import Paginator
 
@@ -42,18 +42,18 @@ def datos(request):
 
 
 
-#region  "TODAS LAS VISTAS DEL MODULO DATOS DE LOS  COLABORADORES"
+#region #? "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DATOS DE LOS  COLABORADORES"
 
-#region  VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DEL MODULO DATOS DE COLABORADORES 
+#region # * VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DEL MODULO DATOS DE COLABORADORES 
 
-# Esta vista crea la tabla con el tota de familiares a editar
+# ? Esta vista crea la tabla con el tota de familiares a editar
 def Info_Familiar_DB(request,idUser_id):
     
     familiar_Info = familiarForm.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
 
-# Vista para agregar un nuevo familiar dentro del modulo datos empleados
+# ? Vista para agregar un nuevo familiar dentro del modulo datos empleados
 def agregar_familiar(request, idUser_id):
     if request.method == 'POST':
         form = FamiliarForm(request.POST)
@@ -69,7 +69,7 @@ def agregar_familiar(request, idUser_id):
 
     return render(request, 'AgregarFamiliar.html', {'familiar_formulario': form})
 
-# Vista para editar un familiar dentro del modulo de data colaboradores 
+#  ? Vista para editar un familiar dentro del modulo de data colaboradores 
 def editar_familiar(request, familiar_id):
     try:
         familiar = familiarForm.objects.get(id_Familiar=familiar_id)
@@ -87,7 +87,7 @@ def editar_familiar(request, familiar_id):
 
     return render(request, 'Editar_Info_familiar_DB.html', {'familiar_formulario': form})
 
-# Vista para eliminar un familiar dentro del modulo data colaboradores
+# ? Vista para eliminar un familiar dentro del modulo data colaboradores
 def eliminar_familiar(request, familiar_id):
     try:
         familiar = familiarForm.objects.get(id_Familiar=familiar_id)
@@ -101,7 +101,7 @@ def eliminar_familiar(request, familiar_id):
 
 #endregion
 
-#region VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS  DEL MODULO DATOS DE LOS COLABORADORES 
+#region # * VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS  DEL MODULO DATOS DE LOS COLABORADORES 
 
 
 # Esta vista crea la tabla con el totaL de MASCOTAS por persona
@@ -157,7 +157,7 @@ def eliminar_mascota(request, id_mascota):
 
 #endregion 
 
-#region  VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DEL MODULO DATA COLABORADORES
+#region # * VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DEL MODULO DATA COLABORADORES
 
 # esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
 def Info_Educacion_DB(request, idUser_id):
@@ -212,7 +212,8 @@ def eliminar_educacion(request, id_estudio):
     return render(request, 'datos.html', {'educacion': educacion})
 #endregion 
 
-#region VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DEL MODULO DATA COLABORADORES 
+#region # * VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DEL MODULO DATA COLABORADORES 
+
 
 # Esta vista crea la tabla con el totaL de CONTRATOS a editar
 def Info_Contratos_DB(request,idUser_id):
@@ -269,7 +270,57 @@ def eliminar_contrato(request, id_Contrato):
 
 #endregion
 
+#region # * VISTAS PARA EL CRUD DE LOS OOPT DE LOS USUARIOS DEL MODULO DATA COLAORADORES 
+
+# Esta vista crea la tabla con el totaL de OOPT a editar
+def Info_OOPT_DB(request,idUser_id):
+    
+    oopt_info = ooptform.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_oopt.html', {'oopt_info': oopt_info,'idUser_id':idUser_id} )
+
+# Vista para agregar un nuevo OOPT  dentro del modulo datos empleados
+def agregar_oopt(request, idUser_id):
+    if request.method == 'POST':
+        oopt = OoptForm(request.POST)
+        
+        if oopt.is_valid():
+            oopt = oopt.save(commit=False)
+            oopt.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            oopt.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        oopt = OoptForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'Agregar_Oopt.html', {'oopt': oopt})
+
+#  Vista para Editar un OOPT dentro del modulo datos empleados
+def editar_oopt(request, id_oopt):
+    try:
+        oopt  = ooptform.objects.get(id_oopt=id_oopt)
+        if request.method == 'POST':
+            oopt_form = OoptForm(request.POST, instance=oopt)  
+            if oopt_form.is_valid():
+                oopt_form.save() 
+                return redirect('datos')  
+
+        else:
+            oopt_form = OoptForm(instance=oopt) 
+
+    except ooptform.DoesNotExist:
+        oopt_form = None
+
+    return render(request, 'Editar_Info_OOPT.html', {'oopt_form': oopt_form})
+
+
+
+
 #endregion 
+
+#endregion # ? fin total de vistas 
+
+
 
 
 

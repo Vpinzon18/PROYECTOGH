@@ -46,13 +46,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10 rounded p-5">
-            <h1 class="fw-bold text-center mb-5"><strong>Info Contratos</strong></h1>
+            <h1 class="fw-bold text-center mb-5"><strong>Info Resultados Oopt</strong></h1>
 
             <div class="row">
                 <div class="col-md-3">
-                    <a href="/agregar_contrato/{{idUser_id}}" class="link flex ">
-                        <i class="fas fa-file-contract"></i>
-                        <span>Agregar Un Contrato</span>
+                    <a href="/agregar_oopt/{{idUser_id}}" class="link flex ">
+                        <i class="fas fa-language"></i>
+                        <span>Agregar OOPT </span>
                     </a>
                 </div>
 
@@ -62,29 +62,27 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">TIPO CONTRATO</th>
-                        <th scope="col">CARGO DEL CONTRATO</th>
-                        <th scope="col">INGRESO MENSUAL</th>
-                        <th scope="col">FECHA INICIO CONTRATO</th>
+                        <th scope="col">RESULTADO OOPT</th>
+                        <th scope="col">FECHA PRESENTACION</th>
+                        <th scope="col">CUMPLIMIENTO PROFICIENCIA</th>
                         <th colspan="2">OPCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-                    {% for contratos_info in contratos_info %}
+                    {% for oopt_info in oopt_info %}
 
                     <tr>
-                        <td>{{ contratos_info.id_Contrato }}</td>
-                        <td>{{ contratos_info.Tipo_Contrato }}</td>
-                        <td>{{ contratos_info.Cargo_Contrato }}</td>
-                        <td>{{ contratos_info.Ingreso_Mensaul }}</td>
-                        <td>{{ contratos_info.Fecha_Inicio_Contrato }}</td>
-                        <td><a href="/editar_contrato/{{ contratos_info.id_Contrato }}" class="btn btn-info">Editar</a>
+                        <td>{{ oopt_info.id_oopt }}</td>
+                        <td>{{ oopt_info.Resultado_oopt }}</td>
+                        <td>{{ oopt_info.Fecha_Presentacion_oopt }}</td>
+                        <td>{{ oopt_info.Cumnplimiento_Proficiencia }}</td>
+                        <td><a href="/editar_oopt/{{ oopt_info.id_oopt }}" class="btn btn-info">Editar</a>
                         </td>
 
                         <td>
-                            <a href="/eliminar_contrato/{{ contratos_info.id_Contrato }}"
+                            <a href="/eliminar_mascota/{{ Mascotas.id_mascota }}"
                                 class="btn btn-danger btnEliminacion eliminar-btn">
                                 Eliminar
                             </a>
@@ -107,7 +105,7 @@
                             event.preventDefault(); // Evita la acción por defecto del enlace
 
                             Swal.fire({
-                                title: "¿Estás seguro de eliminar a este Contrato Educativo ?",
+                                title: "¿Estás seguro de eliminar a este familiar?",
                                 text: "No podrás deshacer esta acción",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -119,7 +117,7 @@
                                     // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
                                     window.location.href = boton.href;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    Swal.fire("Cancelado", "El contrato educativo  no se Elimino", "error");
+                                    Swal.fire("Cancelado", "El Familiar  no se Elimino", "error");
                                 }
                             });
                         });

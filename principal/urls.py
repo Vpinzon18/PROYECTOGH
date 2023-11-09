@@ -38,34 +38,36 @@ urlpatterns = [
     
    
    
-#    urls para la vista de edicion de datos de familiares 
+    #  !  urls para la vista de edicion de datos de familiares 
     path("Info_Familiar_DB/<int:idUser_id>/", Info_Familiar_DB, name="Info_Familiar_DB"),
     path('editar_familiar/<int:familiar_id>/', views.editar_familiar, name='editar_familiar'),
     path('eliminar_familiar/<int:familiar_id>/', views.eliminar_familiar, name='eliminar_familiar'),
     path('agregar_familiar/<int:idUser_id>/', views.agregar_familiar, name='agregar_familiar'),
 
-    # Urls para las vistas de edicion de datos de mascotas 
+    #  ! Urls para las vistas de edicion de datos de mascotas 
     path("Info_Mascotas_DB/<int:idUser_id>/", Info_Mascotas_DB, name="Info_Mascotas_DB"),
     path('Vista_Edicion_Mascotas/<int:id_mascota>/', Vista_Edicion_Mascotas, name='Vista_Edicion_Mascotas'),
     path('agregar_mascota/<int:idUser_id>/', views.agregar_mascota, name='agregar_mascota'),
     path('eliminar_mascota/<int:id_mascota>/', views.eliminar_mascota, name='eliminar_mascota'),
     
     
-    # Urls para las vistas de la edicion de los datos de educacion 
+    # ! Urls para las vistas de la edicion de los datos de educacion 
     path("Info_Educacion_DB/<int:idUser_id>/", views.Info_Educacion_DB, name="Info_Educacion_DB"),
     path('agregar_educacion/<int:idUser_id>/', views.agregar_educacion, name='agregar_educacion'),
     path('editar_educacion/<int:id_estudio>/', views.editar_educacion, name='editar_educacion'),
     path('eliminar_educacion/<int:id_estudio>/', views.eliminar_educacion, name='eliminar_educacion'),
     
     
-    # Urls para las vistas de la edicion de los datos de CONTRATACION
+    # ! Urls para las vistas de la edicion de los datos de CONTRATACION
     path("Info_Contratos_DB/<int:idUser_id>/", views.Info_Contratos_DB, name="Info_Contratos_DB"),
     path('agregar_contrato/<int:idUser_id>/', views.agregar_contrato, name='agregar_contrato'),
     path('editar_contrato/<int:id_Contrato>/', views.editar_contrato, name='editar_contrato'),
     path('eliminar_contrato/<int:id_Contrato>/', views.eliminar_contrato, name='eliminar_contrato'),
 
-    # Urls para las vistas de la edicion de los datos de OOPT
-    
+    # ! Urls para las vistas de la edicion de los datos de OOPT
+    path("Info_OOPT_DB/<int:idUser_id>/", views.Info_OOPT_DB, name="Info_OOPT_DB"),
+    path('agregar_oopt/<int:idUser_id>/', views.agregar_oopt, name='agregar_oopt'),
+    path('editar_oopt/<int:id_oopt>/', views.editar_oopt, name='editar_oopt'),
 
 
    
