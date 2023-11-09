@@ -937,7 +937,6 @@ class ooptform(models.Model):
         ]                                 
     )
     Fecha_Presentacion_oopt= models.DateField() 
-    Cumnplimiento_Proficiencia = models.FloatField()
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     
