@@ -68,10 +68,13 @@ urlpatterns = [
     path("Info_OOPT_DB/<int:idUser_id>/", views.Info_OOPT_DB, name="Info_OOPT_DB"),
     path('agregar_oopt/<int:idUser_id>/', views.agregar_oopt, name='agregar_oopt'),
     path('editar_oopt/<int:id_oopt>/', views.editar_oopt, name='editar_oopt'),
+    path('eliminar_oopt/<int:id_oopt>/', views.eliminar_oopt, name='eliminar_oopt'),
 
-
-   
-
+    # ! Urls para las vistas de la edicion de los datos de la EXPERIENCIA LABORAL 
+    path("Info_experiencias_laborales_DB/<int:idUser_id>/", views.Info_experiencias_laborales_DB, name="Info_experiencias_laborales_DB"),
+    path('agregar_experiencia/<int:idUser_id>/', views.agregar_experiencia, name='agregar_experiencia'),
+    path('editar_experiecncia/<int:id_experiencia>/', views.editar_experiecncia, name='editar_experiecncia'),
+    path('eliminar_experiencia/<int:id_experiencia>/', views.eliminar_experiencia, name='eliminar_experiencia'),
 
 
 

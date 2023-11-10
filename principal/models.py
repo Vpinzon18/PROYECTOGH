@@ -893,7 +893,6 @@ class contratacionForm(models.Model):
     Fecha_Fin_Contrato = models.DateField(default=timezone.now)
     Ingreso_Mensaul = models.FloatField()
     INgreso_Mensual_Escrito = models.CharField(max_length=100)
-    Fecha_Peticion_Carta = models.DateField(default=timezone.now)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Formulario_Contratacion'
@@ -946,4 +945,10 @@ class ooptform(models.Model):
 class experienciaslaboralesform(models.Model):
     id_experiencia = models.AutoField(primary_key=True)
     cargo_experiencia = models.CharField(max_length=100, )
-    instituto_experiencia = models.CharField(max_length=100, )
+    descripcion_experiencia = models.CharField(max_length=100, )
+    instituto_experiencia = models.CharField(max_length=100,)
+    Fecha_inicio_experiencia= models.DateField() 
+    Fecha_fin_experiencia= models.DateField() 
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta: 
+        db_table = 'Formulario_Experiencias_Laborales'

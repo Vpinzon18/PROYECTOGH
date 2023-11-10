@@ -5,7 +5,7 @@
 {% block contenido %}
 <div class="container">
     <div class="row">
-        <div class="col-md-10 mx-10">
+        <div class="col-md-11 mx-10">
             <div class="card">
                 <div class="card-body">
                     <nav class="navbara navbar-expand-lg navbar-light navbar-static-top custom-navbar">
@@ -33,6 +33,10 @@
                                     <a href="/Info_OOPT_DB/{{idUser_id}}" class="link flex">
                                         <i class="fas fa-language"></i>
                                         <span>OOPT</span>
+                                    </a>
+                                    <a href="/Info_experiencias_laborales_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-box-archive"></i>
+                                        <span>Experiencia </span>
                                     </a>
                             </div>
                         </div>
@@ -80,7 +84,7 @@
                         </td>
 
                         <td>
-                            <a href="/eliminar_mascota/{{ Mascotas.id_mascota }}"
+                            <a href="/eliminar_oopt/{{ oopt_info.id_oopt }}"
                                 class="btn btn-danger btnEliminacion eliminar-btn">
                                 Eliminar
                             </a>
@@ -103,7 +107,7 @@
                             event.preventDefault(); // Evita la acción por defecto del enlace
 
                             Swal.fire({
-                                title: "¿Estás seguro de eliminar a este familiar?",
+                                title: "¿Estás seguro de eliminar a este examen OOPT?",
                                 text: "No podrás deshacer esta acción",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -115,7 +119,7 @@
                                     // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
                                     window.location.href = boton.href;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    Swal.fire("Cancelado", "El Familiar  no se Elimino", "error");
+                                    Swal.fire("Cancelado", "El examen OOPT  no se Elimino", "error");
                                 }
                             });
                         });

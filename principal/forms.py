@@ -1,5 +1,5 @@
 from django import forms  
-from principal.models import formularioForm, ooptform,historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
+from principal.models import formularioForm,experienciaslaboralesform, ooptform,historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
 from django.forms import modelformset_factory
      
 class FormularioForm(forms.ModelForm):
@@ -8,7 +8,7 @@ class FormularioForm(forms.ModelForm):
         fields = ['Tipo_Documento','Documento','Numero_Contacto','tipo_sangre','Cargo_Actual','Numero_Emergencia','Fecha_Nacimiento', 'Departamento_Nacimiento','Ciudad_Nacimiento','Ciudad_Residencia','Direccion_Residencia','Sexo','Estado_Civil','Etnia','Talla_Camisa','Vegetariano','file','Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS','Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral','Pensionado','Discapacidad_Familiar','Tipo_Vivienda','Estrato_Vivienda','Tiempo_Desplazamiento','Tiempo_Vinculacion_Laboral','Tiempo_Cargo_Laboral','Tipo_Contrato_Form','Horario_laboral','Horas_Laborales','Promedio_Ingresos','Frecuencia_Actividad_Fisica','Patologia_Mental','Pareja_Embarazo','PesoKg', 'AlturaCm', 'Actualemte_Fuma','Promedio_Cigarrillos','Consumo_Bebidas','Frecuencia_Deporte','Actualimente_Utiliza_Voz','Horas_Utilizacion_Voz','Utiliza_Manos_Libres','Horas_Utilizacion_Manos_Libre','idUser']
         widgets = {
             'idUser': forms.HiddenInput(attrs={'class': 'text-left'}),# Campo oculto
-            'Fecha_Nacimiento' : forms.DateInput(format='%d/%m/%Y', attrs={'class': 'fecha-personalizada'})
+            'Fecha_Nacimiento' :  forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
         input_formats = ['%d/%m/%Y']
  
@@ -420,7 +420,7 @@ class SintomasAudicionForm(forms.ModelForm):
 class ContratacionForm(forms.ModelForm):
     class Meta:
         model = contratacionForm
-        fields = ['Tipo_Contrato','Es_flexibilizado', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Fecha_Fin_Contrato', 'Ingreso_Mensaul', 'INgreso_Mensual_Escrito','Fecha_Peticion_Carta']
+        fields = ['Tipo_Contrato','Es_flexibilizado', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Fecha_Fin_Contrato', 'Ingreso_Mensaul', 'INgreso_Mensual_Escrito']
         widgets = {
         'Tipo_Contrato': forms.Select(attrs={'class': 'form-control'}),
         'Es_flexibilizado': forms.Select(attrs={'class': 'form-control'}),
@@ -428,7 +428,6 @@ class ContratacionForm(forms.ModelForm):
         'Fecha_Inicio_Contrato': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         'Fecha_Fin_Contrato': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         'INgreso_Mensual_Escrito': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres del familiar'}),
-        'Fecha_Peticion_Carta': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
         
 class HistorialEducativoForm(forms.ModelForm):
@@ -442,7 +441,6 @@ class HistorialEducativoForm(forms.ModelForm):
             'Instituto_titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del instituto'}),
             'Fecha_obtencion_titulo': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
-        
     
 class OoptForm(forms.ModelForm):
     class Meta:
@@ -453,7 +451,15 @@ class OoptForm(forms.ModelForm):
         'Fecha_Presentacion_oopt': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
     
-    
-    
-    
+class ExperienciasLaboralesForm(forms.ModelForm):  
+    class Meta:
+        model = experienciaslaboralesform
+        fields = ['cargo_experiencia','instituto_experiencia','descripcion_experiencia','Fecha_inicio_experiencia','Fecha_fin_experiencia']
+        widgets = {
+        'cargo_experiencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'describa el cargo sobre esa experiencia laboral '}),
+        'instituto_experiencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del instituto donde realizo la experiencia laboral'}),
+        'descripcion_experiencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del instituto donde realizo la experiencia laboral'}),
+        'Fecha_inicio_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
+        'Fecha_fin_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
+        }
 # , 'lastname', 'email', 'file', 'fecha_creacion',m

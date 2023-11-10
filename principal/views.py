@@ -9,11 +9,11 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm,OoptForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
+from principal.forms import FormularioForm,OoptForm,ExperienciasLaboralesForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.views.generic.edit import FormView
-from .models import formularioForm ,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
+from .models import formularioForm ,experienciaslaboralesform,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
 import logging
 from django.core.paginator import Paginator
 
@@ -42,9 +42,9 @@ def datos(request):
 
 
 
-#region #? "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DATOS DE LOS  COLABORADORES"
+#region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DATOS EMPLEADOS "
 
-#region # * VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DEL MODULO DATOS DE COLABORADORES 
+#region # * VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DE LOS COLABORADORES DEL MODULO DATOS DE COLABORADORES 
 
 # ? Esta vista crea la tabla con el tota de familiares a editar
 def Info_Familiar_DB(request,idUser_id):
@@ -101,17 +101,17 @@ def eliminar_familiar(request, familiar_id):
 
 #endregion
 
-#region # * VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS  DEL MODULO DATOS DE LOS COLABORADORES 
+#region # * VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS DE LOS COLABORADORES  DEL MODULO DATOS DE LOS COLABORADORES 
 
 
-# Esta vista crea la tabla con el totaL de MASCOTAS por persona
+# ? Esta vista crea la tabla con el totaL de MASCOTAS por persona
 def Info_Mascotas_DB(request, idUser_id):
     
     Mascotas_Info = mascotasForm.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id})
 
-# Esta vista es para agregar una nueva mastoca 
+# ? Esta vista es para agregar una nueva mastoca 
 def agregar_mascota(request, idUser_id):
     if request.method == 'POST':
         form_add_mascotas = MascotasForm(request.POST)
@@ -127,7 +127,7 @@ def agregar_mascota(request, idUser_id):
 
     return render(request, 'Agregar_Mascotas.html', {'form_add_mascotas': form_add_mascotas})
 
-# Esta es la vista es para editar los datos de las mascotas  
+# ? Esta es la vista es para editar los datos de las mascotas  
 def Vista_Edicion_Mascotas(request, id_mascota):
     try:
         mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
@@ -143,7 +143,7 @@ def Vista_Edicion_Mascotas(request, id_mascota):
 
     return render(request, 'Editar_Info_Mascotas.html', {'form_mascotas': form_mascotas})
 
-# esta vista es para eliminar una mascota 
+# ? esta vista es para eliminar una mascota 
 def eliminar_mascota(request, id_mascota):
     try:
         mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
@@ -157,16 +157,16 @@ def eliminar_mascota(request, id_mascota):
 
 #endregion 
 
-#region # * VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DEL MODULO DATA COLABORADORES
+#region # * VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DE LOS COLABORADORES DEL MODULO DATA COLABORADORES
 
-# esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
+# ?esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
 def Info_Educacion_DB(request, idUser_id):
     
     Educacion_Info = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_Educacion.html', {'Educacion_Info': Educacion_Info, 'idUser_id':idUser_id})
 
-# Esta vista es para agregar un nuevo titulo academico 
+# ?Esta vista es para agregar un nuevo titulo academico 
 def agregar_educacion(request, idUser_id):
     if request.method == 'POST':
         form_add_educacion = HistorialEducativoForm(request.POST)
@@ -182,7 +182,7 @@ def agregar_educacion(request, idUser_id):
 
     return render(request, 'Agregar_Educacion.html', {'form_add_educacion': form_add_educacion})
 
-# Vista para editar un titulo dentro del modulo de data colaboradores 
+# ?Vista para editar un titulo dentro del modulo de data colaboradores 
 def editar_educacion(request, id_estudio):
     try:
         educacion_form = historialeducativoFormn.objects.get(id_estudio=id_estudio)
@@ -200,6 +200,7 @@ def editar_educacion(request, id_estudio):
 
     return render(request, 'Editar_Info_Educacion.html', {'educacion': educacion})
 
+# ?Vista para eliminar  un titulo dentro del modulo data colaboradores 
 def eliminar_educacion(request, id_estudio):
     try:
         educacion = historialeducativoFormn.objects.get(id_estudio=id_estudio)
@@ -212,17 +213,17 @@ def eliminar_educacion(request, id_estudio):
     return render(request, 'datos.html', {'educacion': educacion})
 #endregion 
 
-#region # * VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DEL MODULO DATA COLABORADORES 
+#region # * VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DE LOS COLABORADORESDEL MODULO DATA COLABORADORES 
 
 
-# Esta vista crea la tabla con el totaL de CONTRATOS a editar
+# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
 def Info_Contratos_DB(request,idUser_id):
     
     contratos_info = contratacionForm.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'idUser_id':idUser_id} )
 
-# Vista para agregar un nuevo CONTRATO  dentro del modulo datos empleados
+# ?Vista para agregar un nuevo CONTRATO  dentro del modulo datos empleados
 def agregar_contrato(request, idUser_id):
     if request.method == 'POST':
         coontrato = ContratacionForm(request.POST)
@@ -238,7 +239,7 @@ def agregar_contrato(request, idUser_id):
 
     return render(request, 'Agregar_Contrato.html', {'coontrato': coontrato})
 
-# Vista para Editar un CONTRATO dentro del modulo datos empleados
+# ?Vista para Editar un CONTRATO dentro del modulo datos empleados
 def editar_contrato(request, id_Contrato):
     try:
         contrato  = contratacionForm.objects.get(id_Contrato=id_Contrato)
@@ -256,7 +257,7 @@ def editar_contrato(request, id_Contrato):
 
     return render(request, 'Editar_Info_contratacion.html', {'contrato_form': contrato_form})
 
-#  Vista par eliminar un  CONTRATO dentro del modulo de emmpleados 
+#  ?Vista par eliminar un  CONTRATO dentro del modulo de emmpleados 
 def eliminar_contrato(request, id_Contrato):
     try:
         contratacion = contratacionForm.objects.get(id_Contrato=id_Contrato)
@@ -270,16 +271,16 @@ def eliminar_contrato(request, id_Contrato):
 
 #endregion
 
-#region # * VISTAS PARA EL CRUD DE LOS OOPT DE LOS USUARIOS DEL MODULO DATA COLAORADORES 
+#region # * VISTAS PARA EL CRUD DE LOS OOPT DE LOS COLABORADORES DEL MODULO DATA COLAORADORES 
 
-# Esta vista crea la tabla con el totaL de OOPT a editar
+# ? Esta vista crea la tabla con el totaL de OOPT a editar
 def Info_OOPT_DB(request,idUser_id):
     
     oopt_info = ooptform.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'bd_colaboradores_oopt.html', {'oopt_info': oopt_info,'idUser_id':idUser_id} )
 
-# Vista para agregar un nuevo OOPT  dentro del modulo datos empleados
+# ?Vista para agregar un nuevo OOPT  dentro del modulo datos empleados
 def agregar_oopt(request, idUser_id):
     if request.method == 'POST':
         oopt = OoptForm(request.POST)
@@ -295,7 +296,7 @@ def agregar_oopt(request, idUser_id):
 
     return render(request, 'Agregar_Oopt.html', {'oopt': oopt})
 
-#  Vista para Editar un OOPT dentro del modulo datos empleados
+#  ?Vista para Editar un OOPT dentro del modulo datos empleados
 def editar_oopt(request, id_oopt):
     try:
         oopt  = ooptform.objects.get(id_oopt=id_oopt)
@@ -313,10 +314,80 @@ def editar_oopt(request, id_oopt):
 
     return render(request, 'Editar_Info_OOPT.html', {'oopt_form': oopt_form})
 
+#  ?Vista para Eliminar un OOPT dentro del modulo datos empleados
+def eliminar_oopt(request, id_oopt):
+    try:
+        oopt = ooptform.objects.get(id_oopt=id_oopt)
+        oopt.delete() 
+        return redirect('datos')  
 
+    except ooptform.DoesNotExist:
+        oopt = None 
+
+    return render(request, 'datos.html', {'oopt': oopt})
 
 
 #endregion 
+
+# region  #* VISTAS PARA EL CRUD DE LAS EXPERIENCIAS LABORALES DE LOS COLABORADORES DEL MODULO DATA COLABORADORES 
+
+# ?Esta vista crea la tabla con el totaL de OOPT a editar
+def Info_experiencias_laborales_DB(request,idUser_id):
+    
+    experiencia_info = experienciaslaboralesform.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_experiencias_laboral.html', {'experiencia_info': experiencia_info,'idUser_id':idUser_id} )
+
+# ?Vista para agregar una nueva experiencia laboral  dentro del modulo datos empleados
+def agregar_experiencia(request, idUser_id):
+    if request.method == 'POST':
+        experiencia  = ExperienciasLaboralesForm(request.POST)
+        
+        if experiencia.is_valid():
+            experiencia = experiencia.save(commit=False)
+            experiencia.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            experiencia.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        experiencia = ExperienciasLaboralesForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'Agregar_Experiencia.html', {'experiencia': experiencia})
+
+#  ?Vista para Editar una nueva experiencia dentro del modulo datos empleados
+def editar_experiecncia(request, id_experiencia):
+    try:
+        experiencia  = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
+        if request.method == 'POST':
+            experiencia = ExperienciasLaboralesForm(request.POST, instance=id_experiencia)  
+            if experiencia.is_valid():
+                experiencia.save() 
+                return redirect('datos')  
+
+        else:
+            experiencia = ExperienciasLaboralesForm(instance=experiencia) 
+
+    except experienciaslaboralesform.DoesNotExist:
+        experiencia = None
+
+    return render(request, 'Editar_Info_Experiencia.html', {'experiencia': experiencia})
+
+#  ?Vista para Eliminar un OOPT dentro del modulo datos empleados
+def eliminar_experiencia(request, id_experiencia):
+    try:
+        experiencia = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
+        experiencia.delete() 
+        return redirect('datos')  
+
+    except experienciaslaboralesform.DoesNotExist:
+        experiencia = None 
+
+    return render(request, 'datos.html', {'experiencia': experiencia})
+
+# endregion 
+
+# region #* VISTAS PARA EL CRUD DE LAS CALIFICACIONES DE DESEMPEÑO DEL MODULO DATA COLABORADORES 
+# endregion
 
 #endregion # ? fin total de vistas 
 
