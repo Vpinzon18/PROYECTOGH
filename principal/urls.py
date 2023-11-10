@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from principal.views import inicio, usuarios,Vista_Edicion_Mascotas, Info_Mascotas_DB,formularioII , editar_familiar,datos, certificados, prueba,DataColaboradores, PowerBi,bd_colaboradores,Contratacion,ActualizacionDatosColaboradores, Info_Familiar_DB
 from principal import views
 from . import views
 
@@ -24,29 +23,29 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', login, name="login"),
-    path('inicio/', inicio, name="inicio"),
-    path('usuarios/', usuarios, name="usuarios"),
-    path('formularioII/', formularioII, name="formularioII"),
-    path('datos/', datos, name="datos"),
-    path('certificados/', certificados, name="certificados"),
-    path('prueba/', prueba, name="prueba"),
-    path('datos/DataColaboradores/', DataColaboradores, name="DataColaboradores"),
-    path('PowerBi/', PowerBi, name="PowerBi"),
-    path('bd_colaboradores/<int:idUser_id>/', bd_colaboradores, name='bd_colaboradores'),
-    path('bd_claboradores_hijos/<int:idUser_id>/', editar_familiar, name='editar_familiar'),
-    path('ActualizacionDatosColaboradores/<int:idUser_id>/', ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
+    path('inicio/', views.inicio, name="inicio"),
+    path('usuarios/', views.usuarios, name="usuarios"),
+    path('formularioII/', views.formularioII, name="formularioII"),
+    path('datos/', views.datos, name="datos"),
+    path('certificados/', views.certificados, name="certificados"),
+    path('prueba/', views.prueba, name="prueba"),
+    path('datos/DataColaboradores/', views.DataColaboradores, name="DataColaboradores"),
+    path('PowerBi/', views.PowerBi, name="PowerBi"),
+    path('bd_colaboradores/<int:idUser_id>/', views.bd_colaboradores, name='bd_colaboradores'),
+    path('bd_claboradores_hijos/<int:idUser_id>/', views.editar_familiar, name='editar_familiar'),
+    path('ActualizacionDatosColaboradores/<int:idUser_id>/', views.ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
     
    
    
     #  !  urls para la vista de edicion de datos de familiares 
-    path("Info_Familiar_DB/<int:idUser_id>/", Info_Familiar_DB, name="Info_Familiar_DB"),
+    path("Info_Familiar_DB/<int:idUser_id>/", views.Info_Familiar_DB, name="Info_Familiar_DB"),
     path('editar_familiar/<int:familiar_id>/', views.editar_familiar, name='editar_familiar'),
     path('eliminar_familiar/<int:familiar_id>/', views.eliminar_familiar, name='eliminar_familiar'),
     path('agregar_familiar/<int:idUser_id>/', views.agregar_familiar, name='agregar_familiar'),
 
     #  ! Urls para las vistas de edicion de datos de mascotas 
-    path("Info_Mascotas_DB/<int:idUser_id>/", Info_Mascotas_DB, name="Info_Mascotas_DB"),
-    path('Vista_Edicion_Mascotas/<int:id_mascota>/', Vista_Edicion_Mascotas, name='Vista_Edicion_Mascotas'),
+    path("Info_Mascotas_DB/<int:idUser_id>/", views.Info_Mascotas_DB, name="Info_Mascotas_DB"),
+    path('Vista_Edicion_Mascotas/<int:id_mascota>/', views.Vista_Edicion_Mascotas, name='Vista_Edicion_Mascotas'),
     path('agregar_mascota/<int:idUser_id>/', views.agregar_mascota, name='agregar_mascota'),
     path('eliminar_mascota/<int:id_mascota>/', views.eliminar_mascota, name='eliminar_mascota'),
     
@@ -76,13 +75,16 @@ urlpatterns = [
     path('editar_experiecncia/<int:id_experiencia>/', views.editar_experiecncia, name='editar_experiecncia'),
     path('eliminar_experiencia/<int:id_experiencia>/', views.eliminar_experiencia, name='eliminar_experiencia'),
 
+    # ! Urls para las vistas de la edicion de los datos de la EXPERIENCIA LABORAL 
+    path("Info_Desempeno_DB/<int:idUser_id>/", views.Info_Desempeno_DB, name="Info_Desempeno_DB"),
+    path('agregar_desempeno/<int:idUser_id>/', views.agregar_desempeno, name='agregar_desempeno'),
+    path('editar_desempeno/<int:id_evaluacion>/', views.editar_desempeno, name='editar_desempeno'),
+    path('eliminar_desempeno/<int:id_evaluacion>/', views.eliminar_desempeno, name='eliminar_desempeno'),
 
 
 
 
-
-
-    path('Contratacion/<idUser_id>', Contratacion),
+    path('Contratacion/<idUser_id>', views.Contratacion),
     path('', views.signin, name='signin'),
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),

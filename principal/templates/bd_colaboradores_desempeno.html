@@ -53,13 +53,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10 rounded p-5">
-            <h1 class="fw-bold text-center mb-5"><strong>Info Familiares</strong></h1>
+            <h1 class="fw-bold text-center mb-5"><strong>Info Desempeños</strong></h1>
 
             <div class="row">
                 <div class="col-md-3">
-                    <a href="/agregar_educacion/{{idUser_id}}" class="link flex ">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Agregar Un Titulo</span>
+                    <a href="/agregar_desempeno/{{idUser_id}}" class="link flex ">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Agregar Desempeño</span>
                     </a>
                 </div>
 
@@ -69,27 +69,31 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">TIPO TITULO</th>
-                        <th scope="col">DESCRIPCION TITULO</th>
-                        <th scope="col">INSTITUTO TITULO</th>
+                        <th scope="col">DESEMPEÑO OOPT</th>
+                        <th scope="col">DESEMPEÑO EXPERIENCIA</th>
+                        <th scope="col">DESEMPEÑO EDUCACION </th>
+                        <th scope="col">DESEMPEÑO COMPETENCIAS </th>
+                        <th scope="col">TOTAL DESEMPEÑOS </th>
                         <th colspan="2">OPCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-                    {% for Educacion_Info in Educacion_Info %}
+                    {% for desempeno in desempeno %}
 
                     <tr>
-                        <td>{{ Educacion_Info.id_estudio }}</td>
-                        <td>{{ Educacion_Info.tipo_titulo }}</td>
-                        <td>{{ Educacion_Info.Descripcion_titulo }}</td>
-                        <td>{{ Educacion_Info.Instituto_titulo }}</td>
-                        <td><a href="/editar_educacion/{{ Educacion_Info.id_estudio }}" class="btn btn-info">Editar</a>
+                        <td>{{ desempeno.id_evaluacion }}</td>
+                        <td>{{ desempeno.examenes }}</td>
+                        <td>{{ desempeno.experiencia }}</td>
+                        <td>{{ desempeno.educacion }}</td>
+                        <td>{{ desempeno.competencias }}</td>
+                        <td>{{ desempeno.suma_total }}</td>
+                        <td><a href="/editar_desempeno/{{ desempeno.id_evaluacion }}" class="btn btn-info">Editar</a>
                         </td>
 
                         <td>
-                            <a href="/eliminar_educacion/{{ Educacion_Info.id_estudio }}"
+                            <a href="/eliminar_desempeno/{{ desempeno.id_evaluacion }}"
                                 class="btn btn-danger btnEliminacion eliminar-btn">
                                 Eliminar
                             </a>
@@ -112,7 +116,7 @@
                             event.preventDefault(); // Evita la acción por defecto del enlace
 
                             Swal.fire({
-                                title: "¿Estás seguro de eliminar a este Titulo Educativo ?",
+                                title: "¿Estás seguro de eliminar a este Desemepño Laboral ?",
                                 text: "No podrás deshacer esta acción",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -124,7 +128,7 @@
                                     // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
                                     window.location.href = boton.href;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    Swal.fire("Cancelado", "El Titulo educativo  no se Elimino", "error");
+                                    Swal.fire("Cancelado", "El Desempeño Laboral  no se Elimino", "error");
                                 }
                             });
                         });

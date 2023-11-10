@@ -9,11 +9,11 @@ from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
-from principal.forms import FormularioForm,OoptForm,ExperienciasLaboralesForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
+from principal.forms import FormularioForm,OoptForm,EvaluacionDesempenoForm,ExperienciasLaboralesForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.views.generic.edit import FormView
-from .models import formularioForm ,experienciaslaboralesform,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
+from .models import formularioForm ,evaluaciondesempenoForm,experienciaslaboralesform,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
 import logging
 from django.core.paginator import Paginator
 
@@ -30,12 +30,7 @@ def formularioII(request):
     context={}
     return render(request, 'formulario.html', context) 
 
-def datos(request):
-    # Obtener todos los usuarios en la base de datos
-    bdcolaboradore = User.objects.all()
-    form = formularioForm.objects.all()
 
-    return render(request, 'datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
 
 
 
@@ -43,6 +38,15 @@ def datos(request):
 
 
 #region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DATOS EMPLEADOS "
+
+#  region  #* VISTA CON LA TABLA DE LOS NOMBRES DE LOS COLABORADORES PARA EL MODULO DE DATA COLABORADPRES 
+def datos(request):
+    # Obtener todos los usuarios en la base de datos
+    bdcolaboradore = User.objects.all()
+    form = formularioForm.objects.all()
+
+    return render(request, 'datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
+# endregion
 
 #region # * VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DE LOS COLABORADORES DEL MODULO DATOS DE COLABORADORES 
 
@@ -359,7 +363,7 @@ def editar_experiecncia(request, id_experiencia):
     try:
         experiencia  = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
         if request.method == 'POST':
-            experiencia = ExperienciasLaboralesForm(request.POST, instance=id_experiencia)  
+            experiencia = ExperienciasLaboralesForm(request.POST, instance=experiencia)  
             if experiencia.is_valid():
                 experiencia.save() 
                 return redirect('datos')  
@@ -387,24 +391,71 @@ def eliminar_experiencia(request, id_experiencia):
 # endregion 
 
 # region #* VISTAS PARA EL CRUD DE LAS CALIFICACIONES DE DESEMPEÑO DEL MODULO DATA COLABORADORES 
+
+# ?Esta vista crea la tabla con el totaL de DESEMPEÑOS a editar
+def Info_Desempeno_DB(request,idUser_id):
+    
+    desempeno = evaluaciondesempenoForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'bd_colaboradores_desempeno.html', {'desempeno': desempeno,'idUser_id':idUser_id} )
+
+# ?Vista para agregar una nueva calificacion DE DESEMPEÑO  laboral  dentro del modulo datos empleados
+def agregar_desempeno(request, idUser_id):
+    if request.method == 'POST':
+        desempeno  = EvaluacionDesempenoForm(request.POST)
+        
+        if desempeno.is_valid():
+            desempeno = desempeno.save(commit=False)
+            desempeno.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            desempeno.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        desempeno = EvaluacionDesempenoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'Agregar_Desempeno.html', {'desempeno': desempeno})
+
+#  ?Vista para Editar un CALIFICACION DE  DESEMPEÑO   dentro del modulo datos empleados
+def editar_desempeno(request, id_evaluacion):
+    try:
+        desempeno  = evaluaciondesempenoForm.objects.get(id_evaluacion=id_evaluacion)
+        if request.method == 'POST':
+            desempeno = EvaluacionDesempenoForm(request.POST, instance=desempeno)  
+            if desempeno.is_valid():
+                desempeno.save() 
+                return redirect('datos')  
+
+        else:
+            desempeno = EvaluacionDesempenoForm(instance=desempeno) 
+
+    except evaluaciondesempenoForm.DoesNotExist:
+        desempeno = None
+
+    return render(request, 'Editar_Info_Desempeno.html', {'desempeno': desempeno})
+
+#  ?Vista para Eliminar una CALIFICACION DE DESEMPEÑO  dentro del modulo datos empleados
+def eliminar_desempeno(request, id_evaluacion):
+    try:
+        desempeno = evaluaciondesempenoForm.objects.get(id_evaluacion=id_evaluacion)
+        desempeno.delete() 
+        return redirect('datos')  
+
+    except evaluaciondesempenoForm.DoesNotExist:
+        desempeno = None 
+
+    return render(request, 'datos.html', {'desempeno': desempeno})
+
+
 # endregion
 
+
 #endregion # ? fin total de vistas 
-
-
-
-
-
-
 
 
 def DataColaboradores(request):
     context={}
     return render(request, 'datacolaboradores.html', context) 
 # ESTE ES LA CONSULTA PARA EL MODULO DE DB COLABORADORES ESTA CONSULTA OBTINENE TODOS LOS DATOS REGISTRADOS TANTO EN EL FOMRULARIO COM ADATOS ADICIONALES AÑADIDOS POR LOS USUARIOS DE GESTION HUMANA
-
-  
-
 
 def bd_colaboradores(request, idUser_id):
     print("este es el form", idUser_id)  
@@ -428,7 +479,6 @@ def bd_colaboradores(request, idUser_id):
         form_s = situacionesafectableForm.objects.filter(idUser_id=idUser_id)
         formulario_situacion = SituacionesAfectableForm(instance=form_s[0]) 
         print("este es el form situacoiones afectables", formulario_situacion)
-        
         
         # formulario transportes
         form_t = transorteForm.objects.filter(idUser_id=idUser_id)
@@ -602,7 +652,6 @@ def ActualizacionDatosColaboradores(request, idUser_id):
 
     return render(request, 'bd_colaboradores.html', context)
 
-
 def PowerBi(request):
     context={}
     return render(request, 'PowerBi.html', context)
@@ -636,8 +685,6 @@ def signup(request):
         form = UserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
-  
-
 
 def signin(request):
     if request.user.is_authenticated:
@@ -662,9 +709,7 @@ def signin(request):
     else:
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
-
-
-  
+    
 def profile(request): 
     return render(request, 'profile.html')
    
@@ -968,16 +1013,3 @@ def Paginador(request):
         'form':form 
         }
     return render(request, 'prueba.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
-

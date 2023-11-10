@@ -920,9 +920,7 @@ class historialeducativoFormn(models.Model):
     Fecha_obtencion_titulo = models.DateField()
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
-        db_table = 'Formulario_Historial_educativo'
-        
-      
+        db_table = 'Formulario_Historial_educativo' 
 class ooptform(models.Model):
     id_oopt = models.AutoField(primary_key=True)
     Resultado_oopt = models.CharField(max_length=30,choices=[
@@ -940,8 +938,7 @@ class ooptform(models.Model):
     
     
     class Meta: 
-        db_table = 'Formulario_OOPT'
-        
+        db_table = 'Formulario_OOPT'       
 class experienciaslaboralesform(models.Model):
     id_experiencia = models.AutoField(primary_key=True)
     cargo_experiencia = models.CharField(max_length=100, )
@@ -952,3 +949,15 @@ class experienciaslaboralesform(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
         db_table = 'Formulario_Experiencias_Laborales'
+        
+        
+class evaluaciondesempenoForm(models.Model):
+    id_evaluacion = models.AutoField(primary_key=True)
+    examenes = models.FloatField(default=0)
+    experiencia = models.FloatField(default=0)
+    educacion = models.FloatField(default=0)
+    competencias = models.FloatField(default=0)
+    suma_total = models.FloatField(default=0, )
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta: 
+        db_table = 'Formulario_Evaluacion_Desempeno'

@@ -1,5 +1,5 @@
 from django import forms  
-from principal.models import formularioForm,experienciaslaboralesform, ooptform,historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
+from principal.models import formularioForm,evaluaciondesempenoForm,experienciaslaboralesform, ooptform,historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
 from django.forms import modelformset_factory
      
 class FormularioForm(forms.ModelForm):
@@ -461,5 +461,18 @@ class ExperienciasLaboralesForm(forms.ModelForm):
         'descripcion_experiencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del instituto donde realizo la experiencia laboral'}),
         'Fecha_inicio_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         'Fecha_fin_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
+        }
+        
+        
+        
+class EvaluacionDesempenoForm(forms.ModelForm):
+    class Meta:
+        model = evaluaciondesempenoForm
+        fields = ['examenes', 'experiencia', 'educacion', 'competencias',]
+        widgets = {
+            'examenes': forms.TextInput(attrs={'class': 'form-control', }),
+            'experiencia': forms.TextInput(attrs={'class': 'form-control', }),
+            'educacion': forms.TextInput(attrs={'class': 'form-control', }),
+            'competencias': forms.TextInput(attrs={'class': 'form-control', }),
         }
 # , 'lastname', 'email', 'file', 'fecha_creacion',m

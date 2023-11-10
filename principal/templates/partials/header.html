@@ -22,7 +22,7 @@
           src="https://media.licdn.com/dms/image/C4E0BAQEJqJm1hsyeOA/company-logo_200_200/0/1652133117414/centro_cultural_colombo_americano_cali_logo?e=2147483647&v=beta&t=RKPoA21iy4ZVWwTUU183sNkhPoI4yfJ6OyYK92fMwTg"
           alt="logo_img" />
       </span>
-      <span class="logo_name">M.A.R.I</span>
+      <span class="logo_name">HI ! {{user.username}}</span>
       <i class="bx bx-lock-alt" id="lock-icon" title="Unlock Sidebar"></i>
 
       <i class="bx bx-x" id="sidebar-close"></i>
@@ -73,18 +73,20 @@
 
 
 
-
-
       <div class="menu_items">
         <ul class="menu_item">
           <li class="item">
-            <a href="/signout" class="link flex btn-cerrarsesion ">
-              <i class="fas fa-arrow-right-to-bracket"></i>
-              <span>Cerrar Sesion</span>
-            </a>
+            <div class="user-info">
+              <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+              <a href="/signout" class="link flex btn-cerrarsesion">
+                <i class="fas fa-arrow-right-to-bracket"></i>
+                <span>Cerrar Sesion</span>
+              </a>
+            </div>
           </li>
         </ul>
       </div>
+
     </div>
   </nav>
 
