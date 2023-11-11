@@ -4,7 +4,6 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django import forms
 from django.utils import timezone
-from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 import re
 from django.utils.translation import gettext_lazy as _cls
