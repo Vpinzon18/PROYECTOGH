@@ -27,7 +27,7 @@ urlpatterns = [
     path('usuarios/', views.usuarios, name="usuarios"),
     path('formularioII/', views.formularioII, name="formularioII"),
     path('datos/', views.datos, name="datos"),
-    path('certificados/', views.certificados, name="certificados"),
+    path('certificados/<int:id>/', views.certificados, name="certificados"),
     path('prueba/', views.prueba, name="prueba"),
     path('datos/DataColaboradores/', views.DataColaboradores, name="DataColaboradores"),
     path('PowerBi/', views.PowerBi, name="PowerBi"),
@@ -36,7 +36,8 @@ urlpatterns = [
     path('ActualizacionDatosColaboradores/<int:idUser_id>/', views.ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
     
    
-   
+# region  #! URL'S PARA EL MODULO DE DATPOS DE EMPEADOS
+
     #  !  urls para la vista de edicion de datos de familiares 
     path("Info_Familiar_DB/<int:idUser_id>/", views.Info_Familiar_DB, name="Info_Familiar_DB"),
     path('editar_familiar/<int:familiar_id>/', views.editar_familiar, name='editar_familiar'),
@@ -81,7 +82,9 @@ urlpatterns = [
     path('editar_desempeno/<int:id_evaluacion>/', views.editar_desempeno, name='editar_desempeno'),
     path('eliminar_desempeno/<int:id_evaluacion>/', views.eliminar_desempeno, name='eliminar_desempeno'),
 
+#    endregion   
 
+path("Info_Certificados_DB/<int:idUser_id>/", views.Info_Certificados_DB, name="Info_Certificados_DB"),
 
 
     path('Contratacion/<idUser_id>', views.Contratacion),

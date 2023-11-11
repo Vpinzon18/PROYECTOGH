@@ -452,6 +452,19 @@ def eliminar_desempeno(request, id_evaluacion):
 #endregion # ? fin total de vistas 
 
 
+# region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE CERTIFICAODS"
+
+
+# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
+def Info_Certificados_DB(request,idUser_id):
+    
+    certificados_info = contratacionForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'certificados.html', {'certificados_info': certificados_info,'idUser_id':idUser_id} )
+# endregion 
+
+
+
 def DataColaboradores(request):
     context={}
     return render(request, 'datacolaboradores.html', context) 

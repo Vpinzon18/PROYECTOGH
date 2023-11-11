@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django import forms
 from django.utils import timezone
@@ -961,3 +962,4 @@ class evaluaciondesempenoForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
         db_table = 'Formulario_Evaluacion_Desempeno'
+        

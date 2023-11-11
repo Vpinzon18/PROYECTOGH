@@ -3,9 +3,57 @@
 
 
 {% block contenido %}
-esta es la pagina de CERTIFICADOS
-{% endblock contenido %}
-    
-    
-    {% block titulo %}
-    {% endblock titulo %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 rounded p-5">
+            <h1 class="fw-bold text-center mb-5"><strong>CERTIFICADOS LABORALES</strong></h1>
+
+
+
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">TIPO CONTRATO</th>
+                        <th scope="col">CARGO DEL CONTRATO</th>
+                        <th scope="col">INGRESO MENSUAL</th>
+                        <th scope="col">FECHA INICIO CONTRATO</th>
+                        <th colspan="2">OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    {% for certificados_info in certificados_info %}
+
+                    <tr>
+                        <td>{{ certificados_info.id_Contrato }}</td>
+                        <td>{{ certificados_info.Tipo_Contrato }}</td>
+                        <td>{{ certificados_info.Cargo_Contrato }}</td>
+                        <td>{{ certificados_info.Ingreso_Mensaul }}</td>
+                        <td>{{ certificados_info.Fecha_Inicio_Contrato }}</td>
+                        <td><a href="/Info_Mascotas_DB/{{idUser_id}}" class="link flex">
+                                <i class="far fa-file-pdf"></i>
+                                <span>Descargar Carta Laboral </span>
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="/eliminar_contrato/{{ contratos_info.id_Contrato }}"
+                                class="btn btn-danger btnEliminacion eliminar-btn">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        {% endfor %}
+
+                </tbody>
+
+            </table>
+            {% endblock contenido %}
+
+
+            {% block titulo %}
+            {% endblock titulo %}
