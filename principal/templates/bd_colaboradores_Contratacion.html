@@ -80,14 +80,14 @@
                 <tbody>
 
 
-                    {% for certificados_info in certificados_info %}
+                    {% for contratos_info in contratos_info %}
 
                     <tr>
-                        <td>{{ certificados_info.id_Contrato }}</td>
-                        <td>{{ certificados_info.Tipo_Contrato }}</td>
-                        <td>{{ certificados_info.Cargo_Contrato }}</td>
-                        <td>{{ certificados_info.Ingreso_Mensaul }}</td>
-                        <td>{{ certificados_info.Fecha_Inicio_Contrato }}</td>
+                        <td>{{ contratos_info.id_Contrato }}</td>
+                        <td>{{ contratos_info.Tipo_Contrato }}</td>
+                        <td>{{ contratos_info.Cargo_Contrato }}</td>
+                        <td>{{ contratos_info.Ingreso_Mensaul }}</td>
+                        <td>{{ contratos_info.Fecha_Inicio_Contrato }}</td>
                         <td><a href="/editar_contrato/{{ contratos_info.id_Contrato }}" class="btn btn-info">Editar</a>
                         </td>
 

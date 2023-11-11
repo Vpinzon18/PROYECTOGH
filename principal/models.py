@@ -948,9 +948,7 @@ class experienciaslaboralesform(models.Model):
     Fecha_fin_experiencia= models.DateField() 
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
-        db_table = 'Formulario_Experiencias_Laborales'
-        
-        
+        db_table = 'Formulario_Experiencias_Laborales'       
 class evaluaciondesempenoForm(models.Model):
     id_evaluacion = models.AutoField(primary_key=True)
     examenes = models.FloatField(default=0)

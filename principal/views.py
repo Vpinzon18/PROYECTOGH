@@ -1,23 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import get_template
 from pyexpat.errors import messages
 from django.contrib import messages 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
-from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
 from principal.functions import handle_uploaded_file  #functions.py
 from principal.forms import FormularioForm,OoptForm,EvaluacionDesempenoForm,ExperienciasLaboralesForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-from django.views.generic.edit import FormView
 from .models import formularioForm ,evaluaciondesempenoForm,experienciaslaboralesform,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
 import logging
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
+from django.urls import reverse_lazy
+from io import BytesIO
+
 
 
 
@@ -456,14 +459,32 @@ def eliminar_desempeno(request, id_evaluacion):
 
 
 # region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE CERTIFICAODS"
-
-
+     
 # ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
 def Info_Certificados_DB(request,idUser_id):
     
     certificados_info = contratacionForm.objects.filter(idUser_id=idUser_id)
     
     return render(request, 'certificados.html', {'certificados_info': certificados_info,'idUser_id':idUser_id} )
+
+# ?CLASE PARA LA LOGICA DE LA DESCARGA DEL PDF DE LAS CARTAS LABORALES 
+class GeneracionCertificadoLaboral(View):
+    def get(self, request, *args, **kwargs):
+        try:
+           template = get_template('Certificados/certificadolaboral.html')
+           context = {'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato'])}
+           html = template.render(context)
+           response = HttpResponse(content_type='application/pdf')
+           response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
+        
+           pisa_status = pisa.CreatePDF(
+                 html, dest=response)
+           return response
+        except:
+            pass
+        return HttpResponse(reverse_lazy('certificados')   )
+  
+
 # endregion 
 
 
