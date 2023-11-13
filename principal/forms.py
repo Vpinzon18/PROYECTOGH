@@ -418,9 +418,15 @@ class SintomasAudicionForm(forms.ModelForm):
         }
         
 class ContratacionForm(forms.ModelForm):
+    
+    Descripcion_Auxilio_Alimentos = forms.CharField(required=False)
+    Ingreso_Auxilio_Alimentos = forms.FloatField(required=False)
+    Descripcion_Auxilio_monetario = forms.CharField(required=False)
+    Descripcion_Auxilio_Alimentos = forms.CharField(required=False)
+    
     class Meta:
         model = contratacionForm
-        fields = ['Tipo_Contrato','Es_flexibilizado', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Fecha_Fin_Contrato', 'Ingreso_Mensaul', 'INgreso_Mensual_Escrito']
+        fields = ['Tipo_Contrato','Es_flexibilizado', 'Descripcion_Carta_laboral','Cargo_Contrato', 'Fecha_Inicio_Contrato','Ingreso_Auxilio_Alimentos', 'Fecha_Fin_Contrato', 'Ingreso_Mensual_monetario', 'INgreso_Mensual_Escrito','Descripcion_Auxilio_monetario','Ingreso_Auxilio_monetario','Descripcion_Auxilio_Alimentos','Ingreso_Auxilio_monetario']
         widgets = {
         'Tipo_Contrato': forms.Select(attrs={'class': 'form-control'}),
         'Es_flexibilizado': forms.Select(attrs={'class': 'form-control'}),

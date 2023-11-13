@@ -28,472 +28,92 @@ def inicio(request):
     context={}
     return render(request, 'index.html', context)
 
+
+
+
+
+
+
+
+
+
+# region #! EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE USUARIOS
+
+# ? Esta vista contiene el total de los usuarios del sistema 
 def usuarios(request):
     usuarios = User.objects.all()
     return render(request, 'usuarios.html', {'usuarios': usuarios})
 
-def formularioII(request):
-    context={}
-    return render(request, 'formulario.html', context) 
+# ? Esta vista es para agregar los usuarios al sistema usuarios del sistema 
+def registrarUsuario(request):
+    Nombre = request.POST['txtNombre']
+    Apellido = request.POST['txtApellido']
+    Email = request.POST['txtEmail']
+    Username = request.POST['txtUsername']
+    Password = request.POST['txtPassword']
+    
+    usuario = User.objects.create(
+        first_name=Nombre, last_name=Apellido, email=Email, username=Username, password=Password)
+    return redirect('usuarios')
 
+# ? Esta vista es para editar los usuarios del sistema  
+def editarUsuario(request):
+    if request.method == 'POST':
+        id = request.POST['txtid']
+        Nombre = request.POST['txtNombre']
+        Apellido = request.POST['txtApellido']
+        Email = request.POST['txtEmail']
+        Username = request.POST['txtUsername']
+        Password = request.POST['txtPassword']
+        Estado = request.POST.get('txtEstado')  # Recuperar el valor del checkbox
 
+        usuario = User.objects.get(id=id)
+        usuario.first_name = Nombre
+        usuario.last_name = Apellido
+        usuario.email = Email
+        usuario.username = Username
+        usuario.set_password(Password)
 
+        # Verifica si el checkbox está marcado
+        if Estado == 'on':
+            usuario.is_active = True
+        else:
+            usuario.is_active = False
 
+        usuario.save()
 
+        return redirect('usuarios')
 
+    # Si la solicitud no es POST, renderiza la página de edición
+    return render(request, 'editar_usuario.html')
+
+# ? Esta vista contiene la vista donde se edita la informacion del usuario 
+def edicionUsuario(request, id):
+    usuario = User.objects.get(id=id)
+    return render(request, "edicionUsuario.html", {"usuario": usuario})
+
+# ? Esta vista es para eliminar los usuarios del sistema
+def eliminarUsuario(request, id):
+    usuario = User.objects.get(id=id) 
+    usuario.delete()    
+    return redirect('usuarios')
+# endregion
 
 
 #region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DATOS EMPLEADOS "
 
-#  region  #* VISTA CON LA TABLA DE LOS NOMBRES DE LOS COLABORADORES PARA EL MODULO DE DATA COLABORADPRES 
+#region #* VISTA CON LA TABLA DE LOS NOMBRES DE LOS COLABORADORES PARA EL MODULO DE DATA COLABORADPRES 
 def datos(request):
     # Obtener todos los usuarios en la base de datos
     bdcolaboradore = User.objects.all()
     form = formularioForm.objects.all()
 
-    return render(request, 'datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
+    return render(request, 'ModuloDatosColaboradores/datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
 # endregion
 
-#region # * VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DE LOS COLABORADORES DEL MODULO DATOS DE COLABORADORES 
+#region #* VISTAS DEL CRUD PARA LA INFORMACION DEL FORMULARIO SOCIODEMOGRAFICO
 
-# ? Esta vista crea la tabla con el tota de familiares a editar
-def Info_Familiar_DB(request,idUser_id):
-    
-    familiar_Info = familiarForm.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
-
-# ? Vista para agregar un nuevo familiar dentro del modulo datos empleados
-def agregar_familiar(request, idUser_id):
-    if request.method == 'POST':
-        form = FamiliarForm(request.POST)
-        
-        if form.is_valid():
-            familiar = form.save(commit=False)
-            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        form = FamiliarForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'AgregarFamiliar.html', {'familiar_formulario': form})
-
-#  ? Vista para editar un familiar dentro del modulo de data colaboradores 
-def editar_familiar(request, familiar_id):
-    try:
-        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
-        if request.method == 'POST':
-            form = FamiliarForm(request.POST, instance=familiar)  
-            if form.is_valid():
-                form.save() 
-                return redirect('datos')  
-
-        else:
-            form = FamiliarForm(instance=familiar) 
-
-    except familiarForm.DoesNotExist:
-        form = None
-
-    return render(request, 'Editar_Info_familiar_DB.html', {'familiar_formulario': form})
-
-# ? Vista para eliminar un familiar dentro del modulo data colaboradores
-def eliminar_familiar(request, familiar_id):
-    try:
-        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
-        familiar.delete()  # Esto eliminará el familiar
-        return redirect('datos')  # Redirige a donde desees después de eliminar
-
-    except familiarForm.DoesNotExist:
-        familiar = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
-
-    return render(request, 'datos.html', {'familiar': familiar})
-
-#endregion
-
-#region # * VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS DE LOS COLABORADORES  DEL MODULO DATOS DE LOS COLABORADORES 
-
-
-# ? Esta vista crea la tabla con el totaL de MASCOTAS por persona
-def Info_Mascotas_DB(request, idUser_id):
-    
-    Mascotas_Info = mascotasForm.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id})
-
-# ? Esta vista es para agregar una nueva mastoca 
-def agregar_mascota(request, idUser_id):
-    if request.method == 'POST':
-        form_add_mascotas = MascotasForm(request.POST)
-        
-        if form_add_mascotas.is_valid():
-            familiar = form_add_mascotas.save(commit=False)
-            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        form_add_mascotas = MascotasForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'Agregar_Mascotas.html', {'form_add_mascotas': form_add_mascotas})
-
-# ? Esta es la vista es para editar los datos de las mascotas  
-def Vista_Edicion_Mascotas(request, id_mascota):
-    try:
-        mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
-        if request.method == 'POST':
-            form_mascotas = MascotasForm(request.POST, instance=mascotas)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
-            if form_mascotas.is_valid():
-                form_mascotas.save()  # Esto actualizará automáticamente el familiar existente
-                return redirect('datos')  # Redirige a donde desees después de guarda
-        else:
-            form_mascotas = MascotasForm(instance=mascotas)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
-    except mascotasForm.DoesNotExist:
-        form_mascotas = None
-
-    return render(request, 'Editar_Info_Mascotas.html', {'form_mascotas': form_mascotas})
-
-# ? esta vista es para eliminar una mascota 
-def eliminar_mascota(request, id_mascota):
-    try:
-        mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
-        mascotas.delete()  # Esto eliminará el familiar
-        return redirect('datos')  # Redirige a donde desees después de eliminar
-
-    except mascotasForm.DoesNotExist:
-        mascotas = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
-
-    return render(request, 'datos.html', {'mascotas': mascotas})
-
-#endregion 
-
-#region # * VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DE LOS COLABORADORES DEL MODULO DATA COLABORADORES
-
-# ?esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
-def Info_Educacion_DB(request, idUser_id):
-    
-    Educacion_Info = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_Educacion.html', {'Educacion_Info': Educacion_Info, 'idUser_id':idUser_id})
-
-# ?Esta vista es para agregar un nuevo titulo academico 
-def agregar_educacion(request, idUser_id):
-    if request.method == 'POST':
-        form_add_educacion = HistorialEducativoForm(request.POST)
-        
-        if form_add_educacion.is_valid():
-            educacion = form_add_educacion.save(commit=False)
-            educacion.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            educacion.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        form_add_educacion = HistorialEducativoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'Agregar_Educacion.html', {'form_add_educacion': form_add_educacion})
-
-# ?Vista para editar un titulo dentro del modulo de data colaboradores 
-def editar_educacion(request, id_estudio):
-    try:
-        educacion_form = historialeducativoFormn.objects.get(id_estudio=id_estudio)
-        if request.method == 'POST':
-            educacion = HistorialEducativoForm(request.POST, instance=educacion_form)  
-            if educacion.is_valid():
-                educacion.save() 
-                return redirect('datos')  
-
-        else:
-            educacion = HistorialEducativoForm(instance=educacion_form) 
-
-    except historialeducativoFormn.DoesNotExist:
-        educacion = None
-
-    return render(request, 'Editar_Info_Educacion.html', {'educacion': educacion})
-
-# ?Vista para eliminar  un titulo dentro del modulo data colaboradores 
-def eliminar_educacion(request, id_estudio):
-    try:
-        educacion = historialeducativoFormn.objects.get(id_estudio=id_estudio)
-        educacion.delete() 
-        return redirect('datos')  
-
-    except historialeducativoFormn.DoesNotExist:
-        educacion = None 
-
-    return render(request, 'datos.html', {'educacion': educacion})
-#endregion 
-
-#region # * VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DE LOS COLABORADORESDEL MODULO DATA COLABORADORES 
-
-
-# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
-def Info_Contratos_DB(request,idUser_id):
-    
-    contratos_info = contratacionForm.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'idUser_id':idUser_id} )
-
-# ?Vista para agregar un nuevo CONTRATO  dentro del modulo datos empleados
-def agregar_contrato(request, idUser_id):
-    if request.method == 'POST':
-        coontrato = ContratacionForm(request.POST)
-        
-        if coontrato.is_valid():
-            coontrato = coontrato.save(commit=False)
-            coontrato.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            coontrato.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        coontrato = ContratacionForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'Agregar_Contrato.html', {'coontrato': coontrato})
-
-# ?Vista para Editar un CONTRATO dentro del modulo datos empleados
-def editar_contrato(request, id_Contrato):
-    try:
-        contrato  = contratacionForm.objects.get(id_Contrato=id_Contrato)
-        if request.method == 'POST':
-            contrato_form = ContratacionForm(request.POST, instance=contrato)  
-            if contrato_form.is_valid():
-                contrato_form.save() 
-                return redirect('datos')  
-
-        else:
-            contrato_form = ContratacionForm(instance=contrato) 
-
-    except contratacionForm.DoesNotExist:
-        contrato_form = None
-
-    return render(request, 'Editar_Info_contratacion.html', {'contrato_form': contrato_form})
-
-#  ?Vista par eliminar un  CONTRATO dentro del modulo de emmpleados 
-def eliminar_contrato(request, id_Contrato):
-    try:
-        contratacion = contratacionForm.objects.get(id_Contrato=id_Contrato)
-        contratacion.delete() 
-        return redirect('datos')  
-
-    except contratacionForm.DoesNotExist:
-        contratacion = None 
-
-    return render(request, 'datos.html', {'contratacion': contratacion})
-
-#endregion
-
-#region # * VISTAS PARA EL CRUD DE LOS OOPT DE LOS COLABORADORES DEL MODULO DATA COLAORADORES 
-
-# ? Esta vista crea la tabla con el totaL de OOPT a editar
-def Info_OOPT_DB(request,idUser_id):
-    
-    oopt_info = ooptform.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_oopt.html', {'oopt_info': oopt_info,'idUser_id':idUser_id} )
-
-# ?Vista para agregar un nuevo OOPT  dentro del modulo datos empleados
-def agregar_oopt(request, idUser_id):
-    if request.method == 'POST':
-        oopt = OoptForm(request.POST)
-        
-        if oopt.is_valid():
-            oopt = oopt.save(commit=False)
-            oopt.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            oopt.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        oopt = OoptForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'Agregar_Oopt.html', {'oopt': oopt})
-
-#  ?Vista para Editar un OOPT dentro del modulo datos empleados
-def editar_oopt(request, id_oopt):
-    try:
-        oopt  = ooptform.objects.get(id_oopt=id_oopt)
-        if request.method == 'POST':
-            oopt_form = OoptForm(request.POST, instance=oopt)  
-            if oopt_form.is_valid():
-                oopt_form.save() 
-                return redirect('datos')  
-
-        else:
-            oopt_form = OoptForm(instance=oopt) 
-
-    except ooptform.DoesNotExist:
-        oopt_form = None
-
-    return render(request, 'Editar_Info_OOPT.html', {'oopt_form': oopt_form})
-
-#  ?Vista para Eliminar un OOPT dentro del modulo datos empleados
-def eliminar_oopt(request, id_oopt):
-    try:
-        oopt = ooptform.objects.get(id_oopt=id_oopt)
-        oopt.delete() 
-        return redirect('datos')  
-
-    except ooptform.DoesNotExist:
-        oopt = None 
-
-    return render(request, 'datos.html', {'oopt': oopt})
-
-
-#endregion 
-
-# region  #* VISTAS PARA EL CRUD DE LAS EXPERIENCIAS LABORALES DE LOS COLABORADORES DEL MODULO DATA COLABORADORES 
-
-# ?Esta vista crea la tabla con el totaL de OOPT a editar
-def Info_experiencias_laborales_DB(request,idUser_id):
-    
-    experiencia_info = experienciaslaboralesform.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_experiencias_laboral.html', {'experiencia_info': experiencia_info,'idUser_id':idUser_id} )
-
-# ?Vista para agregar una nueva experiencia laboral  dentro del modulo datos empleados
-def agregar_experiencia(request, idUser_id):
-    if request.method == 'POST':
-        experiencia  = ExperienciasLaboralesForm(request.POST)
-        
-        if experiencia.is_valid():
-            experiencia = experiencia.save(commit=False)
-            experiencia.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            experiencia.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        experiencia = ExperienciasLaboralesForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'Agregar_Experiencia.html', {'experiencia': experiencia})
-
-#  ?Vista para Editar una nueva experiencia dentro del modulo datos empleados
-def editar_experiecncia(request, id_experiencia):
-    try:
-        experiencia  = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
-        if request.method == 'POST':
-            experiencia = ExperienciasLaboralesForm(request.POST, instance=experiencia)  
-            if experiencia.is_valid():
-                experiencia.save() 
-                return redirect('datos')  
-
-        else:
-            experiencia = ExperienciasLaboralesForm(instance=experiencia) 
-
-    except experienciaslaboralesform.DoesNotExist:
-        experiencia = None
-
-    return render(request, 'Editar_Info_Experiencia.html', {'experiencia': experiencia})
-
-#  ?Vista para Eliminar un OOPT dentro del modulo datos empleados
-def eliminar_experiencia(request, id_experiencia):
-    try:
-        experiencia = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
-        experiencia.delete() 
-        return redirect('datos')  
-
-    except experienciaslaboralesform.DoesNotExist:
-        experiencia = None 
-
-    return render(request, 'datos.html', {'experiencia': experiencia})
-
-# endregion 
-
-# region #* VISTAS PARA EL CRUD DE LAS CALIFICACIONES DE DESEMPEÑO DEL MODULO DATA COLABORADORES 
-
-# ?Esta vista crea la tabla con el totaL de DESEMPEÑOS a editar
-def Info_Desempeno_DB(request,idUser_id):
-    
-    desempeno = evaluaciondesempenoForm.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'bd_colaboradores_desempeno.html', {'desempeno': desempeno,'idUser_id':idUser_id} )
-
-# ?Vista para agregar una nueva calificacion DE DESEMPEÑO  laboral  dentro del modulo datos empleados
-def agregar_desempeno(request, idUser_id):
-    if request.method == 'POST':
-        desempeno  = EvaluacionDesempenoForm(request.POST)
-        
-        if desempeno.is_valid():
-            desempeno = desempeno.save(commit=False)
-            desempeno.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
-            desempeno.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
-            return redirect('datos')  # Redirige a donde desees después de agregar
-
-    else:
-        desempeno = EvaluacionDesempenoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
-
-    return render(request, 'Agregar_Desempeno.html', {'desempeno': desempeno})
-
-#  ?Vista para Editar un CALIFICACION DE  DESEMPEÑO   dentro del modulo datos empleados
-def editar_desempeno(request, id_evaluacion):
-    try:
-        desempeno  = evaluaciondesempenoForm.objects.get(id_evaluacion=id_evaluacion)
-        if request.method == 'POST':
-            desempeno = EvaluacionDesempenoForm(request.POST, instance=desempeno)  
-            if desempeno.is_valid():
-                desempeno.save() 
-                return redirect('datos')  
-
-        else:
-            desempeno = EvaluacionDesempenoForm(instance=desempeno) 
-
-    except evaluaciondesempenoForm.DoesNotExist:
-        desempeno = None
-
-    return render(request, 'Editar_Info_Desempeno.html', {'desempeno': desempeno})
-
-#  ?Vista para Eliminar una CALIFICACION DE DESEMPEÑO  dentro del modulo datos empleados
-def eliminar_desempeno(request, id_evaluacion):
-    try:
-        desempeno = evaluaciondesempenoForm.objects.get(id_evaluacion=id_evaluacion)
-        desempeno.delete() 
-        return redirect('datos')  
-
-    except evaluaciondesempenoForm.DoesNotExist:
-        desempeno = None 
-
-    return render(request, 'datos.html', {'desempeno': desempeno})
-
-
-# endregion
-
-
-#endregion # ? fin total de vistas 
-
-
-# region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE CERTIFICAODS"
-     
-# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
-def Info_Certificados_DB(request,idUser_id):
-    
-    certificados_info = contratacionForm.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'certificados.html', {'certificados_info': certificados_info,'idUser_id':idUser_id} )
-
-# ?CLASE PARA LA LOGICA DE LA DESCARGA DEL PDF DE LAS CARTAS LABORALES 
-class GeneracionCertificadoLaboral(View):
-    def get(self, request, *args, **kwargs):
-        try:
-           template = get_template('Certificados/certificadolaboral.html')
-           context = {'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato'])}
-           html = template.render(context)
-           response = HttpResponse(content_type='application/pdf')
-           response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
-        
-           pisa_status = pisa.CreatePDF(
-                 html, dest=response)
-           return response
-        except:
-            pass
-        return HttpResponse(reverse_lazy('certificados')   )
-  
-
-# endregion 
-
-
-
-def DataColaboradores(request):
-    context={}
-    return render(request, 'datacolaboradores.html', context) 
-# ESTE ES LA CONSULTA PARA EL MODULO DE DB COLABORADORES ESTA CONSULTA OBTINENE TODOS LOS DATOS REGISTRADOS TANTO EN EL FOMRULARIO COM ADATOS ADICIONALES AÑADIDOS POR LOS USUARIOS DE GESTION HUMANA
-
+# ? Esta vista coniene los datos traidos de la base de datos del formulario sociodemografico
 def bd_colaboradores(request, idUser_id):
     print("este es el form", idUser_id)  
     try:
@@ -576,10 +196,8 @@ def bd_colaboradores(request, idUser_id):
     except formularioForm.DoesNotExist and  aseguramientoForm.DoesNotExist and  familiarForm.DoesNotExist:
         form = None
         form_a = None
-        
         formulario_discapacidad = None
         formulario_situacion = None
-        
         transporte_form = None
         recursos_form = None
         appaprendizaje_form = None
@@ -595,11 +213,10 @@ def bd_colaboradores(request, idUser_id):
         molestiasvoz_form = None
         sintomasaudicion_form = None
     
-    return render(request, 'bd_colaboradores.html',
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores.html',
                   {'form': form,
                    'idUser_id': idUser_id,
                    'form_a':form_a ,
-                    
                     'formulario_discapacidad':formulario_discapacidad,
                     'formulario_situacion':formulario_situacion,
                     'transporte_form':transporte_form,
@@ -619,8 +236,7 @@ def bd_colaboradores(request, idUser_id):
                 
                    })
 
- # Importa el módulo de mensajes
-
+# ? Esta vista es para editar la informacion del formulario sociodemografico
 def ActualizacionDatosColaboradores(request, idUser_id):
     # Asegúrate de que el usuario esté autenticado
     if not request.user.is_authenticated:
@@ -688,14 +304,448 @@ def ActualizacionDatosColaboradores(request, idUser_id):
     }
 
     return render(request, 'bd_colaboradores.html', context)
+# endregion
+
+#region #* VISTAS DE CRUD PARA LOS DATOS DE LOS FAMILIIARES EN CONVIVENCIA DE LOS COLABORADORES DEL MODULO DATOS DE COLABORADORES 
+
+# ? Esta vista crea la tabla con el tota de familiares a editar
+def Info_Familiar_DB(request,idUser_id):
+    
+    familiar_Info = familiarForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
+
+# ? Vista para agregar un nuevo familiar dentro del modulo datos empleados
+def agregar_familiar(request, idUser_id):
+    if request.method == 'POST':
+        form = FamiliarForm(request.POST)
+        
+        if form.is_valid():
+            familiar = form.save(commit=False)
+            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        form = FamiliarForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/AgregarFamiliar.html', {'familiar_formulario': form})
+
+#  ? Vista para editar un familiar dentro del modulo de data colaboradores 
+def editar_familiar(request, familiar_id):
+    try:
+        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
+        if request.method == 'POST':
+            form = FamiliarForm(request.POST, instance=familiar)  
+            if form.is_valid():
+                form.save() 
+                return redirect('datos')  
+
+        else:
+            form = FamiliarForm(instance=familiar) 
+
+    except familiarForm.DoesNotExist:
+        form = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_familiar_DB.html', {'familiar_formulario': form})
+
+# ? Vista para eliminar un familiar dentro del modulo data colaboradores
+def eliminar_familiar(request, familiar_id):
+    try:
+        familiar = familiarForm.objects.get(id_Familiar=familiar_id)
+        familiar.delete()  # Esto eliminará el familiar
+        return redirect('datos')  # Redirige a donde desees después de eliminar
+
+    except familiarForm.DoesNotExist:
+        familiar = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
+
+    return render(request, 'datos.html', {'familiar': familiar})
+
+#endregion
+
+#region #* VISTAS DE CRUD PARA LAS DATOS  DE LAS MASCOTAS DE LOS COLABORADORES  DEL MODULO DATOS DE LOS COLABORADORES 
+
+
+# ? Esta vista crea la tabla con el totaL de MASCOTAS por persona
+def Info_Mascotas_DB(request, idUser_id):
+    
+    Mascotas_Info = mascotasForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id})
+
+# ? Esta vista es para agregar una nueva mastoca 
+def agregar_mascota(request, idUser_id):
+    if request.method == 'POST':
+        form_add_mascotas = MascotasForm(request.POST)
+        
+        if form_add_mascotas.is_valid():
+            familiar = form_add_mascotas.save(commit=False)
+            familiar.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            familiar.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        form_add_mascotas = MascotasForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Mascotas.html', {'form_add_mascotas': form_add_mascotas})
+
+# ? Esta es la vista es para editar los datos de las mascotas  
+def Vista_Edicion_Mascotas(request, id_mascota):
+    try:
+        mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
+        if request.method == 'POST':
+            form_mascotas = MascotasForm(request.POST, instance=mascotas)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
+            if form_mascotas.is_valid():
+                form_mascotas.save()  # Esto actualizará automáticamente el familiar existente
+                return redirect('datos')  # Redirige a donde desees después de guarda
+        else:
+            form_mascotas = MascotasForm(instance=mascotas)  # Reemplaza "TuFormulario" con el nombre real de tu formulario
+    except mascotasForm.DoesNotExist:
+        form_mascotas = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Mascotas.html', {'form_mascotas': form_mascotas})
+
+# ? esta vista es para eliminar una mascota 
+def eliminar_mascota(request, id_mascota):
+    try:
+        mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
+        mascotas.delete()  # Esto eliminará el familiar
+        return redirect('datos')  # Redirige a donde desees después de eliminar
+
+    except mascotasForm.DoesNotExist:
+        mascotas = None  # Define "familiar" como None por defecto # Puedes manejar esta situación de acuerdo a tus necesidades
+
+    return render(request, 'datos.html', {'mascotas': mascotas})
+
+#endregion 
+
+#region #* VISTAS PARA EL CRUD DE LOS DATOS DEL HISTORIAL DE EDUCACION DE LOS COLABORADORES DEL MODULO DATA COLABORADORES
+
+# ?esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
+def Info_Educacion_DB(request, idUser_id):
+    
+    Educacion_Info = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_Educacion.html', {'Educacion_Info': Educacion_Info, 'idUser_id':idUser_id})
+
+# ?Esta vista es para agregar un nuevo titulo academico 
+def agregar_educacion(request, idUser_id):
+    if request.method == 'POST':
+        form_add_educacion = HistorialEducativoForm(request.POST)
+        
+        if form_add_educacion.is_valid():
+            educacion = form_add_educacion.save(commit=False)
+            educacion.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            educacion.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        form_add_educacion = HistorialEducativoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Educacion.html', {'form_add_educacion': form_add_educacion})
+
+# ?Vista para editar un titulo dentro del modulo de data colaboradores 
+def editar_educacion(request, id_estudio):
+    try:
+        educacion_form = historialeducativoFormn.objects.get(id_estudio=id_estudio)
+        if request.method == 'POST':
+            educacion = HistorialEducativoForm(request.POST, instance=educacion_form)  
+            if educacion.is_valid():
+                educacion.save() 
+                return redirect('datos')  
+
+        else:
+            educacion = HistorialEducativoForm(instance=educacion_form) 
+
+    except historialeducativoFormn.DoesNotExist:
+        educacion = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Educacion.html', {'educacion': educacion})
+
+# ?Vista para eliminar  un titulo dentro del modulo data colaboradores 
+def eliminar_educacion(request, id_estudio):
+    try:
+        educacion = historialeducativoFormn.objects.get(id_estudio=id_estudio)
+        educacion.delete() 
+        return redirect('datos')  
+
+    except historialeducativoFormn.DoesNotExist:
+        educacion = None 
+
+    return render(request, 'datos.html', {'educacion': educacion})
+#endregion 
+
+#region #* VISTAS PARA EL CRUD DE LOS DATOS DE LOS CONTRATOS DE LOS COLABORADORESDEL MODULO DATA COLABORADORES 
+
+
+# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
+def Info_Contratos_DB(request,idUser_id):
+    
+    contratos_info = contratacionForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'idUser_id':idUser_id} )
+
+# ?Vista para agregar un nuevo CONTRATO  dentro del modulo datos empleados
+def agregar_contrato(request, idUser_id):
+    if request.method == 'POST':
+        coontrato = ContratacionForm(request.POST)
+        
+        if coontrato.is_valid():
+            coontrato = coontrato.save(commit=False)
+            coontrato.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            coontrato.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        coontrato = ContratacionForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Contrato.html', {'coontrato': coontrato})
+
+# ?Vista para Editar un CONTRATO dentro del modulo datos empleados
+def editar_contrato(request, id_Contrato):
+    try:
+        contrato  = contratacionForm.objects.get(id_Contrato=id_Contrato)
+        if request.method == 'POST':
+            contrato_form = ContratacionForm(request.POST, instance=contrato)  
+            if contrato_form.is_valid():
+                contrato_form.save() 
+                return redirect('datos')  
+
+        else:
+            contrato_form = ContratacionForm(instance=contrato) 
+
+    except contratacionForm.DoesNotExist:
+        contrato_form = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_contratacion.html', {'contrato_form': contrato_form})
+
+#  ?Vista par eliminar un  CONTRATO dentro del modulo de emmpleados 
+def eliminar_contrato(request, id_Contrato):
+    try:
+        contratacion = contratacionForm.objects.get(id_Contrato=id_Contrato)
+        contratacion.delete() 
+        return redirect('datos')  
+
+    except contratacionForm.DoesNotExist:
+        contratacion = None 
+
+    return render(request, 'datos.html', {'contratacion': contratacion})
+
+#endregion
+
+#region #* VISTAS PARA EL CRUD DE LOS OOPT DE LOS COLABORADORES DEL MODULO DATA COLAORADORES 
+
+# ? Esta vista crea la tabla con el totaL de OOPT a editar
+def Info_OOPT_DB(request,idUser_id):
+    
+    oopt_info = ooptform.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_oopt.html', {'oopt_info': oopt_info,'idUser_id':idUser_id} )
+
+# ?Vista para agregar un nuevo OOPT  dentro del modulo datos empleados
+def agregar_oopt(request, idUser_id):
+    if request.method == 'POST':
+        oopt = OoptForm(request.POST)
+        
+        if oopt.is_valid():
+            oopt = oopt.save(commit=False)
+            oopt.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            oopt.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        oopt = OoptForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Oopt.html', {'oopt': oopt})
+
+#  ?Vista para Editar un OOPT dentro del modulo datos empleados
+def editar_oopt(request, id_oopt):
+    try:
+        oopt  = ooptform.objects.get(id_oopt=id_oopt)
+        if request.method == 'POST':
+            oopt_form = OoptForm(request.POST, instance=oopt)  
+            if oopt_form.is_valid():
+                oopt_form.save() 
+                return redirect('datos')  
+
+        else:
+            oopt_form = OoptForm(instance=oopt) 
+
+    except ooptform.DoesNotExist:
+        oopt_form = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_OOPT.html', {'oopt_form': oopt_form})
+
+#  ?Vista para Eliminar un OOPT dentro del modulo datos empleados
+def eliminar_oopt(request, id_oopt):
+    try:
+        oopt = ooptform.objects.get(id_oopt=id_oopt)
+        oopt.delete() 
+        return redirect('datos')  
+
+    except ooptform.DoesNotExist:
+        oopt = None 
+
+    return render(request, 'datos.html', {'oopt': oopt})
+
+
+#endregion 
+
+#region #* VISTAS PARA EL CRUD DE LAS EXPERIENCIAS LABORALES DE LOS COLABORADORES DEL MODULO DATA COLABORADORES 
+
+# ?Esta vista crea la tabla con el totaL de OOPT a editar
+def Info_experiencias_laborales_DB(request,idUser_id):
+    
+    experiencia_info = experienciaslaboralesform.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_experiencias_laboral.html', {'experiencia_info': experiencia_info,'idUser_id':idUser_id} )
+
+# ?Vista para agregar una nueva experiencia laboral  dentro del modulo datos empleados
+def agregar_experiencia(request, idUser_id):
+    if request.method == 'POST':
+        experiencia  = ExperienciasLaboralesForm(request.POST)
+        
+        if experiencia.is_valid():
+            experiencia = experiencia.save(commit=False)
+            experiencia.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            experiencia.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        experiencia = ExperienciasLaboralesForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Experiencia.html', {'experiencia': experiencia})
+
+#  ?Vista para Editar una nueva experiencia dentro del modulo datos empleados
+def editar_experiecncia(request, id_experiencia):
+    try:
+        experiencia  = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
+        if request.method == 'POST':
+            experiencia = ExperienciasLaboralesForm(request.POST, instance=experiencia)  
+            if experiencia.is_valid():
+                experiencia.save() 
+                return redirect('datos')  
+
+        else:
+            experiencia = ExperienciasLaboralesForm(instance=experiencia) 
+
+    except experienciaslaboralesform.DoesNotExist:
+        experiencia = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Experiencia.html', {'experiencia': experiencia})
+
+#  ?Vista para Eliminar un OOPT dentro del modulo datos empleados
+def eliminar_experiencia(request, id_experiencia):
+    try:
+        experiencia = experienciaslaboralesform.objects.get(id_experiencia=id_experiencia)
+        experiencia.delete() 
+        return redirect('datos')  
+
+    except experienciaslaboralesform.DoesNotExist:
+        experiencia = None 
+
+    return render(request, 'datos.html', {'experiencia': experiencia})
+
+# endregion 
+
+#region #* VISTAS PARA EL CRUD DE LAS CALIFICACIONES DE DESEMPEÑO DEL MODULO DATA COLABORADORES 
+
+# ?Esta vista crea la tabla con el totaL de DESEMPEÑOS a editar
+def Info_Desempeno_DB(request,idUser_id):
+    
+    desempeno = evaluaciondesempenoForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_desempeno.html', {'desempeno': desempeno,'idUser_id':idUser_id} )
+
+# ?Vista para agregar una nueva calificacion DE DESEMPEÑO  laboral  dentro del modulo datos empleados
+def agregar_desempeno(request, idUser_id):
+    if request.method == 'POST':
+        desempeno  = EvaluacionDesempenoForm(request.POST)
+        
+        if desempeno.is_valid():
+            desempeno = desempeno.save(commit=False)
+            desempeno.idUser_id = idUser_id  # Asigna el ID del usuario que estás editando al familiar
+            desempeno.save()  # Esto creará un nuevo registro de familiar en la base de datos asociado al usuario que estás editando
+            return redirect('datos')  # Redirige a donde desees después de agregar
+
+    else:
+        desempeno = EvaluacionDesempenoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
+
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Desempeno.html', {'desempeno': desempeno})
+
+#  ?Vista para Editar un CALIFICACION DE  DESEMPEÑO   dentro del modulo datos empleados
+def editar_desempeno(request, id_evaluacion):
+    try:
+        desempeno  = evaluaciondesempenoForm.objects.get(id_evaluacion=id_evaluacion)
+        if request.method == 'POST':
+            desempeno = EvaluacionDesempenoForm(request.POST, instance=desempeno)  
+            if desempeno.is_valid():
+                desempeno.save() 
+                return redirect('datos')  
+
+        else:
+            desempeno = EvaluacionDesempenoForm(instance=desempeno) 
+
+    except evaluaciondesempenoForm.DoesNotExist:
+        desempeno = None
+
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Desempeno.html', {'desempeno': desempeno})
+
+#  ?Vista para Eliminar una CALIFICACION DE DESEMPEÑO  dentro del modulo datos empleados
+def eliminar_desempeno(request, id_evaluacion):
+    try:
+        desempeno = evaluaciondesempenoForm.objects.get(id_evaluacion=id_evaluacion)
+        desempeno.delete() 
+        return redirect('datos')  
+
+    except evaluaciondesempenoForm.DoesNotExist:
+        desempeno = None 
+
+    return render(request, 'datos.html', {'desempeno': desempeno})
+
+
+# endregion
+
+
+#endregion # ? fin total de vistas 
+
+
+# region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE CERTIFICAODS"
+     
+# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
+def Info_Certificados_DB(request,idUser_id):
+    
+    certificados_info = contratacionForm.objects.filter(idUser_id=idUser_id)
+    
+    return render(request, 'ModuloCertificados/certificados.html', {'certificados_info': certificados_info,'idUser_id':idUser_id} )
+
+# ?CLASE PARA LA LOGICA DE LA DESCARGA DEL PDF DE LAS CARTAS LABORALES 
+class GeneracionCertificadoLaboral(View):
+    def get(self, request, *args, **kwargs):
+        try:
+           template = get_template('ModuloCertificados/certificadolaboral.html')
+           context = {'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato'])}
+           html = template.render(context)
+           response = HttpResponse(content_type='application/pdf')
+           response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
+        
+           pisa_status = pisa.CreatePDF(
+                 html, dest=response)
+           return response
+        except:
+            pass
+        return HttpResponse(reverse_lazy('certificados')   )
+  
+
+# endregion 
+
+
+
+
 
 def PowerBi(request):
     context={}
     return render(request, 'PowerBi.html', context)
-
-def certificados(request):
-    context={}
-    return render(request, 'certificados.html', context)
 
 def signup(request):
     if request.method == 'POST':
@@ -754,55 +804,13 @@ def signout(request):
     logout(request)
     return redirect('/')
 
-def registrarUsuario(request):
-    Nombre = request.POST['txtNombre']
-    Apellido = request.POST['txtApellido']
-    Email = request.POST['txtEmail']
-    Username = request.POST['txtUsername']
-    Password = request.POST['txtPassword']
-    
-    usuario = User.objects.create(
-        first_name=Nombre, last_name=Apellido, email=Email, username=Username, password=Password)
-    return redirect('usuarios')
 
-def eliminarUsuario(request, id):
-    usuario = User.objects.get(id=id) 
-    usuario.delete()    
-    return redirect('usuarios')
 
-def edicionUsuario(request, id):
-    usuario = User.objects.get(id=id)
-    return render(request, "edicionUsuario.html", {"usuario": usuario})
 
-def editarUsuario(request):
-    if request.method == 'POST':
-        id = request.POST['txtid']
-        Nombre = request.POST['txtNombre']
-        Apellido = request.POST['txtApellido']
-        Email = request.POST['txtEmail']
-        Username = request.POST['txtUsername']
-        Password = request.POST['txtPassword']
-        Estado = request.POST.get('txtEstado')  # Recuperar el valor del checkbox
 
-        usuario = User.objects.get(id=id)
-        usuario.first_name = Nombre
-        usuario.last_name = Apellido
-        usuario.email = Email
-        usuario.username = Username
-        usuario.set_password(Password)
 
-        # Verifica si el checkbox está marcado
-        if Estado == 'on':
-            usuario.is_active = True
-        else:
-            usuario.is_active = False
 
-        usuario.save()
 
-        return redirect('usuarios')
-
-    # Si la solicitud no es POST, renderiza la página de edición
-    return render(request, 'editar_usuario.html')
 
 def prueba(request):
     FamiliarFormSet = formset_factory(FamiliarForm, extra=1)
@@ -1018,31 +1026,6 @@ def prueba(request):
          'Educacion_FormSet':Educacion_FormSet    
          })
     
-def Contratacion(request): 
-    if request.method == 'POST':
-        user = request.user
-        form_data = request.POST.copy()
-        form_data['idUser'] = user.id
-
-        contratacion_form = ContratacionForm(form_data, request.FILES)
-        
-        if contratacion_form.is_valid(): 
-            contratacion_form.instance.idUser = user
-            contratacion_form.save()
-
-            return HttpResponse("La información se ha enviado correctamente")
-        else:
-            logger = logging.getLogger('principal')
-            logger.error("Error en el formulario.")
-    else:
-        contratacion_form = ContratacionForm
-        
-    return render(
-        request,
-        "prueba.html",
-        {'contratacion_form': contratacion_form,      
-         })
-
 def Paginador(request):
     form = formularioForm.objects.all()
     

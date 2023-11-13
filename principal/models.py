@@ -828,13 +828,22 @@ class contratacionForm(models.Model):
         ]
     )
     Tipo_Contrato = models.CharField(
-        max_length=23,choices=[
+        max_length=28,choices=[
             ('Termino Fijo','Termino Fijo'),
             ('Indefinido', 'Indefinido'),
             ('Prestacion de Servicios', 'Prestacion de Servicios'),
-            ('aprendizaje', 'aprendizaje')
+            ('aprendizaje', 'aprendizaje'),
+            ('Fixed Term', 'Fixed Term'),
+            ('Indefinite', 'Indefinite'),
+            ('Service Provision', 'Service Provision'),
+            ('Apprenticeship', 'Apprenticeship'),
         ]
     )
+    Descripcion_Carta_laboral = models.CharField(max_length=300)
+    Descripcion_Auxilio_monetario = models.CharField(max_length=100)
+    Ingreso_Auxilio_monetario = models.FloatField()
+    Descripcion_Auxilio_Alimentos = models.CharField(max_length=300)
+    Ingreso_Auxilio_Alimentos = models.FloatField()
     Cargo_Contrato = models.CharField(
     max_length=100,choices=[
     ("Academic Advisor", "Academic Advisor"),
@@ -888,10 +897,62 @@ class contratacionForm(models.Model):
     ("Support Teacher", "Support Teacher"),
     ("Técnico electricista", "Técnico electricista"),
     ("Técnico electrónico", "Técnico electrónico"),
-    ("Conductor-mensajero", "Conductor-mensajero"),])
+    ("Conductor-mensajero", "Conductor-mensajero"),
+    ("Academic Advisor", "Academic Advisor"),
+("Accountant Analyst", "Accountant Analyst"),
+("Compensation Analyst", "Compensation Analyst"),
+("Communications Analyst", "Communications Analyst"),
+("Organizational Management Analyst", "Organizational Management Analyst"),
+("Comprehensive Services Advisor", "Comprehensive Services Advisor"),
+("EduSA Advisor", "EduSA Advisor"),
+("Academic Assistant", "Academic Assistant"),
+("Cultural Assistant", "Cultural Assistant"),
+("Communications Assistant", "Communications Assistant"),
+("Executive Assistant", "Executive Assistant"),
+("Innovation and Business Assistant", "Innovation and Business Assistant"),
+("Administrative Resources Assistant", "Administrative Resources Assistant"),
+("Library Services Assistant", "Library Services Assistant"),
+("Maker Assistant", "Maker Assistant"),
+("Apprentice", "Apprentice"),
+("Accounting Assistant", "Accounting Assistant"),
+("Maintenance and Physical Resources Assistant", "Maintenance and Physical Resources Assistant"),
+("Selection and Hiring Assistant", "Selection and Hiring Assistant"),
+("Security Assistant", "Security Assistant"),
+("Technical Support Assistant", "Technical Support Assistant"),
+("Educational Technology Assistant", "Educational Technology Assistant"),
+("South Campus Academic Coordinator", "South Campus Academic Coordinator"),
+("Psychosocial Support Coordinator", "Psychosocial Support Coordinator"),
+("Marketing Coordinator", "Marketing Coordinator"),
+("Special Projects Coordinator", "Special Projects Coordinator"),
+("Programming and Commercial Management Coordinator", "Programming and Commercial Management Coordinator"),
+("STEAM and Libraries Services Coordinator", "STEAM and Libraries Services Coordinator"),
+("Virtual Campus Coordinator", "Virtual Campus Coordinator"),
+("Kids and Teens Program Coordinator", "Kids and Teens Program Coordinator"),
+("Social Responsibility and Alumni Coordinator", "Social Responsibility and Alumni Coordinator"),
+("North Campus Coordinator", "North Campus Coordinator"),
+("Product Developer", "Product Developer"),
+("Cultural Director", "Cultural Director"),
+("Innovation and Business Director", "Innovation and Business Director"),
+("Financial and Administrative Director", "Financial and Administrative Director"),
+("General Director", "General Director"),
+("Teacher", "Teacher"),
+("Communications Manager", "Communications Manager"),
+("Accounting Manager", "Accounting Manager"),
+("Product Development Manager", "Product Development Manager"),
+("Human Resources Manager", "Human Resources Manager"),
+("Organizational Management Manager", "Organizational Management Manager"),
+("Maintenance and Physical Resources Manager", "Maintenance and Physical Resources Manager"),
+("Cultural Services Manager", "Cultural Services Manager"),
+("Comprehensive Services Manager", "Comprehensive Services Manager"),
+("Receptionist", "Receptionist"),
+("Academic Subdirector", "Academic Subdirector"),
+("Support Teacher", "Support Teacher"),
+("Electrician Technician", "Electrician Technician"),
+("Electronic Technician", "Electronic Technician")
+])
     Fecha_Inicio_Contrato = models.DateField(default=timezone.now)
     Fecha_Fin_Contrato = models.DateField(default=timezone.now)
-    Ingreso_Mensaul = models.FloatField()
+    Ingreso_Mensual_monetario  = models.FloatField()
     INgreso_Mensual_Escrito = models.CharField(max_length=100)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:

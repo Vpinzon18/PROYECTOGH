@@ -9,7 +9,7 @@
     <h2>Agregar Nuevo contrato</h2>
     <form method="post">
         {% csrf_token %}
-        {{ coontrato.as_p }} {# Esto muestra todos los campos del formulario #}
+        {{ coontrato.as_p }}
         <button type="submit">Guardar</button>
     </form>
 </body>

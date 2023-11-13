@@ -26,11 +26,7 @@ urlpatterns = [
     #path('', login, name="login"),
     path('inicio/', views.inicio, name="inicio"),
     path('usuarios/', views.usuarios, name="usuarios"),
-    path('formularioII/', views.formularioII, name="formularioII"),
-    path('datos/', views.datos, name="datos"),
-    path('certificados/<int:id>/', views.certificados, name="certificados"),
     path('prueba/', views.prueba, name="prueba"),
-    path('datos/DataColaboradores/', views.DataColaboradores, name="DataColaboradores"),
     path('PowerBi/', views.PowerBi, name="PowerBi"),
     path('bd_colaboradores/<int:idUser_id>/', views.bd_colaboradores, name='bd_colaboradores'),
     path('bd_claboradores_hijos/<int:idUser_id>/', views.editar_familiar, name='editar_familiar'),
@@ -38,6 +34,11 @@ urlpatterns = [
     
    
 # region  #! URL'S PARA EL MODULO DE DATOS DE EMPEADOS
+
+
+    #  ?  urls para la vista con una tabla de todos los colaboradores¡
+    path('datos/', views.datos, name="datos"),
+
 
     #  ?  urls para la vista de edicion de datos de familiares 
     path("Info_Familiar_DB/<int:idUser_id>/", views.Info_Familiar_DB, name="Info_Familiar_DB"),
@@ -93,9 +94,6 @@ urlpatterns = [
 
 # endregion
 
-
-
-    path('Contratacion/<idUser_id>', views.Contratacion),
     path('', views.signin, name='signin'),
     path('signin/',views.signin, name='signin'),
     path('signout/',views.signout, name='signout'),
