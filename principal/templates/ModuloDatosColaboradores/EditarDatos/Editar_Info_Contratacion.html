@@ -4,7 +4,11 @@
 <h2>Edite la informacion de su contrato laboral </h2>
 <form method="post">
     {% csrf_token %}
-    {{ contrato_form.as_p }} {# Esto muestra todos los campos del formulario #}
+    <!-- {{ contrato_form.as_p }} -->
+    {{ contrato_form.as_p }}
+    
+
+ {# Esto muestra todos los campos del formulario #}
     <button type="submit">Guardar cambios</button>
 </form>
 

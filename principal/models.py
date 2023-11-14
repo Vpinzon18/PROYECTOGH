@@ -950,8 +950,8 @@ class contratacionForm(models.Model):
 ("Electrician Technician", "Electrician Technician"),
 ("Electronic Technician", "Electronic Technician")
 ])
-    Fecha_Inicio_Contrato = models.DateField(default=timezone.now)
-    Fecha_Fin_Contrato = models.DateField(default=timezone.now)
+    Fecha_Inicio_Contrato = models.DateField(null= True)
+    Fecha_Fin_Contrato = models.DateField()
     Ingreso_Mensual_monetario  = models.DecimalField(max_digits=12, decimal_places=2)
     INgreso_Mensual_Escrito = models.CharField(max_length=100)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)

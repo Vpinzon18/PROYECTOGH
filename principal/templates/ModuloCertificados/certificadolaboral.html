@@ -10,64 +10,109 @@
 
 <body>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    
         .img-invoice {
             width: 300px;
             text-align: center;
         }
-        
         .head {
             text-align: center;
             text-transform: uppercase;
         }
-        
         .image-container {
             margin-bottom: 60px;
         }
         .custom-paragraph {
-            font-size: 1.5rem;  /* Ajusta el tamaño según tus necesidades */
-            font-weight: normal;  /* Elimina la negrita */
-          }
+            font-size: 1.5rem;
+            font-weight: normal;
+            margin-bottom: 300px;
+        }
+        .custom-paragraph-2 {
+            font-size: 1.5rem;
+            font-weight: normal;
+        }
         .text-container {
             margin: 70px;
-            margin-bottom: 50px; 
-            /* Ajusta el valor según tus necesidades */
         }
         .text-2-container {
-            margin-top: 50px; 
-            margin: 70px; /* Ajusta el valor según tus necesidades */
+            margin: 0;
+            text-align: center;
         }
         
-    .text-center{
-        text-align: center;
-    }
-</style>
-<body>
-    <div class="row">
-        <div class="col-md-3 text-center">
-            <div class="image-container">
-                <img src="{% static 'img/logocol.png' %}" class="img-invoice"/>
+        .text-center {
+            text-align: center;
+        }
+    
+        .row {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+    
+        .image-container-2 {
+            flex-grow: 1;
+            overflow: hidden;
+            margin: 0;
+        }
+    
+        .image-container-2 img {
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+        }
+    
+        .red-column {
+            background-color: red;
+            height: 100px; /* Ajusta la altura según tus necesidades */
+            width: 100%;
+        }
+    
+        .footer {
+            background-color: rgb(218, 36, 36);
+            color: white;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+    
+    <body>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <div class="image-container">
+                    <img src="{% static 'img/logocol.png' %}" class="img-invoice"/>
+                </div>
+                <h1 class="head">
+                    EL CENTRO CULTURAL COLOMBO AMERICANO <br>
+                    NIT 890.300.445-0
+                </h1>
+                <h1 class="constar">HACE CONSTAR</h1>
             </div>
-            <h1 class="head">
-                EL CENTRO CULTURAL COLOMBO AMERICANO <br>
-                NIT 890.300.445-0
-            </h1>
-            <h1 class="constar">HACE CONSTAR</h1>
+            <div class="text-container" >
+                <p class="custom-paragraph">Que <strong>{{user_info.first_name}} {{user_info.last_name}},</strong> identificado con {{formulario_info.Tipo_Documento}} <strong>{{formulario_info.Documento}}</strong>
+                Se encuentra vinculado al  Centro Cultural Colombo Americano con un contrato de {{certificados_info.Tipo_Contrato}} desde el {{certificados_info.Fecha_Inicio_Contrato}} como {{certificados_info.Cargo_Contrato}} 
+                {{certificados_info.Descripcion_Carta_laboral}} (${{certificados_info.Ingreso_Mensual_monetario}}).</p>
+            </div>
+            <div class="text-2-container" >
+                <p class="custom-paragraph-2">Para la constancia se firma en Santiago de Cali el día {{fecha_descarga}}</p>
+            </div>
         </div>
-        <div class="text-container">
-            <p class="custom-paragraph">Que <strong>{{user_info.first_name}} {{user_info.last_name}},</strong> identificado con {{formulario_info.Tipo_Documento}} <strong>{{formulario_info.Documento}}</strong>
-            Se encuentra vinculado al  Centro Cultural Colombo Americano con un contrato de {{certificados_info.Tipo_Contrato}} desde el {{certificados_info.Fecha_Inicio_Contrato}} como {{certificados_info.Cargo_Contrato}} 
-            {{certificados_info.Descripcion_Carta_laboral}} (${{certificados_info.Ingreso_Mensual_monetario}}).</p>
+        <div class="image-container-2" >
+            <img src="{% static 'img/finalcertificado.png' %}" class="img-invoice-2"/>
         </div>
-        <div class="text-2-container" ><p class="custom-paragraph" >Para la constancia se firma en Santiago de Cali el dia {{fecha_descarga}} </p></div>
-    </div>
+        <div class="red-column"></div>
+        <div class="footer">
+            .
+        </div>
+    </body>
     
 
-
-
-    
-    
-
-   
+<!--    
     <p>{{certificados_info.id_Contrato}}</p>
     <p>{{certificados_info.Tipo_Contrato}}</p>
     <p></p>
@@ -82,7 +127,7 @@
     <p>{{certificados_info.Ingreso_Auxilio_Alimentos}}</p>
 
 
-
+ -->
 
 </body>
 

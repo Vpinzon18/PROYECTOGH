@@ -1,6 +1,7 @@
 from django import forms  
 from principal.models import formularioForm,evaluaciondesempenoForm,experienciaslaboralesform, ooptform,historialeducativoFormn,aseguramientoForm, familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm, transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm , desarrollopersonalForm, reconocimientoempresarialForm, actividadesculturalesForm, actividadessaludForm, tiempolibreForm, enfermedadesForm, deporteForm, molestaseismesesForm, molestiasvozForm, sintomasaudicionForm, contratacionForm
 from django.forms import modelformset_factory
+
      
 class FormularioForm(forms.ModelForm):
     class Meta:
@@ -418,22 +419,26 @@ class SintomasAudicionForm(forms.ModelForm):
         }
         
 class ContratacionForm(forms.ModelForm):
-    
     Descripcion_Auxilio_Alimentos = forms.CharField(required=False)
     Ingreso_Auxilio_Alimentos = forms.FloatField(required=False)
     Descripcion_Auxilio_monetario = forms.CharField(required=False)
     Descripcion_Auxilio_Alimentos = forms.CharField(required=False)
+   
     
     class Meta:
         model = contratacionForm
-        fields = ['Tipo_Contrato','Es_flexibilizado', 'Descripcion_Carta_laboral','Cargo_Contrato', 'Fecha_Inicio_Contrato','Ingreso_Auxilio_Alimentos', 'Fecha_Fin_Contrato', 'Ingreso_Mensual_monetario', 'INgreso_Mensual_Escrito','Descripcion_Auxilio_monetario','Ingreso_Auxilio_monetario','Descripcion_Auxilio_Alimentos','Ingreso_Auxilio_monetario']
+        fields = ['Tipo_Contrato', 'Es_flexibilizado', 'Descripcion_Carta_laboral', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Ingreso_Auxilio_Alimentos', 'Fecha_Fin_Contrato', 'Ingreso_Mensual_monetario', 'INgreso_Mensual_Escrito', 'Descripcion_Auxilio_monetario', 'Ingreso_Auxilio_monetario', 'Descripcion_Auxilio_Alimentos', 'Ingreso_Auxilio_monetario']
         widgets = {
-        'Tipo_Contrato': forms.Select(attrs={'class': 'form-control'}),
-        'Es_flexibilizado': forms.Select(attrs={'class': 'form-control'}),
-        'Cargo_Contrato': forms.Select(attrs={'class': 'form-control'}),
-        'Fecha_Inicio_Contrato': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
-        'Fecha_Fin_Contrato': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
-        'INgreso_Mensual_Escrito': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres del familiar'}),
+            'Tipo_Contrato': forms.Select(attrs={'class': 'form-control'}),
+            'Es_flexibilizado': forms.Select(attrs={'class': 'form-control'}),
+            'Cargo_Contrato': forms.Select(attrs={'class': 'form-control'}),
+            'Fecha_Inicio_Contrato': forms.DateInput(format='%Y-%m-%d', attrs={'class': 'form-control', 'type': 'date'}),
+            'Fecha_Fin_Contrato': forms.DateInput(format='%Y-%m-%d', attrs={'class': 'form-control', 'type': 'date'}),
+            'INgreso_Mensual_Escrito': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres del familiar'}),
+        }
+        input_formats = {
+            'Fecha_Inicio_Contrato': ['%d/%m/%Y'],
+            'Fecha_Fin_Contrato': ['%d/%m/%Y'],# Establece el formato deseado
         }
         
 class HistorialEducativoForm(forms.ModelForm):
