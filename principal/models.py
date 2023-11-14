@@ -841,9 +841,9 @@ class contratacionForm(models.Model):
     )
     Descripcion_Carta_laboral = models.CharField(max_length=300)
     Descripcion_Auxilio_monetario = models.CharField(max_length=100)
-    Ingreso_Auxilio_monetario = models.FloatField()
+    Ingreso_Auxilio_monetario = models.DecimalField(max_digits=12, decimal_places=2)
     Descripcion_Auxilio_Alimentos = models.CharField(max_length=300)
-    Ingreso_Auxilio_Alimentos = models.FloatField()
+    Ingreso_Auxilio_Alimentos = models.DecimalField(max_digits=12, decimal_places=2)
     Cargo_Contrato = models.CharField(
     max_length=100,choices=[
     ("Academic Advisor", "Academic Advisor"),
@@ -952,7 +952,7 @@ class contratacionForm(models.Model):
 ])
     Fecha_Inicio_Contrato = models.DateField(default=timezone.now)
     Fecha_Fin_Contrato = models.DateField(default=timezone.now)
-    Ingreso_Mensual_monetario  = models.FloatField()
+    Ingreso_Mensual_monetario  = models.DecimalField(max_digits=12, decimal_places=2)
     INgreso_Mensual_Escrito = models.CharField(max_length=100)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:

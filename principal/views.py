@@ -20,6 +20,10 @@ from django.views import View
 from xhtml2pdf import pisa
 from django.urls import reverse_lazy
 from io import BytesIO
+from django.contrib.staticfiles import finders
+import os
+from django.conf import settings
+from django.templatetags.static import static
 
 
 
@@ -302,7 +306,6 @@ def ActualizacionDatosColaboradores(request, idUser_id):
         'formularios_familiares': formularios_familiares,
         'idUser_id': idUser_id,
     }
-
     return render(request, 'bd_colaboradores.html', context)
 # endregion
 
@@ -721,20 +724,66 @@ def Info_Certificados_DB(request,idUser_id):
 
 # ?CLASE PARA LA LOGICA DE LA DESCARGA DEL PDF DE LAS CARTAS LABORALES 
 class GeneracionCertificadoLaboral(View):
+    
+    def link_callback(self, uri, rel):
+        """
+        Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources
+        """
+        # Ajusta la URI para que coincida con la configuración de archivos estáticos en Django
+        uri = uri.replace(settings.STATIC_URL, "")
+        
+        result = finders.find(uri)
+        if result:
+            if not isinstance(result, (list, tuple)):
+                result = [result]
+            result = list(os.path.realpath(path) for path in result)
+            path = result[0]
+        else:
+            # Lógica específica para el icono
+            if uri == self.context['icon']:
+                return self.link_callback_icon(uri)
+
+            sUrl = settings.STATIC_URL        # Typically /static/
+            sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+            mUrl = settings.MEDIA_URL         # Typically /media/
+            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+            if uri.startswith(mUrl):
+                path = os.path.join(mRoot, uri.replace(mUrl, ""))
+            elif uri.startswith(sUrl):
+                path = os.path.join(sRoot, uri.replace(sUrl, ""))
+            else:
+                return uri
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise RuntimeError(f'media URI must start with {sUrl} or {mUrl}, but received: {uri}')
+
+        return path
+
+    
+    
     def get(self, request, *args, **kwargs):
         try:
-           template = get_template('ModuloCertificados/certificadolaboral.html')
-           context = {'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato'])}
-           html = template.render(context)
-           response = HttpResponse(content_type='application/pdf')
-           response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
+            template = get_template('ModuloCertificados/certificadolaboral.html')
+            self.context = {
+                'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato']),
+                'icon': static('img/LogoColomboCertificado.png')
+
+            }
+            html = template.render(self.context)
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
         
-           pisa_status = pisa.CreatePDF(
-                 html, dest=response)
-           return response
-        except:
-            pass
-        return HttpResponse(reverse_lazy('certificados')   )
+            pisa_status = pisa.CreatePDF(
+                html, dest=response,
+                link_callback=self.link_callback
+            )
+            return response
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return HttpResponse(reverse_lazy('datos'))
   
 
 # endregion 
