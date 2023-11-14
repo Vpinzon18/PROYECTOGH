@@ -957,6 +957,7 @@ class contratacionForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Formulario_Contratacion'
+        
 class historialeducativoFormn(models.Model):
     id_estudio = models.AutoField(primary_key=True)
     tipo_titulo = models.CharField(

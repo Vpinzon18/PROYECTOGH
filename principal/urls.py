@@ -90,7 +90,7 @@ urlpatterns = [
 
     #  ?  urls para la presentacion de la vista de certificados
     path("Info_Certificados_DB/<int:idUser_id>/", views.Info_Certificados_DB, name="Info_Certificados_DB"),
-    path("GeneracionCertificadoLaboral/<int:id_Contrato>/", views.GeneracionCertificadoLaboral.as_view(), name="GeneracionCertificadoLaboral"),
+    path("GeneracionCertificadoLaboral/<int:id_Contrato>/<int:idUser_id>/", views.GeneracionCertificadoLaboral.as_view(), name="GeneracionCertificadoLaboral"),
 
 # endregion
 

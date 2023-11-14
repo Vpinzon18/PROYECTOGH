@@ -24,6 +24,8 @@ from django.contrib.staticfiles import finders
 import os
 from django.conf import settings
 from django.templatetags.static import static
+from datetime import datetime
+from babel.dates import format_date
 
 
 
@@ -766,9 +768,15 @@ class GeneracionCertificadoLaboral(View):
     def get(self, request, *args, **kwargs):
         try:
             template = get_template('ModuloCertificados/certificadolaboral.html')
+            fecha_actual = datetime.now()
+            fecha_descarga = format_date(fecha_actual, format="full", locale="es")  # Cambia el locale a tu idioma preferido
+
             self.context = {
                 'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato']),
-                'icon': static('img/LogoColomboCertificado.png')
+                'formulario_info': formularioForm.objects.get(idUser_id=self.kwargs['idUser_id']),
+                'user_info' : User.objects.get(username=request.user.username),
+                'icon': static('img/LogoColomboCertificado.png'),
+                'fecha_descarga': fecha_descarga,
 
             }
             html = template.render(self.context)
