@@ -37,13 +37,6 @@ def inicio(request):
 
 
 
-
-
-
-
-
-
-
 # region #! EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE USUARIOS
 
 # ? Esta vista contiene el total de los usuarios del sistema 
