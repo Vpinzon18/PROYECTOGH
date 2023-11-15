@@ -480,11 +480,12 @@ class ExperienciasLaboralesForm(forms.ModelForm):
 class EvaluacionDesempenoForm(forms.ModelForm):
     class Meta:
         model = evaluaciondesempenoForm
-        fields = ['examenes', 'experiencia', 'educacion', 'competencias',]
+        fields = ['examenes', 'experiencia', 'educacion', 'competencias','Fecha_Evaluacion']
         widgets = {
             'examenes': forms.TextInput(attrs={'class': 'form-control', }),
             'experiencia': forms.TextInput(attrs={'class': 'form-control', }),
             'educacion': forms.TextInput(attrs={'class': 'form-control', }),
             'competencias': forms.TextInput(attrs={'class': 'form-control', }),
+            'Fecha_Evaluacion': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
 # , 'lastname', 'email', 'file', 'fecha_creacion',m

@@ -863,7 +863,7 @@ def signout(request):
 
 
 
-def prueba(request):
+def FormularioSociodemografico(request):
     FamiliarFormSet = formset_factory(FamiliarForm, extra=1)
     MascotasFormSet = formset_factory(MascotasForm, extra=1)
     EducacionFormSet = formset_factory(HistorialEducativoForm, extra=1)
@@ -1053,7 +1053,7 @@ def prueba(request):
         
     return render(
         request,
-        "prueba.html",
+        "FormularioSociodemografico.html",
         {'form': form,
          'familiar_formset': familiar_formset,
          'aseguramiento_form': aseguramiento_form,

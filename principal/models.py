@@ -65,6 +65,7 @@ class formularioForm(models.Model):
             ('AB-', 'AB-'),
             ('O+', 'O+'),
             ('O-', 'O-'),
+            
         ]
     )
     Cargo_Actual = models.CharField(
@@ -931,57 +932,56 @@ class contratacionForm(models.Model):
     ("Técnico electrónico", "Técnico electrónico"),
     ("Conductor-mensajero", "Conductor-mensajero"),
     ("Academic Advisor", "Academic Advisor"),
-("Accountant Analyst", "Accountant Analyst"),
-("Compensation Analyst", "Compensation Analyst"),
-("Communications Analyst", "Communications Analyst"),
-("Organizational Management Analyst", "Organizational Management Analyst"),
-("Comprehensive Services Advisor", "Comprehensive Services Advisor"),
-("EduSA Advisor", "EduSA Advisor"),
-("Academic Assistant", "Academic Assistant"),
-("Cultural Assistant", "Cultural Assistant"),
-("Communications Assistant", "Communications Assistant"),
-("Executive Assistant", "Executive Assistant"),
-("Innovation and Business Assistant", "Innovation and Business Assistant"),
-("Administrative Resources Assistant", "Administrative Resources Assistant"),
-("Library Services Assistant", "Library Services Assistant"),
-("Maker Assistant", "Maker Assistant"),
-("Apprentice", "Apprentice"),
-("Accounting Assistant", "Accounting Assistant"),
-("Maintenance and Physical Resources Assistant", "Maintenance and Physical Resources Assistant"),
-("Selection and Hiring Assistant", "Selection and Hiring Assistant"),
-("Security Assistant", "Security Assistant"),
-("Technical Support Assistant", "Technical Support Assistant"),
-("Educational Technology Assistant", "Educational Technology Assistant"),
-("South Campus Academic Coordinator", "South Campus Academic Coordinator"),
-("Psychosocial Support Coordinator", "Psychosocial Support Coordinator"),
-("Marketing Coordinator", "Marketing Coordinator"),
-("Special Projects Coordinator", "Special Projects Coordinator"),
-("Programming and Commercial Management Coordinator", "Programming and Commercial Management Coordinator"),
-("STEAM and Libraries Services Coordinator", "STEAM and Libraries Services Coordinator"),
-("Virtual Campus Coordinator", "Virtual Campus Coordinator"),
-("Kids and Teens Program Coordinator", "Kids and Teens Program Coordinator"),
-("Social Responsibility and Alumni Coordinator", "Social Responsibility and Alumni Coordinator"),
-("North Campus Coordinator", "North Campus Coordinator"),
-("Product Developer", "Product Developer"),
-("Cultural Director", "Cultural Director"),
-("Innovation and Business Director", "Innovation and Business Director"),
-("Financial and Administrative Director", "Financial and Administrative Director"),
-("General Director", "General Director"),
-("Teacher", "Teacher"),
-("Communications Manager", "Communications Manager"),
-("Accounting Manager", "Accounting Manager"),
-("Product Development Manager", "Product Development Manager"),
-("Human Resources Manager", "Human Resources Manager"),
-("Organizational Management Manager", "Organizational Management Manager"),
-("Maintenance and Physical Resources Manager", "Maintenance and Physical Resources Manager"),
-("Cultural Services Manager", "Cultural Services Manager"),
-("Comprehensive Services Manager", "Comprehensive Services Manager"),
-("Receptionist", "Receptionist"),
-("Academic Subdirector", "Academic Subdirector"),
-("Support Teacher", "Support Teacher"),
-("Electrician Technician", "Electrician Technician"),
-("Electronic Technician", "Electronic Technician")
-])
+    ("Accountant Analyst", "Accountant Analyst"),
+    ("Compensation Analyst", "Compensation Analyst"),
+    ("Communications Analyst", "Communications Analyst"),
+    ("Organizational Management Analyst", "Organizational Management Analyst"),
+    ("Comprehensive Services Advisor", "Comprehensive Services Advisor"),
+    ("EduSA Advisor", "EduSA Advisor"),
+    ("Academic Assistant", "Academic Assistant"),
+    ("Cultural Assistant", "Cultural Assistant"),
+    ("Communications Assistant", "Communications Assistant"),
+    ("Executive Assistant", "Executive Assistant"),
+    ("Innovation and Business Assistant", "Innovation and Business Assistant"),
+    ("Administrative Resources Assistant", "Administrative Resources Assistant"),
+    ("Library Services Assistant", "Library Services Assistant"),
+    ("Maker Assistant", "Maker Assistant"),
+    ("Apprentice", "Apprentice"),
+    ("Accounting Assistant", "Accounting Assistant"),
+    ("Maintenance and Physical Resources Assistant", "Maintenance and Physical Resources Assistant"),
+    ("Selection and Hiring Assistant", "Selection and Hiring Assistant"),
+    ("Security Assistant", "Security Assistant"),
+    ("Technical Support Assistant", "Technical Support Assistant"),
+    ("Educational Technology Assistant", "Educational Technology Assistant"),
+    ("South Campus Academic Coordinator", "South Campus Academic Coordinator"),
+    ("Psychosocial Support Coordinator", "Psychosocial Support Coordinator"),
+    ("Marketing Coordinator", "Marketing Coordinator"),
+    ("Special Projects Coordinator", "Special Projects Coordinator"),
+    ("Programming and Commercial Management Coordinator", "Programming and Commercial Management Coordinator"),
+    ("STEAM and Libraries Services Coordinator", "STEAM and Libraries Services Coordinator"),
+    ("Virtual Campus Coordinator", "Virtual Campus Coordinator"),
+    ("Kids and Teens Program Coordinator", "Kids and Teens Program Coordinator"),
+    ("Social Responsibility and Alumni Coordinator", "Social Responsibility and Alumni Coordinator"),
+    ("North Campus Coordinator", "North Campus Coordinator"),
+    ("Product Developer", "Product Developer"),
+    ("Cultural Director", "Cultural Director"),
+    ("Innovation and Business Director", "Innovation and Business Director"),
+    ("Financial and Administrative Director", "Financial and Administrative Director"),
+    ("General Director", "General Director"),
+    ("Teacher", "Teacher"),
+    ("Communications Manager", "Communications Manager"),
+    ("Accounting Manager", "Accounting Manager"),
+    ("Product Development Manager", "Product Development Manager"),
+    ("Human Resources Manager", "Human Resources Manager"),
+    ("Organizational Management Manager", "Organizational Management Manager"),
+    ("Maintenance and Physical Resources Manager", "Maintenance and Physical Resources Manager"),
+    ("Cultural Services Manager", "Cultural Services Manager"),
+    ("Comprehensive Services Manager", "Comprehensive Services Manager"),
+    ("Receptionist", "Receptionist"),
+    ("Academic Subdirector", "Academic Subdirector"),
+    ("Support Teacher", "Support Teacher"),
+    ("Electrician Technician", "Electrician Technician"),
+    ("Electronic Technician", "Electronic Technician")])
     Fecha_Inicio_Contrato = models.DateField(null= True)
     Fecha_Fin_Contrato = models.DateField()
     Ingreso_Mensual_monetario  = models.CharField(max_length=100)
@@ -989,7 +989,6 @@ class contratacionForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Formulario_Contratacion'
-        
 class historialeducativoFormn(models.Model):
     id_estudio = models.AutoField(primary_key=True)
     tipo_titulo = models.CharField(
@@ -1049,8 +1048,10 @@ class evaluaciondesempenoForm(models.Model):
     experiencia = models.FloatField(default=0)
     educacion = models.FloatField(default=0)
     competencias = models.FloatField(default=0)
-    suma_total = models.FloatField(default=0, )
+    suma_total = models.FloatField(default=0)
+    Fecha_Evaluacion = models.DateField()
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
         db_table = 'Formulario_Evaluacion_Desempeno'
         
+
