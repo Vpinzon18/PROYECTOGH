@@ -29,7 +29,7 @@
         .custom-paragraph {
             font-size: 1.5rem;
             font-weight: normal;
-            margin-bottom: 300px;
+            margin-bottom: 230px;
         }
         .custom-paragraph-2 {
             font-size: 1.5rem;
@@ -94,9 +94,8 @@
                 <h1 class="constar">HACE CONSTAR</h1>
             </div>
             <div class="text-container" >
-                <p class="custom-paragraph">Que <strong>{{user_info.first_name}} {{user_info.last_name}},</strong> identificado con {{formulario_info.Tipo_Documento}} <strong>{{formulario_info.Documento}}</strong>
-                Se encuentra vinculado al  Centro Cultural Colombo Americano con un contrato de {{certificados_info.Tipo_Contrato}} desde el {{certificados_info.Fecha_Inicio_Contrato}} como {{certificados_info.Cargo_Contrato}} 
-                {{certificados_info.Descripcion_Carta_laboral}} (${{certificados_info.Ingreso_Mensual_monetario}}).</p>
+                <p class="custom-paragraph">Que <strong>{{user_info.first_name}} {{user_info.last_name}},</strong> identificado con {{formulario_info.Tipo_Documento}} <strong>{{formulario_info.Documento}}</strong> Se encuentra vinculado al  Centro Cultural Colombo Americano con un contrato de {{certificados_info.Tipo_Contrato}} desde el {{certificados_info.Fecha_Inicio_Contrato}} como {{certificados_info.Cargo_Contrato}} 
+                {{certificados_info.Descripcion_Carta_laboral}} {{certificados_info.INgreso_Mensual_Escrito}} (${{certificados_info.Ingreso_Mensual_monetario}}) {{certificados_info.Descripcion_Auxilio_monetario}} {{certificados_info.Ingreso_Auxilio_monetario}} {{certificados_info.Descripcion_Auxilio_Alimentos}}{{certificados_info.Ingreso_Auxilio_Alimentos}} </p>
             </div>
             <div class="text-2-container" >
                 <p class="custom-paragraph-2">Para la constancia se firma en Santiago de Cali el día {{fecha_descarga}}</p>
@@ -111,23 +110,6 @@
         </div>
     </body>
     
-
-<!--    
-    <p>{{certificados_info.id_Contrato}}</p>
-    <p>{{certificados_info.Tipo_Contrato}}</p>
-    <p></p>
-    <p></p>
-    <p>{{certificados_info.Fecha_Fin_Contrato}}</p>
-    <p>{{certificados_info.Ingreso_Mensual_monetario}}</p>
-    <p>{{certificados_info.INgreso_Mensual_Escrito}}</p>
-    <p></p>
-    <p>{{certificados_info.Descripcion_Auxilio_monetario}}</p>
-    <p>{{certificados_info.Ingreso_Auxilio_monetario}}</p>
-    <p>{{certificados_info.Descripcion_Auxilio_Alimentos}}</p>
-    <p>{{certificados_info.Ingreso_Auxilio_Alimentos}}</p>
-
-
- -->
 
 </body>
 

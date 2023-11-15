@@ -417,6 +417,38 @@ class aseguramientoForm(models.Model):
 class familiarForm(models.Model):
     id_Familiar = models.AutoField(primary_key=True)
     Parentesco_Familiar = models.CharField(max_length=50, choices=[
+        ('Padre', 'Padre'),
+        ('Madre', 'Madre'),
+        ('Hijo', 'Hijo'),
+        ('Hija', 'Hija'),
+        ('Hermano', 'Hermano'),
+        ('Hermana', 'Hermana'),
+        ('Abuelo', 'Abuelo'),
+        ('Abuela', 'Abuela'),
+        ('Nieto', 'Nieto'),
+        ('Nieta', 'Nieta'),
+        ('Tío', 'Tío'),
+        ('Tía', 'Tía'),
+        ('Sobrino', 'Sobrino'),
+        ('Sobrina', 'Sobrina'),
+        ('Primo', 'Primo'),
+        ('Prima', 'Prima'),
+        ('Cuñado', 'Cuñado'),
+        ('Cuñada', 'Cuñada'),
+        ('Suegro', 'Suegro'),
+        ('Suegra', 'Suegra'),
+        ('Yerno', 'Yerno'),
+        ('Nuera', 'Nuera'),
+        ('Padrino', 'Padrino'),
+        ('Madrina', 'Madrina'),
+        ('Ahijado', 'Ahijado'),
+        ('Ahijada', 'Ahijada'),
+        ('Esposo', 'Esposo'),
+        ('Esposa', 'Esposa'),
+        ('Compañero', 'Compañero'),
+        ('Compañera', 'Compañera'),
+    ])
+    Parentesco_Cuidador = models.CharField(max_length=50, choices=[
         ('Pareja', 'Pareja'),
         ('Abuelos', 'Abuelos'),
         ('Otro Familiar', 'Otro Familiar'),
@@ -839,11 +871,11 @@ class contratacionForm(models.Model):
             ('Apprenticeship', 'Apprenticeship'),
         ]
     )
-    Descripcion_Carta_laboral = models.CharField(max_length=300)
-    Descripcion_Auxilio_monetario = models.CharField(max_length=100)
-    Ingreso_Auxilio_monetario = models.DecimalField(max_digits=12, decimal_places=2)
-    Descripcion_Auxilio_Alimentos = models.CharField(max_length=300)
-    Ingreso_Auxilio_Alimentos = models.DecimalField(max_digits=12, decimal_places=2)
+    Descripcion_Carta_laboral = models.TextField(max_length=500)
+    Descripcion_Auxilio_monetario = models.TextField(max_length=500)
+    Ingreso_Auxilio_monetario  = models.CharField(max_length=100)
+    Descripcion_Auxilio_Alimentos = models.TextField(max_length=500)
+    Ingreso_Auxilio_Alimentos = models.CharField(max_length=100)
     Cargo_Contrato = models.CharField(
     max_length=100,choices=[
     ("Academic Advisor", "Academic Advisor"),
@@ -952,7 +984,7 @@ class contratacionForm(models.Model):
 ])
     Fecha_Inicio_Contrato = models.DateField(null= True)
     Fecha_Fin_Contrato = models.DateField()
-    Ingreso_Mensual_monetario  = models.DecimalField(max_digits=12, decimal_places=2)
+    Ingreso_Mensual_monetario  = models.CharField(max_length=100)
     INgreso_Mensual_Escrito = models.CharField(max_length=100)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:

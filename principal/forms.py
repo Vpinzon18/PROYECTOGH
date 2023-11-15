@@ -419,10 +419,11 @@ class SintomasAudicionForm(forms.ModelForm):
         }
         
 class ContratacionForm(forms.ModelForm):
-    Descripcion_Auxilio_Alimentos = forms.CharField(required=False)
-    Ingreso_Auxilio_Alimentos = forms.FloatField(required=False)
-    Descripcion_Auxilio_monetario = forms.CharField(required=False)
-    Descripcion_Auxilio_Alimentos = forms.CharField(required=False)
+    Descripcion_Carta_laboral = forms.CharField(required=False)
+    Descripcion_Auxilio_Alimentos  = forms.CharField(required=False, widget=forms.Textarea)
+    Ingreso_Auxilio_Alimentos = forms.CharField(required=False)
+    Descripcion_Auxilio_monetario  = forms.CharField(required=False, widget=forms.Textarea)
+    Ingreso_Auxilio_monetario = forms.CharField(required=False)
    
     
     class Meta:
@@ -430,6 +431,7 @@ class ContratacionForm(forms.ModelForm):
         fields = ['Tipo_Contrato', 'Es_flexibilizado', 'Descripcion_Carta_laboral', 'Cargo_Contrato', 'Fecha_Inicio_Contrato', 'Ingreso_Auxilio_Alimentos', 'Fecha_Fin_Contrato', 'Ingreso_Mensual_monetario', 'INgreso_Mensual_Escrito', 'Descripcion_Auxilio_monetario', 'Ingreso_Auxilio_monetario', 'Descripcion_Auxilio_Alimentos', 'Ingreso_Auxilio_monetario']
         widgets = {
             'Tipo_Contrato': forms.Select(attrs={'class': 'form-control'}),
+            'Descripcion_Auxilio_monetario': forms.Select(attrs={'class': 'form-control'}),
             'Es_flexibilizado': forms.Select(attrs={'class': 'form-control'}),
             'Cargo_Contrato': forms.Select(attrs={'class': 'form-control'}),
             'Fecha_Inicio_Contrato': forms.DateInput(format='%Y-%m-%d', attrs={'class': 'form-control', 'type': 'date'}),
@@ -473,8 +475,7 @@ class ExperienciasLaboralesForm(forms.ModelForm):
         'Fecha_inicio_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         'Fecha_fin_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
-        
-        
+          
         
 class EvaluacionDesempenoForm(forms.ModelForm):
     class Meta:
