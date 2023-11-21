@@ -31,38 +31,44 @@
     <div class="menu_container">
       <div class="menu_items">
         <ul class="menu_item">
-          
+          {% if  es_admin or es_staff %}
           <li class="item">
             <a href="/usuarios" class="link flex">
               <i class="fas fa-user-group"></i>
               <span>Empleados CCCA</span>
             </a>
           </li>
+          {% endif %}
           <li class="item">
             <a href="/FormularioSociodemografico" class="link flex">
               <i class="fab fa-wpforms"></i>
               <span>Formularios</span>
             </a>
           </li>
+          {% if  es_admin or es_staff%}
           <li class="item">
             <a href="/datos" class="link flex">
               <i class="fas fa-database"></i>
               <span>Datos Empleados</span>
             </a>
           </li>
-
+          {% endif %}
+          {% if  es_admin or es_staff%}
           <li class="item">
             <a href="/PowerBi" class="link flex">
               <i class="fas fa-chart-column"></i>
               <span>Consultas power bi</span>
             </a>
           </li>
+          {% endif %}
+          
           <li class="item">
             <a href="/Info_Certificados_DB/{{ user.id }}" class="link flex">
               <i class="fas fa-certificate"></i>
               <span>Certificados</span>
             </a>
           </li>
+        
         </ul>
       </div>
 

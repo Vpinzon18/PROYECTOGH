@@ -22,23 +22,55 @@ from . import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    #path('', login, name="login"),
-    path('inicio/', views.inicio, name="inicio"),
-    path('usuarios/', views.usuarios, name="usuarios"),
-    path('FormularioSociodemografico/', views.FormularioSociodemografico, name="FormularioSociodemografico"),
-    path('PowerBi/', views.PowerBi, name="PowerBi"),
-    path('bd_colaboradores/<int:idUser_id>/', views.bd_colaboradores, name='bd_colaboradores'),
-    path('bd_claboradores_hijos/<int:idUser_id>/', views.editar_familiar, name='editar_familiar'),
-    path('ActualizacionDatosColaboradores/<int:idUser_id>/', views.ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),
     
-   
-# region  #! URL'S PARA EL MODULO DE DATOS DE EMPEADOS
+#region #! URL'S PARA EL MODULO ADMINISTRADOR DE DJANGO 
+path('admin/', admin.site.urls),
+#endregion
 
+#region #! URL'S PARA EL LOGIN DEL PROYECTO 
+path('', views.signin, name='signin'),
+#endregion
+
+#region #! URL'S PARA EL LOGOUT DEL PROYECTO 
+ path('signout/',views.signout, name='signout'),
+#endregion
+
+#region #! URL'S PARA EL INICIO DEL PROYECTO 
+path('inicio/', views.inicio, name="inicio"),
+#endregion
+
+# region #! URL'S PARA EL MODULO DE EMPLEADOS CCCA 
+#? url para la vista de la tabla con todos los usuarios
+ path('usuarios/', views.usuarios, name="usuarios"),
+
+#? url para la la creacion de los empleados CCCA
+ path('CreacionUsuario/',views.CreacionUsuario, name='CreacionUsuario'),
+
+#? url para la ista de los datos a editar del empleados
+ path('edicionUsuario/<id>', views.edicionUsuario),
+
+#? url para la ejecucion de la edicion de los empleados "accion del boton"
+ path('editarUsuario/', views.editarUsuario),
+ 
+ #? url para la ejecucion de eliminacion de los empleados del sistema 
+path('eliminarUsuario/<id>', views.eliminarUsuario),
+
+ path('registrarUsuario/', views.registrarUsuario),
+ #endregion   
+
+#region #! URL'S PARA EL MODULO DE FORMULARIO SOCIODEMOGRAFICO
+#? url para la vista y el envio de la informacion del formulario sociodemografico 
+path('FormularioSociodemografico/', views.FormularioSociodemografico, name="FormularioSociodemografico"),
+#endregion
+
+# region  #! URL'S PARA EL MODULO DE DATOS DE EMPEADOS
 
     #  ?  urls para la vista con una tabla de todos los colaboradores¡
     path('datos/', views.datos, name="datos"),
 
+    #  ?  urls para la vista de todos los datos del formulario sociodemografico (preguntas y modelos estaticos)¡
+    path('bd_colaboradores/<int:idUser_id>/', views.bd_colaboradores, name='bd_colaboradores'),    
+    path('ActualizacionDatosColaboradores/<int:idUser_id>/', views.ActualizacionDatosColaboradores, name='ActualizacionDatosColaboradores'),    
 
     #  ?  urls para la vista de edicion de datos de familiares 
     path("Info_Familiar_DB/<int:idUser_id>/", views.Info_Familiar_DB, name="Info_Familiar_DB"),
@@ -86,25 +118,18 @@ urlpatterns = [
 
 #    endregion   
 
+# region #! URL'S PARA EL MODULO DE CONSULTAS POWER BI
+#? url para la vista  de las consultas por medio de power bi 
+ path('PowerBi/', views.PowerBi, name="PowerBi"),
+# endregion
+
 # region #! URL'S PARA EL MODULO DE CERTIFICADOS LABORALES 
 
     #  ?  urls para la presentacion de la vista de certificados
+    
     path("Info_Certificados_DB/<int:idUser_id>/", views.Info_Certificados_DB, name="Info_Certificados_DB"),
     path("GeneracionCertificadoLaboral/<int:id_Contrato>/<int:idUser_id>/", views.GeneracionCertificadoLaboral.as_view(), name="GeneracionCertificadoLaboral"),
 
 # endregion
 
-    path('', views.signin, name='signin'),
-    path('signin/',views.signin, name='signin'),
-    path('signout/',views.signout, name='signout'),
-    path('signup/',views.signup, name='signup'),
-    path('profile/',views.profile, name='profile'),
-    path('registrarUsuario/', views.registrarUsuario),
-    path('edicionUsuario/<id>', views.edicionUsuario),
-    path('eliminarUsuario/<id>', views.eliminarUsuario),
-    path('editarUsuario/', views.editarUsuario)
-    
-    
-    
-    #path('', views.home)
 ]

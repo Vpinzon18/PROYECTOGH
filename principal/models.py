@@ -8,6 +8,8 @@ from django.core.exceptions import ValidationError
 import re
 from django.utils.translation import gettext_lazy as _cls
 
+
+#region #! EN ESTA REGION SE ENCUENTRAN TODAS LAS VALIDACIONES DE LOS MODELOS 
 #  validacion para soo poder subir archivos tipo img
 def validate_image_file_extension(value):
     import os
@@ -37,6 +39,8 @@ if match:
     print("Match found:", match.group())
 else:
     print("No match found")
+#endregion
+
 
 class formularioForm(models.Model):
     id_formulario = models.AutoField(primary_key=True)
@@ -403,6 +407,7 @@ class formularioForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = "Formulario_Sociodemografico"
+
 class aseguramientoForm(models.Model):
     id_aseguramiento = models.AutoField(primary_key=True)
     medicina_prepagada = models.BooleanField(default=False)
@@ -415,6 +420,7 @@ class aseguramientoForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = "Formulario_aseguramiento"
+
 class familiarForm(models.Model):
     id_Familiar = models.AutoField(primary_key=True)
     Parentesco_Familiar = models.CharField(max_length=50, choices=[
@@ -491,6 +497,7 @@ class familiarForm(models.Model):
 
     class Meta:
         db_table = "Formulario_FamiliaresConvivencia"
+
 class familiardiscapacidadForm(models.Model):
     id_familiardiscapacidadForm = models.AutoField(primary_key=True)
     padre = models.BooleanField(default=False)
@@ -512,6 +519,7 @@ class familiardiscapacidadForm(models.Model):
 
     class Meta:
         db_table = "Formulario_Familiar_Discapacidad"       
+
 class situacionesafectableForm(models.Model):
     id_situacionesafectable = models.AutoField(primary_key=True)
     Problemas_de_conducta = models.BooleanField(default=False)
@@ -529,6 +537,7 @@ class situacionesafectableForm(models.Model):
 
     class Meta:
         db_table = "Formulario_Situaciones_Afectables_Familiares"             
+
 class mascotasForm(models.Model):
     id_mascota = models.AutoField(primary_key=True)
     Tipo_Mascota = models.CharField(
@@ -557,6 +566,7 @@ class mascotasForm(models.Model):
     
     class Meta:
         db_table = "Formulario_Mascotas"   
+
 class transorteForm(models.Model):
     id_transporte = models.AutoField(primary_key=True)
     Caminando = models.BooleanField(default=False)
@@ -576,6 +586,7 @@ class transorteForm(models.Model):
     #  # lastname = models.CharField(max_length=50)
     # # email = models.EmailField(max_length=254)
     # # fecha_creacion = models.DateTimeField(default=timezone.now)
+
 class recursosdigitales(models.Model):
     id_recursodigital = models.AutoField(primary_key=True)
     Microsoft_OneDrive_Google_Drive = models.BooleanField(default=False)
@@ -615,6 +626,7 @@ class recursosdigitales(models.Model):
 
     class Meta:
         db_table = "Formulario_RecursosDigitales"
+
 class appaprendizajeForm(models.Model):
     id_recursodigital = models.AutoField(primary_key=True)
     Microsoft_OneDrive_Google_Drive = models.BooleanField(default=False)
@@ -654,6 +666,7 @@ class appaprendizajeForm(models.Model):
 
     class Meta:
         db_table = "Formulario_APP_Aprendizaje"       
+
 class ofrecimientoForm(models.Model):
     id_ofrecimiento = models.AutoField(primary_key=True)     
     reconocimiento = models.BooleanField(default=False)
@@ -669,6 +682,7 @@ class ofrecimientoForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Ofrecimientos'
+
 class desarrollopersonalForm(models.Model):
     id_desarrollopersonal = models.AutoField(primary_key=True)     
     Salud_financiera = models.BooleanField(default=False)
@@ -687,6 +701,7 @@ class desarrollopersonalForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Desarrollo_Personal'        
+
 class reconocimientoempresarialForm(models.Model):
     id_reconocimientoempresarial = models.AutoField(primary_key=True)     
     Participar_en_iniciativas_o_proyectos = models.BooleanField(default=False)
@@ -701,6 +716,7 @@ class reconocimientoempresarialForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Reconocimiento_Empresarial'
+
 class actividadesculturalesForm(models.Model):
     id_actividadesculturales = models.AutoField(primary_key=True)     
     Conciertos = models.BooleanField(default=False)
@@ -726,6 +742,7 @@ class actividadesculturalesForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_actividades_culturales'
+
 class actividadessaludForm(models.Model):  
     id_actividadessalud = models.AutoField(primary_key=True)     
     Examen_de_laboratorio = models.BooleanField(default=False)
@@ -739,6 +756,7 @@ class actividadessaludForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_actividades_salud'
+
 class tiempolibreForm(models.Model):
     id_tiempolibre = models.AutoField(primary_key=True)     
     Otro_trabajo = models.BooleanField(default=False)
@@ -750,6 +768,7 @@ class tiempolibreForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_tiempo_libre'
+
 class enfermedadesForm(models.Model):
     id_enfermedad = models.AutoField(primary_key=True)     
     Hipertension = models.BooleanField(default=False)
@@ -779,6 +798,7 @@ class enfermedadesForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Enfermedades'     
+
 class deporteForm(models.Model):
     id_Deporte = models.AutoField(primary_key=True)     
     Ciclismo = models.BooleanField(default=False)
@@ -800,6 +820,7 @@ class deporteForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Deporte'
+
 class molestaseismesesForm(models.Model):
     id_Molestias = models.AutoField(primary_key=True)     
     Dolor_de_cabeza = models.BooleanField(default=False)
@@ -828,6 +849,7 @@ class molestaseismesesForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Molestias_seis_meses'       
+
 class molestiasvozForm(models.Model):
     id_molestiasvoz = models.AutoField(primary_key=True)     
     Fatiga_Cansansio_vocal = models.BooleanField(default=False)
@@ -840,6 +862,7 @@ class molestiasvozForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Molestias_Voz'
+
 class sintomasaudicionForm(models.Model):
     id_sintomasaudicion = models.AutoField(primary_key=True)     
     Cansancio_o_fatiga_auditiva = models.BooleanField(default=False)
@@ -852,6 +875,7 @@ class sintomasaudicionForm(models.Model):
     
     class Meta:
         db_table = 'Formulario_Sintomas_Audicion'
+
 class contratacionForm(models.Model):
     id_Contrato = models.AutoField(primary_key=True)
     Es_flexibilizado = models.CharField(
@@ -989,6 +1013,7 @@ class contratacionForm(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Formulario_Contratacion'
+
 class historialeducativoFormn(models.Model):
     id_estudio = models.AutoField(primary_key=True)
     tipo_titulo = models.CharField(
@@ -1014,6 +1039,7 @@ class historialeducativoFormn(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
         db_table = 'Formulario_Historial_educativo' 
+
 class ooptform(models.Model):
     id_oopt = models.AutoField(primary_key=True)
     Resultado_oopt = models.CharField(max_length=30,choices=[
@@ -1032,6 +1058,7 @@ class ooptform(models.Model):
     
     class Meta: 
         db_table = 'Formulario_OOPT'       
+
 class experienciaslaboralesform(models.Model):
     id_experiencia = models.AutoField(primary_key=True)
     cargo_experiencia = models.CharField(max_length=100, )
@@ -1042,6 +1069,7 @@ class experienciaslaboralesform(models.Model):
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta: 
         db_table = 'Formulario_Experiencias_Laborales'       
+
 class evaluaciondesempenoForm(models.Model):
     id_evaluacion = models.AutoField(primary_key=True)
     examenes = models.FloatField(default=0)

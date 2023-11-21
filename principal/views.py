@@ -1,21 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from pyexpat.errors import messages
 from django.contrib import messages 
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import logout
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse  
-from principal.functions import handle_uploaded_file  #functions.py
 from principal.forms import FormularioForm,OoptForm,EvaluacionDesempenoForm,ExperienciasLaboralesForm, AseguramientoForm ,HistorialEducativoForm,FamiliarForm , FamiliarDiscapacidadForm, SituacionesAfectableForm, MascotasForm, TransportesForm, RecursosDigitalesForm, AppAprendizajeForm, OfrecimientosForm, DesarrolloPersonalForm, ReconocimientoEmpresarialForm, ActividadesCulturalesForm, ActividadesSaludForm, TiempoLibreForm, EnfermedadesForm , DeportesForm, MolestiasSeisMesesForm, MolestiasVozForm,SintomasAudicionForm, ContratacionForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from django.forms import formset_factory
 from .models import formularioForm ,evaluaciondesempenoForm,experienciaslaboralesform,ooptform,contratacionForm,historialeducativoFormn,actividadesculturalesForm,deporteForm,molestaseismesesForm,sintomasaudicionForm,molestiasvozForm,enfermedadesForm, tiempolibreForm, actividadessaludForm, reconocimientoempresarialForm, aseguramientoForm,familiarForm, familiardiscapacidadForm, situacionesafectableForm, mascotasForm,transorteForm, recursosdigitales, appaprendizajeForm, ofrecimientoForm, desarrollopersonalForm
 import logging
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.views import View
 from xhtml2pdf import pisa
 from django.urls import reverse_lazy
@@ -26,23 +22,25 @@ from django.conf import settings
 from django.templatetags.static import static
 from datetime import datetime
 from babel.dates import format_date
-from django.contrib.admin.widgets import AdminDateWidget
 
 
 
 
-def inicio(request):
-    context={}
-    return render(request, 'index.html', context)
+#region #! ESTA ES LA VISTA LOGICA PARA LA PARAMETRIZACION DE LOS ROLES DE USUARIO
+#? ESTA VISTA PARAMETRIZA POR ROLES LA VISUALIZACION DE LOS USUARIOS
+def es_staff_o_superuser(user):
+    return user.is_staff or user.is_superuser
+#endregion
 
-
-
-# region #! EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE USUARIOS
+#region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE USUARIOS"
 
 # ? Esta vista contiene el total de los usuarios del sistema 
 def usuarios(request):
     usuarios = User.objects.all()
-    return render(request, 'usuarios.html', {'usuarios': usuarios})
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
+    return render(request, 'ModuloUsuarios/usuarios.html', {'usuarios': usuarios,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? Esta vista es para agregar los usuarios al sistema usuarios del sistema 
 def registrarUsuario(request):
@@ -85,20 +83,45 @@ def editarUsuario(request):
         return redirect('usuarios')
 
     # Si la solicitud no es POST, renderiza la página de edición
-    return render(request, 'editar_usuario.html')
+    return render(request, 'ModuloUsuarios/editar_usuario.html')
 
 # ? Esta vista contiene la vista donde se edita la informacion del usuario 
 def edicionUsuario(request, id):
     usuario = User.objects.get(id=id)
-    return render(request, "edicionUsuario.html", {"usuario": usuario})
+    return render(request, "ModuloUsuarios/edicionUsuario.html", {"usuario": usuario})
 
 # ? Esta vista es para eliminar los usuarios del sistema
 def eliminarUsuario(request, id):
     usuario = User.objects.get(id=id) 
     usuario.delete()    
     return redirect('usuarios')
-# endregion
+# ? Esta vista es para agregar los usuarios al sistema usuarios del sistema
+def CreacionUsuario(request):
+    if request.method == 'POST':
+        # Crea un formulario con los campos adicionales
+        form = UserCreationForm(request.POST)
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
 
+        # Valida y guarda el formulario
+        if form.is_valid():
+            user = form.save()
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.save()
+
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('/usuarios')
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'ModuloUsuarios/CreacionUsuario.html', {'form': form})
+# endregion
 
 #region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DATOS EMPLEADOS "
 
@@ -107,8 +130,11 @@ def datos(request):
     # Obtener todos los usuarios en la base de datos
     bdcolaboradore = User.objects.all()
     form = formularioForm.objects.all()
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
 
-    return render(request, 'ModuloDatosColaboradores/datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form})
+    return render(request, 'ModuloDatosColaboradores/datos.html', {'bdcolaboradore': bdcolaboradore, 'form': form,'es_admin': es_admin,
+        'es_staff': es_staff})
 # endregion
 
 #region #* VISTAS DEL CRUD PARA LA INFORMACION DEL FORMULARIO SOCIODEMOGRAFICO
@@ -708,162 +734,11 @@ def eliminar_desempeno(request, id_evaluacion):
 
 #endregion # ? fin total de vistas 
 
-
-# region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE CERTIFICAODS"
-     
-# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
-def Info_Certificados_DB(request,idUser_id):
-    
-    certificados_info = contratacionForm.objects.filter(idUser_id=idUser_id)
-    
-    return render(request, 'ModuloCertificados/certificados.html', {'certificados_info': certificados_info,'idUser_id':idUser_id} )
-
-# ?CLASE PARA LA LOGICA DE LA DESCARGA DEL PDF DE LAS CARTAS LABORALES 
-class GeneracionCertificadoLaboral(View):
-    
-    def link_callback(self, uri, rel):
-        """
-        Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources
-        """
-        # Ajusta la URI para que coincida con la configuración de archivos estáticos en Django
-        uri = uri.replace(settings.STATIC_URL, "")
-        
-        result = finders.find(uri)
-        if result:
-            if not isinstance(result, (list, tuple)):
-                result = [result]
-            result = list(os.path.realpath(path) for path in result)
-            path = result[0]
-        else:
-            # Lógica específica para el icono
-            if uri == self.context['icon']:
-                return self.link_callback_icon(uri)
-
-            sUrl = settings.STATIC_URL        # Typically /static/
-            sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-            mUrl = settings.MEDIA_URL         # Typically /media/
-            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
-
-            if uri.startswith(mUrl):
-                path = os.path.join(mRoot, uri.replace(mUrl, ""))
-            elif uri.startswith(sUrl):
-                path = os.path.join(sRoot, uri.replace(sUrl, ""))
-            else:
-                return uri
-
-        # make sure that file exists
-        if not os.path.isfile(path):
-            raise RuntimeError(f'media URI must start with {sUrl} or {mUrl}, but received: {uri}')
-
-        return path
-
-    
-    
-    def get(self, request, *args, **kwargs):
-        try:
-            template = get_template('ModuloCertificados/certificadolaboral.html')
-            fecha_actual = datetime.now()
-            fecha_descarga = format_date(fecha_actual, format="full", locale="es")  # Cambia el locale a tu idioma preferido
-
-            self.context = {
-                'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato']),
-                'formulario_info': formularioForm.objects.get(idUser_id=self.kwargs['idUser_id']),
-                'user_info' : User.objects.get(username=request.user.username),
-                'icon': static('img/LogoColomboCertificado.png'),
-                'fecha_descarga': fecha_descarga,
-
-            }
-            html = template.render(self.context)
-            response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
-        
-            pisa_status = pisa.CreatePDF(
-                html, dest=response,
-                link_callback=self.link_callback
-            )
-            return response
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            return HttpResponse(reverse_lazy('datos'))
-  
-
-# endregion 
-
-
-
-
-
-def PowerBi(request):
-    context={}
-    return render(request, 'PowerBi.html', context)
-
-def signup(request):
-    if request.method == 'POST':
-        # Crea un formulario con los campos adicionales
-        form = UserCreationForm(request.POST)
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-
-        # Valida y guarda el formulario
-        if form.is_valid():
-            user = form.save()
-            user.first_name = first_name
-            user.last_name = last_name
-            user.email = email
-            user.save()
-
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('/usuarios')
-    else:
-        form = UserCreationForm()
-
-    return render(request, 'signup.html', {'form': form})
-
-def signin(request):
-    if request.user.is_authenticated:
-        return render(request, 'home.html')
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            msg2 = '¡Bienvenido! Has iniciado sesión con éxito.'
-            messages.success(request,msg2 )  # Agrega el mensaje de bienvenida
-            return redirect('inicio')  # Reemplaza 'inicio' con la URL correcta
-        else:
-            msg = 'Usuario o Contraseña Incorrecta'
-            form = AuthenticationForm(request.POST)
-            messages.error(request, msg)  # Agrega el mensaje de error
-            return render(request, 'login.html', {'form': form})
-    
-    else:
-        form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
-    
-def profile(request): 
-    return render(request, 'profile.html')
-   
-def signout(request):
-    logout(request)
-    return redirect('/')
-
-
-
-
-
-
-
-
-
+#region #! "EN ESTA REGION SE ENCUENTA LA VISTA DEL MODULO DEL FORMULARIO SOCIODEMOGRAFICO"
+#? formulario de envio de todas las preguntas del ormulario sociodemografico
 def FormularioSociodemografico(request):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     FamiliarFormSet = formset_factory(FamiliarForm, extra=1)
     MascotasFormSet = formset_factory(MascotasForm, extra=1)
     EducacionFormSet = formset_factory(HistorialEducativoForm, extra=1)
@@ -1053,7 +928,7 @@ def FormularioSociodemografico(request):
         
     return render(
         request,
-        "FormularioSociodemografico.html",
+        "ModuloFormularioSD/FormularioSociodemografico.html",
         {'form': form,
          'familiar_formset': familiar_formset,
          'aseguramiento_form': aseguramiento_form,
@@ -1074,13 +949,147 @@ def FormularioSociodemografico(request):
          'molestiasseismeses_form': molestiasseismeses_form,
          'molestiasvoz_form':molestiasvoz_form,
          'sintomasaudicion_form': sintomasaudicion_form,
-         'Educacion_FormSet':Educacion_FormSet    
+         'Educacion_FormSet':Educacion_FormSet,
+         'es_admin': es_admin,
+        'es_staff': es_staff
          })
+
+#endregion
+
+#region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO DE CERTIFICAODS"
+     
+# ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
+
+@login_required
+
+def Info_Certificados_DB(request,idUser_id): 
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff  
+    certificados_info = contratacionForm.objects.filter(idUser_id=idUser_id)
     
-def Paginador(request):
-    form = formularioForm.objects.all()
+    return render(request, 'ModuloCertificados/certificados.html', {'certificados_info': certificados_info,'idUser_id':idUser_id,'es_admin': es_admin,
+        'es_staff': es_staff } )
+
+# ?CLASE PARA LA LOGICA DE LA DESCARGA DEL PDF DE LAS CARTAS LABORALES 
+class GeneracionCertificadoLaboral(View):
     
-    context = {
-        'form':form 
-        }
-    return render(request, 'prueba.html', context)
+    def link_callback(self, uri, rel):
+        """
+        Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources
+        """
+        # Ajusta la URI para que coincida con la configuración de archivos estáticos en Django
+        uri = uri.replace(settings.STATIC_URL, "")
+        
+        result = finders.find(uri)
+        if result:
+            if not isinstance(result, (list, tuple)):
+                result = [result]
+            result = list(os.path.realpath(path) for path in result)
+            path = result[0]
+        else:
+            # Lógica específica para el icono
+            if uri == self.context['icon']:
+                return self.link_callback_icon(uri)
+
+            sUrl = settings.STATIC_URL        # Typically /static/
+            sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+            mUrl = settings.MEDIA_URL         # Typically /media/
+            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+            if uri.startswith(mUrl):
+                path = os.path.join(mRoot, uri.replace(mUrl, ""))
+            elif uri.startswith(sUrl):
+                path = os.path.join(sRoot, uri.replace(sUrl, ""))
+            else:
+                return uri
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise RuntimeError(f'media URI must start with {sUrl} or {mUrl}, but received: {uri}')
+
+        return path
+
+    
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            template = get_template('ModuloCertificados/certificadolaboral.html')
+            fecha_actual = datetime.now()
+            fecha_descarga = format_date(fecha_actual, format="full", locale="es")  # Cambia el locale a tu idioma preferido
+
+            self.context = {
+                'certificados_info': contratacionForm.objects.get(id_Contrato=self.kwargs['id_Contrato']),
+                'formulario_info': formularioForm.objects.get(idUser_id=self.kwargs['idUser_id']),
+                'user_info' : User.objects.get(username=request.user.username),
+                'icon': static('img/LogoColomboCertificado.png'),
+                'fecha_descarga': fecha_descarga,
+
+            }
+            html = template.render(self.context)
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="CARTA LABORAL .pdf"'
+        
+            pisa_status = pisa.CreatePDF(
+                html, dest=response,
+                link_callback=self.link_callback
+            )
+            return response
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return HttpResponse(reverse_lazy('datos'))
+  
+
+# endregion 
+
+#region #! "EN ESTA REGION SE ENCUENTRAN TODAS LAS VISTAS DEL MODULO CONSULTAS POWER BI "
+def PowerBi(request):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
+    context={'es_admin': es_admin,
+        'es_staff': es_staff}
+    return render(request, 'ModuloPowerBi/PowerBi.html', context)
+# endregion
+
+#region #! "EN ESTA REGION SE ENCUENTRA LA VISTA DE LA PAGINA INICIO DEL PROYECTO"
+@login_required
+def inicio(request):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff  
+    context={'es_admin': es_admin,
+        'es_staff': es_staff}
+    return render(request, 'ModuloInicio/index.html', context)
+#endregion
+
+#region #! "EN ESTA REGION SE ENCUENTRA LA VISTA DE MODULO DE LOGIN"
+def signin(request):
+    if request.user.is_authenticated:
+        return render(request, 'home.html')
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            msg2 = '¡Bienvenido! Has iniciado sesión con éxito.'
+            messages.success(request,msg2 )  # Agrega el mensaje de bienvenida
+            return redirect('inicio')  # Reemplaza 'inicio' con la URL correcta
+        else:
+            msg = 'Usuario o Contraseña Incorrecta'
+            form = AuthenticationForm(request.POST)
+            messages.error(request, msg)  # Agrega el mensaje de error
+            return render(request, 'ModuloLogin/login.html', {'form': form})
+    
+    else:
+        form = AuthenticationForm()
+        return render(request, 'ModuloLogin/login.html', {'form': form})
+    
+#endregion 
+
+#region #! EN ESTA REGION SE ENCUENTRAS LA VISTA PARA EL MODULO DEL LOGOUT
+def signout(request):
+    logout(request)
+    return redirect('/')
+#endregion

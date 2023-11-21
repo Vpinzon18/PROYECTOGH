@@ -475,8 +475,7 @@ class ExperienciasLaboralesForm(forms.ModelForm):
         'Fecha_inicio_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         'Fecha_fin_experiencia': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
         }
-          
-        
+                 
 class EvaluacionDesempenoForm(forms.ModelForm):
     class Meta:
         model = evaluaciondesempenoForm
@@ -488,4 +487,3 @@ class EvaluacionDesempenoForm(forms.ModelForm):
             'competencias': forms.TextInput(attrs={'class': 'form-control', }),
             'Fecha_Evaluacion': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
-# , 'lastname', 'email', 'file', 'fecha_creacion',m
