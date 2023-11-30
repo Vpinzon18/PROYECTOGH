@@ -1,6 +1,5 @@
 {% load static %}
 <!DOCTYPE html>
-<!-- Coding by CodingNepal || www.codingnepalweb.com -->
 <html lang="en">
 
 <head>
@@ -8,13 +7,106 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hoverable Sidebar Menu HTML CSS & JavaScript</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" type="text/css"
+  href='{% static "css/navbar-style.css"%}'/>
   <!-- Boxicons CSS -->
   <link flex href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <script src="script.js" defer></script>
-</head>
 
 <body>
+  
+  <nav class="sidebar">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img
+          src="https://media.licdn.com/dms/image/C4E0BAQEJqJm1hsyeOA/company-logo_200_200/0/1652133117414/centro_cultural_colombo_americano_cali_logo?e=2147483647&v=beta&t=RKPoA21iy4ZVWwTUU183sNkhPoI4yfJ6OyYK92fMwTg"
+          alt="logo_img" />
+        </span>
+
+        <div class="text header-text">
+          <span class="username">{{user.username}}</span>
+        </div>      
+      </div>
+      <i class='bx bx-chevron-right toggle' ></i>
+    </header>
+    <div class="menu-bar">
+      <div class="menu">
+        <ul class="menu-links">
+          <li class="nav-link">
+            <a href="/FormularioSociodemografico">
+              <i class='bx bx-food-menu icon' ></i>
+              <span class="text nav-text">Formulario</span>
+            </a>
+          </li> 
+          <li class="nav-link">
+            <a href="/Info_Certificados_DB/{{ user.id }}">
+              <i class='bx bx-certification icon'></i>
+              <span class="text nav-text">Certificados</span>
+            </a>
+          </li> 
+          {% if  es_admin or es_staff %}
+          <li class="nav-link">
+            <a href="/usuarios/">
+              <i class='bx bx-user icon'></i>
+              <span class="text nav-text">Empleados</span>
+            </a>
+          </li> {% endif %}
+          
+          <li class="nav-link">
+            {% if  es_admin or es_staff %}
+            <a href="/datos">
+              <i class='bx bx-data icon'></i>
+              <span class="text nav-text">Gestion BD</span>
+            </a>
+          </li> {% endif %}
+          <li class="nav-link">
+            {% if  es_admin or es_staff %}
+            <a href="/PowerBi">
+              <i class='bx bx-bar-chart-square icon'></i>
+              <span class="text nav-text">Power Bi</span>
+            </a>
+          </li> {% endif %}
+        </ul>
+        
+      </div>
+      <div class="botton-content">
+        <li class="logout">
+          <a href="/signout">
+            <i class='bx bx-log-out icon'></i>
+            <span class="text nav-text">Cerrar Sesion</span>
+          </a>
+        </li>
+      </div>
+    </div>
+  </nav>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+ <body>
   <nav class="sidebar locked">
     <div class="logo_items flex">
       <span class="nav_image">
@@ -121,9 +213,9 @@
     });
   </script>
 
-  <!-- Navbar -->
+ Navbar -->
 
-</body>
+<!-- </body>
 
 <style>
   /* Import Google font - Poppins */
@@ -431,6 +523,6 @@
   sidebar.addEventListener("mouseleave", hideSidebar);
   sidebar.addEventListener("mouseenter", showSidebar);
   sidebarOpenBtn.addEventListener("click", toggleSidebar);
-  sidebarCloseBtn.addEventListener("click", toggleSidebar);</script>
+  sidebarCloseBtn.addEventListener("click", toggleSidebar);</script> -->
 
-</html>
+</html> 

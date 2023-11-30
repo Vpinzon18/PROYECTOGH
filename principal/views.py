@@ -56,6 +56,8 @@ def registrarUsuario(request):
 
 # ? Esta vista es para editar los usuarios del sistema  
 def editarUsuario(request):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     if request.method == 'POST':
         id = request.POST['txtid']
         Nombre = request.POST['txtNombre']
@@ -83,12 +85,16 @@ def editarUsuario(request):
         return redirect('usuarios')
 
     # Si la solicitud no es POST, renderiza la página de edición
-    return render(request, 'ModuloUsuarios/editar_usuario.html')
+    return render(request, 'ModuloUsuarios/editar_usuario.html',{'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? Esta vista contiene la vista donde se edita la informacion del usuario 
 def edicionUsuario(request, id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     usuario = User.objects.get(id=id)
-    return render(request, "ModuloUsuarios/edicionUsuario.html", {"usuario": usuario})
+    return render(request, "ModuloUsuarios/edicionUsuario.html", {"usuario": usuario,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? Esta vista es para eliminar los usuarios del sistema
 def eliminarUsuario(request, id):
@@ -141,6 +147,8 @@ def datos(request):
 
 # ? Esta vista coniene los datos traidos de la base de datos del formulario sociodemografico
 def bd_colaboradores(request, idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     print("este es el form", idUser_id)  
     try:
         # formulario sociodemografico
@@ -258,7 +266,8 @@ def bd_colaboradores(request, idUser_id):
                     'deportes_form': deportes_form,
                     'molestiasseismeses_form': molestiasseismeses_form,
                     'molestiasvoz_form': molestiasvoz_form,
-                    'sintomasaudicion_form':sintomasaudicion_form
+                    'sintomasaudicion_form':sintomasaudicion_form,'es_admin': es_admin,
+        'es_staff': es_staff
                 
                    })
 
@@ -267,6 +276,8 @@ def ActualizacionDatosColaboradores(request, idUser_id):
     # Asegúrate de que el usuario esté autenticado
     if not request.user.is_authenticated:
         return redirect('/')  # Redirige al inicio de sesión si el usuario no está autenticado
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
 
     try:
         form1 = formularioForm.objects.get(idUser_id=idUser_id)
@@ -327,6 +338,8 @@ def ActualizacionDatosColaboradores(request, idUser_id):
         'form_d': form_d,
         'formularios_familiares': formularios_familiares,
         'idUser_id': idUser_id,
+        'es_admin': es_admin,
+        'es_staff': es_staff
     }
     return render(request, 'bd_colaboradores.html', context)
 # endregion
@@ -335,13 +348,18 @@ def ActualizacionDatosColaboradores(request, idUser_id):
 
 # ? Esta vista crea la tabla con el tota de familiares a editar
 def Info_Familiar_DB(request,idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     
     familiar_Info = familiarForm.objects.filter(idUser_id=idUser_id)
     
-    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id} )
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_hijos.html', {'familiar_Info': familiar_Info,'idUser_id':idUser_id,'es_admin': es_admin,
+        'es_staff': es_staff} )
 
 # ? Vista para agregar un nuevo familiar dentro del modulo datos empleados
 def agregar_familiar(request, idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     if request.method == 'POST':
         form = FamiliarForm(request.POST)
         
@@ -354,10 +372,13 @@ def agregar_familiar(request, idUser_id):
     else:
         form = FamiliarForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
 
-    return render(request, 'ModuloDatosColaboradores/AgregarDatos/AgregarFamiliar.html', {'familiar_formulario': form})
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/AgregarFamiliar.html', {'familiar_formulario': form,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 #  ? Vista para editar un familiar dentro del modulo de data colaboradores 
 def editar_familiar(request, familiar_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     try:
         familiar = familiarForm.objects.get(id_Familiar=familiar_id)
         if request.method == 'POST':
@@ -372,7 +393,8 @@ def editar_familiar(request, familiar_id):
     except familiarForm.DoesNotExist:
         form = None
 
-    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_familiar_DB.html', {'familiar_formulario': form})
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_familiar_DB.html', {'familiar_formulario': form,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? Vista para eliminar un familiar dentro del modulo data colaboradores
 def eliminar_familiar(request, familiar_id):
@@ -393,13 +415,18 @@ def eliminar_familiar(request, familiar_id):
 
 # ? Esta vista crea la tabla con el totaL de MASCOTAS por persona
 def Info_Mascotas_DB(request, idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     
     Mascotas_Info = mascotasForm.objects.filter(idUser_id=idUser_id)
     
-    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id})
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_mascotas.html', {'Mascotas_Info': Mascotas_Info, 'idUser_id':idUser_id,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? Esta vista es para agregar una nueva mastoca 
 def agregar_mascota(request, idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     if request.method == 'POST':
         form_add_mascotas = MascotasForm(request.POST)
         
@@ -412,10 +439,13 @@ def agregar_mascota(request, idUser_id):
     else:
         form_add_mascotas = MascotasForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
 
-    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Mascotas.html', {'form_add_mascotas': form_add_mascotas})
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Mascotas.html', {'form_add_mascotas': form_add_mascotas,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? Esta es la vista es para editar los datos de las mascotas  
 def Vista_Edicion_Mascotas(request, id_mascota):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     try:
         mascotas = mascotasForm.objects.get(id_mascota=id_mascota)
         if request.method == 'POST':
@@ -428,7 +458,8 @@ def Vista_Edicion_Mascotas(request, id_mascota):
     except mascotasForm.DoesNotExist:
         form_mascotas = None
 
-    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Mascotas.html', {'form_mascotas': form_mascotas})
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Mascotas.html', {'form_mascotas': form_mascotas,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ? esta vista es para eliminar una mascota 
 def eliminar_mascota(request, id_mascota):
@@ -448,13 +479,17 @@ def eliminar_mascota(request, id_mascota):
 
 # ?esta vista es para visualizar la tabla con todos los historiales de educacion por persona 
 def Info_Educacion_DB(request, idUser_id):
-    
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     Educacion_Info = historialeducativoFormn.objects.filter(idUser_id=idUser_id)
     
-    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_Educacion.html', {'Educacion_Info': Educacion_Info, 'idUser_id':idUser_id})
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_Educacion.html', {'Educacion_Info': Educacion_Info, 'idUser_id':idUser_id,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ?Esta vista es para agregar un nuevo titulo academico 
 def agregar_educacion(request, idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     if request.method == 'POST':
         form_add_educacion = HistorialEducativoForm(request.POST)
         
@@ -467,10 +502,13 @@ def agregar_educacion(request, idUser_id):
     else:
         form_add_educacion = HistorialEducativoForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
 
-    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Educacion.html', {'form_add_educacion': form_add_educacion})
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Educacion.html', {'form_add_educacion': form_add_educacion,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ?Vista para editar un titulo dentro del modulo de data colaboradores 
 def editar_educacion(request, id_estudio):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     try:
         educacion_form = historialeducativoFormn.objects.get(id_estudio=id_estudio)
         if request.method == 'POST':
@@ -485,7 +523,8 @@ def editar_educacion(request, id_estudio):
     except historialeducativoFormn.DoesNotExist:
         educacion = None
 
-    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Educacion.html', {'educacion': educacion})
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_Educacion.html', {'educacion': educacion,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ?Vista para eliminar  un titulo dentro del modulo data colaboradores 
 def eliminar_educacion(request, id_estudio):
@@ -505,13 +544,17 @@ def eliminar_educacion(request, id_estudio):
 
 # ?Esta vista crea la tabla con el totaL de CONTRATOS a editar
 def Info_Contratos_DB(request,idUser_id):
-    
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     contratos_info = contratacionForm.objects.filter(idUser_id=idUser_id)
     
-    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'idUser_id':idUser_id} )
+    return render(request, 'ModuloDatosColaboradores/VistasDatos/bd_colaboradores_Contratacion.html', {'contratos_info': contratos_info,'es_admin': es_admin,
+        'es_staff': es_staff,'idUser_id':idUser_id} )
 
 # ?Vista para agregar un nuevo CONTRATO  dentro del modulo datos empleados
 def agregar_contrato(request, idUser_id):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     if request.method == 'POST':
         coontrato = ContratacionForm(request.POST)
         
@@ -524,10 +567,13 @@ def agregar_contrato(request, idUser_id):
     else:
         coontrato = ContratacionForm()  # Crea una instancia de formulario vacía para mostrar en el formulario HTML
 
-    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Contrato.html', {'coontrato': coontrato})
+    return render(request, 'ModuloDatosColaboradores/AgregarDatos/Agregar_Contrato.html', {'coontrato': coontrato,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 # ?Vista para Editar un CONTRATO dentro del modulo datos empleados
 def editar_contrato(request, id_Contrato):
+    es_admin = request.user.is_superuser  # Verifica si el usuario es administrador
+    es_staff = request.user.is_staff 
     try:
         contrato  = contratacionForm.objects.get(id_Contrato=id_Contrato)
         if request.method == 'POST':
@@ -542,7 +588,8 @@ def editar_contrato(request, id_Contrato):
     except contratacionForm.DoesNotExist:
         contrato_form = None
 
-    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_contratacion.html', {'contrato_form': contrato_form})
+    return render(request, 'ModuloDatosColaboradores/EditarDatos/Editar_Info_contratacion.html', {'contrato_form': contrato_form,'es_admin': es_admin,
+        'es_staff': es_staff})
 
 #  ?Vista par eliminar un  CONTRATO dentro del modulo de emmpleados 
 def eliminar_contrato(request, id_Contrato):
