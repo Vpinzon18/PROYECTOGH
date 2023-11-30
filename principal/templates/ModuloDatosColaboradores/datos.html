@@ -1,0 +1,96 @@
+{% extends 'partials/body.html' %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% block contenido %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 rounded p-5">
+                <h1 class="fw-bold text-center mb-5"><strong>Data Colaboradores</strong></h1>
+
+
+
+                <table class="table table-light table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">USERNAME</th>
+                            <th scope="col">DOCUMENTO</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">ESTADO</th>
+                            <th colspan="2">OPCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        {% for bdcolaboradore in bdcolaboradore %}
+
+                        <tr>
+                            <td>{{ bdcolaboradore.id }}</td>
+                            <td>{{ bdcolaboradore.username }}</td>
+                            <td>{{ bdcolaboradore.last_name }}</td>
+                            <td>{{ bdcolaboradore.email }}</td>
+                            <th>{{ bdcolaboradore.is_active }}</th>
+                            <td><a href="/bd_colaboradores/{{bdcolaboradore.id }} " class="btn btn-info">Editar
+                                    Informacion</a></td>
+                        </tr>
+                        <tr>
+                            {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const eliminarBotones = document.querySelectorAll(".eliminar-btn");
+
+                        eliminarBotones.forEach((boton) => {
+                            boton.addEventListener("click", function (event) {
+                                event.preventDefault(); // Evita la acción por defecto del enlace
+
+                                Swal.fire({
+                                    title: "¿Estás seguro?",
+                                    text: "No podrás deshacer esta acción",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Sí, eliminar",
+                                    cancelButtonText: "No, cancelar",
+                                    reverseButtons: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Realiza la acción de eliminación aquí, por ejemplo, redirige a la página de eliminación
+                                        window.location.href = boton.href;
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        Swal.fire("Cancelado", "El Usuario no se Elimino", "error");
+                                    }
+                                });
+                            });
+                        });
+                    });
+                </script>
+
+                {% endblock contenido %}
+
+
+
+                {% block titulo %}
+                {% endblock titulo %}
+                <script src='static js/ges'></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

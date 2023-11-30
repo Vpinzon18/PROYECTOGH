@@ -1,0 +1,30 @@
+{% extends "./base.html" %}
+
+{% block title %} ProyetoGh {% endblock %}
+
+{% block content %}
+
+<form method="post">
+  {% csrf_token %}
+  {% for field in form %}
+  <p>
+    {{ field.label_tag }}<br>
+    {{ field }}
+    {% for error in field.errors %}
+  <p style="color: red">{{ error }}</p>
+  {% endfor %}
+  </p>
+  {% endfor %}
+  <div class="col-md-1">
+    <div class="form-group">
+      <div class="btn-group">
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <div></div>
+        <button class="btn btn-danger text-white" href="/usuarios">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

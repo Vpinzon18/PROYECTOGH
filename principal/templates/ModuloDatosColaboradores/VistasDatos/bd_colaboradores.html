@@ -1,0 +1,614 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-11 mx-10">
+            <div class="card">
+                <div class="card-body">
+                    <nav class="navbara navbar-expand-lg navbar-light navbar-static-top custom-navbar">
+                        <div class="collapse navbar-collapse">
+                            <div class="navbar-nav">
+                                <a href="/bd_colaboradores/{{idUser_id}}" class="link flex">
+                                    <i class="fab fa-wpforms"></i>
+                                    <span>Formulario SD</span>
+                                    <a href="/Info_Familiar_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-users"></i>
+                                        <span>Familiares </span>
+                                    </a>
+                                    <a href="/Info_Mascotas_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-cat"></i>
+                                        <span>Mascotas </span>
+                                    </a>
+                                    <a href="/Info_Educacion_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span>Educación </span>
+                                    </a>
+                                    <a href="/Info_Contratos_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-file-contract"></i>
+                                        <span>Contrato </span>
+                                    </a>
+                                    <a href="/Info_OOPT_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-language"></i>
+                                        <span>OOPT</span>
+                                    </a>
+                                    <a href="/Info_experiencias_laborales_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-box-archive"></i>
+                                        <span>Experiencia </span>
+                                    </a>
+                                    <a href="/Info_Desempeno_DB/{{idUser_id}}" class="link flex">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        <span>Desempeños </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+<!-- MDB -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+
+
+
+
+
+
+<div class="row">
+    <form method="post" action="{% url 'ActualizacionDatosColaboradores' idUser_id %}">
+        {% csrf_token %}
+        <div class="row">
+            <p>ID de Usuario: {{ idUser_id }}</p>
+            <h1>Actualización de Datos Colaboradores</h1>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Tipo_Documento.id_for_label }}">Seleccione su
+                            Tipo de
+                            Identificación:</label>
+                        {{ form.Tipo_Documento }}
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Documento.id_for_label }}">Documento de
+                            Identificación::</label>
+                        {{ form.Documento }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Numero_Contacto.id_for_label }}">Número de Contacto:</label>
+                        {{ form.Numero_Contacto }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.tipo_sangre.id_for_label }}">Tipo de Sangre:</label>
+                        {{ form.tipo_sangre }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Cargo_Actual.id_for_label }}">Seleccione su
+                            cargo actual:</label>
+                        {{ form.Cargo_Actual }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Numero_Emergencia.id_for_label }}">Número de Emergencia:</label>
+                        {{ form.Numero_Emergencia }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Fecha_Nacimiento.id_for_label }}">Fecha de Nacimiento:</label>
+                        {{ form.Fecha_Nacimiento }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Departamento_Nacimiento.id_for_label }}">Departamento de Nacimiento:</label>
+                        {{ form.Departamento_Nacimiento }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Ciudad_Nacimiento.id_for_label }}">Ciudad de Nacimiento:</label>
+                        {{ form.Ciudad_Nacimiento }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Ciudad_Residencia.id_for_label }}">Ciudad de Residencia:</label>
+                        {{ form.Ciudad_Residencia }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Direccion_Residencia.id_for_label }}">Dirección de Residencia:</label>
+                        {{ form.Direccion_Residencia }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Sexo.id_for_label }}">Sexo:</label>
+                        {{ form.Sexo }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Estado_Civil.id_for_label }}">Estado Civil:</label>
+                        {{ form.Estado_Civil }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Etnia.id_for_label }}">Etnia:</label>
+                        {{ form.Etnia }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Talla_Camisa.id_for_label }}">Talla de Camisa:</label>
+                        {{ form.Talla_Camisa }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Vegetariano.id_for_label }}">¿Es Vegetariano?:</label>
+                        {{ form.Vegetariano }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.file.id_for_label }}">Archivo Adjunto:</label>
+                        {{ form.file }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-10 offset-lg-1 px-8 py-3">
+            <div class="text-center mt-5">
+                <h2>ASEGURAMIENTOS Y COBERTURAS</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <label
+                            for="{{ form.Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS.id_for_label }}">¿Actualmente
+                            tiene restricciones laborales por su EPS?:</label>
+                        {{ form.Actualmente_Tiene_Restricciones_Laborales_Por_Su_EPS }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <label
+                            for="{{ form.Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral.id_for_label }}">Actualmente
+                            en Pérdida de Capacidad Laboral:</label>
+                        {{ form.Actualmente_Se_Encuentra_En_Perdida_De_Capacidad_Laboral }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="{{ form.Pensionado.id_for_label }}">Pensionado:</label>
+                        {{ form.Pensionado }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>¿Actualmente cuenta con alguno(s) de los siguientes aseguramientos?</h6>
+                        <label for="{{ form_a.medicina_prepagada.id_for_label }}">Medicina Prepagada:</label>
+                        {{ form_a.medicina_prepagada }}
+                        <br>
+
+                        <label for="{{ form_a.plan_complementario_salud.id_for_label }}">Plan Complementario de
+                            Salud:</label>
+                        {{ form_a.plan_complementario_salud }}
+                        <br>
+
+                        <label for="{{ form_a.seguro_de_vida.id_for_label }}">Seguro de Vida:</label>
+                        {{ form_a.seguro_de_vida }}
+                        <br>
+
+                        <label for="{{ form_a.seguro_exequial.id_for_label }}">Seguro Exequial:</label>
+                        {{ form_a.seguro_exequial }}
+                        <br>
+
+                        <label for="{{ form_a.emergencia_medica.id_for_label }}">Emergencia Médica:</label>
+                        {{ form_a.emergencia_medica }}
+                        <br>
+
+                        <label for="{{ form_a.previser.id_for_label }}">Previser:</label>
+                        {{ form_a.previser }}
+                        <br>
+
+                        <label for="{{ form_a.ninguna.id_for_label }}">Ninguna:</label>
+                        {{ form_a.ninguna }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h2>Formularios Familiares</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+
+                    {% for form_familiar in formset %}
+                    {{ form_familiar.as_p }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+
+        <br>
+        <div class="col-lg-10 offset-lg-1 px-8 py-3">
+            <div class="text-center mt-5">
+                <h2>Digite informacion sobre incapacidad de algun familiar</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="{{ form.Discapacidad_Familiar.id_for_label }}" class="text-left">¿Usted
+                                Tiene algún familiar con discapacidad?</label>
+                            {{ form.Discapacidad_Familiar }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            {% csrf_token %}
+                            <h6>Si respondiste "sí" a la pregunta anterior, ¿quién presenta esta condición?
+                            </h6>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ formulario_discapacidad.padre.name }}">
+                                            {{ formulario_discapacidad.padre }}
+                                            padre
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.madre.name }}">
+                                            {{ formulario_discapacidad.padre }}
+                                            Madre
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.hijo_a.name }}">
+                                            {{ formulario_discapacidad.hijo_a }}
+                                            Hijo(a)
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.abuelo_a.name }}">
+                                            {{ formulario_discapacidad.abuelo_a }}
+                                            Abuelo(a)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.nieto_a.name }}">
+                                            {{ formulario_discapacidad.nieto_a }}
+                                            Nieto(a)
+                                        </label>
+                                    </div>
+
+
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.hermano_a.name }}">
+                                            {{ formulario_discapacidad.hermano_a }}
+                                            Hermano(a)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.tio_a.name }}">
+                                            {{ formulario_discapacidad.tio_a }}
+                                            Tio(a)
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.primo_a.name }}">
+                                            {{ formulario_discapacidad.primo_a }}
+                                            Primo(a)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.sobrino_a.name }}">
+                                            {{ formulario_discapacidad.sobrino_a }}
+                                            sobrino(a)
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.cuñado_a.name }}">
+                                            {{ formulario_discapacidad.cuñado_a }}
+                                            Cuñado(a)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.suegro_a.name }}">
+                                            {{ formulario_discapacidad.suegro_a }}
+                                            Suegro(a)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.yerno.name }}">
+                                            {{ formulario_discapacidad.yerno }}
+                                            Yerno
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.nuera.name }}">
+                                            {{ formulario_discapacidad.nuera }}
+                                            Nuera
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.esposo_a.name }}">
+                                            {{ formulario_discapacidad.esposo_a }}
+                                            esposo(a)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input"
+                                                name="{{ familiarDiscapacidad_form.Ninguno.name }}">
+                                            {{ formulario_discapacidad.Ninguno }}
+                                            Ningún Familiar
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+
+<label for="{{ form.Tipo_Vivienda.id_for_label }}">Tipo de Vivienda:</label>
+{{ form.Tipo_Vivienda }}
+<br>
+
+<label for="{{ form.Estrato_Vivienda.id_for_label }}">Estrato de Vivienda:</label>
+{{ form.Estrato_Vivienda }}
+<br>
+
+<label for="{{ form.Tiempo_Desplazamiento.id_for_label }}">Tiempo de Desplazamiento:</label>
+{{ form.Tiempo_Desplazamiento }}
+<br>
+
+<label for="{{ form.Tiempo_Vinculacion_Laboral.id_for_label }}">Tiempo de Vinculación Laboral:</label>
+{{ form.Tiempo_Vinculacion_Laboral }}
+<br>
+
+<label for="{{ form.Tiempo_Cargo_Laboral.id_for_label }}">Tiempo en el Cargo Laboral:</label>
+{{ form.Tiempo_Cargo_Laboral }}
+<br>
+
+<label for="{{ form.Nivel_Educativo_Mas_Alto.id_for_label }}">Nivel Educativo Más Alto:</label>
+{{ form.Nivel_Educativo_Mas_Alto }}
+<br>
+
+<label for="{{ form.Ultimo_Nivel_Educativo.id_for_label }}">Último Nivel Educativo:</label>
+{{ form.Ultimo_Nivel_Educativo }}
+<br>
+
+<label for="{{ form.Tipo_Contrato_Form.id_for_label }}">Tipo de Contrato:</label>
+{{ form.Tipo_Contrato_Form }}
+<br>
+
+<label for="{{ form.Horario_laboral.id_for_label }}">Horario Laboral:</label>
+{{ form.Horario_laboral }}
+<br>
+
+<label for="{{ form.Horas_Laborales.id_for_label }}">Horas Laborales:</label>
+{{ form.Horas_Laborales }}
+<br>
+
+<label for="{{ form.Promedio_Ingresos.id_for_label }}">Promedio de Ingresos:</label>
+{{ form.Promedio_Ingresos }}
+<br>
+
+<label for="{{ form.Frecuencia_Actividad_Fisica.id_for_label }}">Frecuencia de Actividad Física:</label>
+{{ form.Frecuencia_Actividad_Fisica }}
+<br>
+
+<label for="{{ form.Patologia_Mental.id_for_label }}">Patología Mental:</label>
+{{ form.Patologia_Mental }}
+<br>
+
+<label for="{{ form.Pareja_Embarazo.id_for_label }}">Pareja en Embarazo:</label>
+{{ form.Pareja_Embarazo }}
+<br>
+
+<label for="{{ form.PesoKg.id_for_label }}">Peso (Kg):</label>
+{{ form.PesoKg }}
+<br>
+
+<label for="{{ form.AlturaCm.id_for_label }}">Altura (Cm):</label>
+{{ form.AlturaCm }}
+<br>
+
+<label for="{{ form.Actualemte_Fuma.id_for_label }}">Actualmente Fuma:</label>
+{{ form.Actualemte_Fuma }}
+<br>
+
+<label for="{{ form.Promedio_Cigarrillos.id_for_label }}">Promedio de Cigarrillos:</label>
+{{ form.Promedio_Cigarrillos }}
+<br>
+
+<label for="{{ form.Consumo_Bebidas.id_for_label }}">Consumo de Bebidas:</label>
+{{ form.Consumo_Bebidas }}
+<br>
+
+<label for="{{ form.Frecuencia_Deporte.id_for_label }}">Frecuencia de Deporte:</label>
+{{ form.Frecuencia_Deporte }}
+<br>
+
+<label for="{{ form.Actualimente_Utiliza_Voz.id_for_label }}">Actualmente Utiliza Voz:</label>
+{{ form.Actualimente_Utiliza_Voz }}
+<br>
+
+<label for="{{ form.Horas_Utilizacion_Voz.id_for_label }}">Horas de Utilización de Voz:</label>
+{{ form.Horas_Utilizacion_Voz }}
+<br>
+
+<label for="{{ form.Utiliza_Manos_Libres.id_for_label }}">Utiliza Manos Libres:</label>
+{{ form.Utiliza_Manos_Libres }}
+<br>
+
+<label for="{{ form.Horas_Utilizacion_Manos_Libre.id_for_label }}">Horas de Utilización de Manos Libres:</label>
+{{ form.Horas_Utilizacion_Manos_Libre }}
+<br>
+
+<!-- Repite el mismo patrón para el resto de los campos -->
+
+<label for="{{ form.Horas_Utilizacion_Voz.id_for_label }}">Horas de Utilización de Voz:</label>
+{{ form.Horas_Utilizacion_Voz }}
+<br>
+
+<label for="{{ form.idUser.id_for_label }}">ID de Usuario:</label>
+{{ form.idUser }}
+<br>
+
+<label for="{{ form.Utiliza_Manos_Libres.id_for_label }}">Utiliza Manos Libres:</label>
+{{ form.Utiliza_Manos_Libres }}
+<br>
+
+<label for="{{ form.Horas_Utilizacion_Manos_Libre.id_for_label }}">Horas de Utilización de Manos Libres:</label>
+{{ form.Horas_Utilizacion_Manos_Libre }}
+<br>
+
+
+
+
+
+<button type="submit" class="btn btn-outline-success">Guardar Cambios</button>
+</form>
+
+
+
+{% endblock %}
+</div>
