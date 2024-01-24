@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Agregar Un Nuevo Contrato Laboral </title>
+</head>
+
+<body>
+    <h2>Agregar Nuevo contrato</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ coontrato.as_p }}
+        
+        
+        <button type="submit">Guardar</button>
+        
+    </form>
+</body>
+
+</html>

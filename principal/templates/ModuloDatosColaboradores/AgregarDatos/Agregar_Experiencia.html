@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Agregar Nuevo Familiar</title>
+</head>
+
+<body>
+    <h2>Agregar Nuevo Familiar</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ experiencia.as_p }} {# Esto muestra todos los campos del formulario #}
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+
+</html>

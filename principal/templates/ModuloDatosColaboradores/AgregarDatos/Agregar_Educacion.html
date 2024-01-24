@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Agregar Un Nuevo Titulo </title>
+</head>
+
+<body>
+    <h2>Agregar Nuevo Familiar</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form_add_educacion.as_p }} {# Esto muestra todos los campos del formulario #}
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+
+</html>
