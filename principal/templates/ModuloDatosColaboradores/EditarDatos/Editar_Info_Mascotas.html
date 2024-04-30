@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Editar Información de sus mascotas </h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form_mascotas.as_p }} {# Esto muestra todos los campos del formulario #}
+    <button type="submit">Guardar cambios</button>
+</form>
+
+
+<a href="/Info_Familiar_DB/{{ idUser_id }}" class="btn btn-secondary">Volver al Detalle del Familiar</a>
+{% endblock %}

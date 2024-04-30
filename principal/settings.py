@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'principal',
     'bootstrap5',
+    'principal',
     #'Aplicaciones.Consultas'
     
 ]
@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'principal.wsgi.application'
 DATABASES = { 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'proyectogh',
-        'USER': 'remote',
-        'PASSWORD': '1234',
-        'HOST': '10.20.110.91',
+        'NAME': 'gh',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
    }
@@ -128,10 +128,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS =[
-    os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS =[
+#     os.path.join(BASE_DIR, "static")
+# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticadmin/') 
+
+STATICFILES_DIRS = [
+    '/static/',
 ]
-STATIC_ROOT= "/static"
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'principal/static')),
 
 MEDIA_URL= '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -139,3 +145,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+DATE_INPUT_FORMATS = [
+    '%y/%m/%d',  # Este es un ejemplo, ajusta el formato según tus necesidades
+]
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAILPORT = 25
+EMAIL_HOST_USER ='sstsuport2@t.colomboamericano.edu.co'
+EMAIL_HOST_PASSWORD = 'Colombo2024+'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
