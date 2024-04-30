@@ -21,7 +21,7 @@ import os
 from django.conf import settings
 from django.templatetags.static import static
 from datetime import datetime
-from babel.dates import format_date
+# from babel.dates import format_date
 
 
 
